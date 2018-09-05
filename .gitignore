@@ -1,18 +1,44 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Other files and folders
-.settings/
+AlexaComp/bin
+AlexaComp/obj
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Visual Studio 2015/2017 cache/options directory
+.vs/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Config
+AlexaComp/App.config
