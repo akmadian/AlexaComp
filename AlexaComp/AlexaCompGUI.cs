@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Xml;
 
+
 namespace AlexaComp{
 
     public partial class AlexaComp_Config_Window : Form{
@@ -35,8 +36,7 @@ namespace AlexaComp{
             XmlNodeList list = doc.SelectNodes("/pathDir/path");
 
             // Loop over XML doc
-            foreach (XmlNode node in list)
-            {
+            foreach (XmlNode node in list){
                 string programName = node.Attributes[0].Value;
                 string programPath = node.Attributes[1].Value;
 
