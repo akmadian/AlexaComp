@@ -42,3 +42,4 @@ AlexaComp/obj
 
 # Config
 AlexaComp/App.config
+*.pfx

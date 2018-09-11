@@ -36,11 +36,12 @@
             this.programPathLabel = new System.Windows.Forms.Label();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.dataListView = new System.Windows.Forms.ListView();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // addToListButton
             // 
-            this.addToListButton.Location = new System.Drawing.Point(599, 378);
+            this.addToListButton.Location = new System.Drawing.Point(477, 360);
             this.addToListButton.Name = "addToListButton";
             this.addToListButton.Size = new System.Drawing.Size(150, 23);
             this.addToListButton.TabIndex = 0;
@@ -50,7 +51,7 @@
             // 
             // programNameTextBox
             // 
-            this.programNameTextBox.Location = new System.Drawing.Point(256, 326);
+            this.programNameTextBox.Location = new System.Drawing.Point(148, 334);
             this.programNameTextBox.Name = "programNameTextBox";
             this.programNameTextBox.Size = new System.Drawing.Size(493, 20);
             this.programNameTextBox.TabIndex = 2;
@@ -58,7 +59,7 @@
             // 
             // programPathTextBox
             // 
-            this.programPathTextBox.Location = new System.Drawing.Point(256, 352);
+            this.programPathTextBox.Location = new System.Drawing.Point(148, 308);
             this.programPathTextBox.Name = "programPathTextBox";
             this.programPathTextBox.Size = new System.Drawing.Size(493, 20);
             this.programPathTextBox.TabIndex = 3;
@@ -67,7 +68,7 @@
             // programNameLable
             // 
             this.programNameLable.AutoSize = true;
-            this.programNameLable.Location = new System.Drawing.Point(123, 329);
+            this.programNameLable.Location = new System.Drawing.Point(12, 311);
             this.programNameLable.Name = "programNameLable";
             this.programNameLable.Size = new System.Drawing.Size(83, 13);
             this.programNameLable.TabIndex = 4;
@@ -77,7 +78,7 @@
             // programPathLabel
             // 
             this.programPathLabel.AutoSize = true;
-            this.programPathLabel.Location = new System.Drawing.Point(123, 355);
+            this.programPathLabel.Location = new System.Drawing.Point(12, 337);
             this.programPathLabel.Name = "programPathLabel";
             this.programPathLabel.Size = new System.Drawing.Size(127, 13);
             this.programPathLabel.TabIndex = 5;
@@ -85,7 +86,7 @@
             // 
             // vScrollBar1
             // 
-            this.vScrollBar1.Location = new System.Drawing.Point(701, 13);
+            this.vScrollBar1.Location = new System.Drawing.Point(676, 45);
             this.vScrollBar1.Name = "vScrollBar1";
             this.vScrollBar1.Size = new System.Drawing.Size(21, 252);
             this.vScrollBar1.TabIndex = 7;
@@ -93,18 +94,29 @@
             // 
             // dataListView
             // 
-            this.dataListView.Location = new System.Drawing.Point(13, 13);
+            this.dataListView.Location = new System.Drawing.Point(12, 45);
             this.dataListView.Name = "dataListView";
             this.dataListView.Size = new System.Drawing.Size(685, 252);
             this.dataListView.TabIndex = 8;
             this.dataListView.UseCompatibleStateImageBehavior = false;
             this.dataListView.SelectedIndexChanged += new System.EventHandler(this.dataListView_SelectedIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(144, 29);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "AlexaComp";
+            // 
             // AlexaComp_Config_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(712, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.dataListView);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.programPathLabel);
@@ -129,6 +141,7 @@
         private System.Windows.Forms.Label programPathLabel;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.ListView dataListView;
+        private System.Windows.Forms.Label label1;
     }
 }
 

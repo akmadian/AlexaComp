@@ -42,11 +42,11 @@ namespace AlexaComp{
 
                 // Make and add row to listview
                 string[] row = { programName, programPath };
-                Console.WriteLine(row);
+                // Console.WriteLine(row);
                 var item = new ListViewItem(row);
                 dataListView.Items.Add(item);
 
-                Console.WriteLine("Name - " + programName + " -- " + programPath);
+                // Console.WriteLine("Name - " + programName + " -- " + programPath);
             }
             // Reset column width
             foreach (ColumnHeader column in dataListView.Columns) { column.Width = -1; }
