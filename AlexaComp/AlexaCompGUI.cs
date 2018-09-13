@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
 using System.Xml;
-
 
 namespace AlexaComp{
 
     public partial class AlexaComp_Config_Window : Form{
+
+        public static void StartAppWindow() {
+            AlexaComp._log.Info("StartAppWinodw Thread Started");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            Application.Run(new AlexaComp_Config_Window());
+            AlexaComp._log.Info("StartAppWindow Task Completed");
+        }
 
 
         public AlexaComp_Config_Window(){
@@ -23,7 +24,6 @@ namespace AlexaComp{
         }
 
         private void dataListView_Load(){
-
             // Clear on refresh
             dataListView.Clear();
             dataListView.Items.Clear();
@@ -48,6 +48,7 @@ namespace AlexaComp{
 
                 // Console.WriteLine("Name - " + programName + " -- " + programPath);
             }
+            AlexaComp._log.Info("Data List Reloaded");
             // Reset column width
             foreach (ColumnHeader column in dataListView.Columns) { column.Width = -1; }
         }
@@ -58,21 +59,26 @@ namespace AlexaComp{
             doc.Load("pathDir.xml");
             string programName = programNameTextBox.Text;
             string programPath = programPathTextBox.Text;
-
             programNameTextBox.Clear();
             programPathTextBox.Clear();
+
+            programName = programName.Replace(" ", string.Empty).ToUpper();
+
+            string log = "{Name: " + programName + ", Path: " + programPath + "}";
+            AlexaComp._log.Info("Add Program - " + log);
 
             XmlDocumentFragment frag = doc.CreateDocumentFragment();
             frag.InnerXml = "<path programName=\"" + programName + 
                             "\" programPath=\"" + programPath + "\"/>";
+
             Console.WriteLine(frag.InnerXml);
             doc.DocumentElement.AppendChild(frag);
-            doc.Save("C:\\Users\\Ari\\source\\repos\\AlexaComp\\AlexaComp\\bin\\Debug\\pathDir.xml");
-            doc.Save("C:\\Users\\Ari\\source\\repos\\AlexaComp\\AlexaComp\\pathDir.xml");
+            doc.Save(AlexaComp.pathToDebug);
+            doc.Save(AlexaComp.pathToProject);
+            AlexaComp._log.Info("pathDir appended");
 
             dataListView_Load();
         }
-
 
         private void label1_Click(object sender, EventArgs e) { }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
@@ -80,5 +86,6 @@ namespace AlexaComp{
         private void programPathTextBox_TextChanged(object sender, EventArgs e) { }
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e) { }
         private void dataListView_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
     }
 }

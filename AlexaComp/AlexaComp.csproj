@@ -109,7 +109,10 @@
     <Compile Include="AlexaCompGUI.Designer.cs">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="AlexaCompBackend.cs" />
+    <Compile Include="AlexaComp.cs" />
+    <Compile Include="AlexaCompMQTT.cs" />
+    <Compile Include="AlexaCompSERVER.cs" />
+    <Compile Include="AlexaCompREQUEST.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AlexaCompGUI.resx">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>

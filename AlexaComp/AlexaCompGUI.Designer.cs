@@ -34,9 +34,9 @@
             this.programPathTextBox = new System.Windows.Forms.TextBox();
             this.programNameLable = new System.Windows.Forms.Label();
             this.programPathLabel = new System.Windows.Forms.Label();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.dataListView = new System.Windows.Forms.ListView();
             this.label1 = new System.Windows.Forms.Label();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.SuspendLayout();
             // 
             // addToListButton
@@ -51,7 +51,7 @@
             // 
             // programNameTextBox
             // 
-            this.programNameTextBox.Location = new System.Drawing.Point(148, 334);
+            this.programNameTextBox.Location = new System.Drawing.Point(147, 308);
             this.programNameTextBox.Name = "programNameTextBox";
             this.programNameTextBox.Size = new System.Drawing.Size(493, 20);
             this.programNameTextBox.TabIndex = 2;
@@ -59,7 +59,7 @@
             // 
             // programPathTextBox
             // 
-            this.programPathTextBox.Location = new System.Drawing.Point(148, 308);
+            this.programPathTextBox.Location = new System.Drawing.Point(147, 334);
             this.programPathTextBox.Name = "programPathTextBox";
             this.programPathTextBox.Size = new System.Drawing.Size(493, 20);
             this.programPathTextBox.TabIndex = 3;
@@ -84,14 +84,6 @@
             this.programPathLabel.TabIndex = 5;
             this.programPathLabel.Text = "Program Path (Absolute) -";
             // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Location = new System.Drawing.Point(676, 45);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(21, 252);
-            this.vScrollBar1.TabIndex = 7;
-            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
-            // 
             // dataListView
             // 
             this.dataListView.Location = new System.Drawing.Point(12, 45);
@@ -111,10 +103,19 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "AlexaComp";
             // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(676, 45);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(21, 252);
+            this.vScrollBar1.TabIndex = 7;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            // 
             // AlexaComp_Config_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(712, 450);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataListView);
@@ -139,9 +140,9 @@
         private System.Windows.Forms.TextBox programPathTextBox;
         private System.Windows.Forms.Label programNameLable;
         private System.Windows.Forms.Label programPathLabel;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.ListView dataListView;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
     }
 }
 
