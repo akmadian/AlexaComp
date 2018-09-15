@@ -11,10 +11,13 @@ The skill is not available yet.
 
 ## Planned Features
 #### Launching various applications <br/>
-ex. "Alexa, open my computer" "Alexa launch google chrome"
+ex. "Alexa, tell my computer to launch google chrome"
 
 #### Retrieving Hardware Info <br/>
-ex. "Alexa, open my computer" "Alexa what's my GPU temp"
+ex. "Alexa, ask my computer what my gpu temp is"
+
+#### Issuing System Commands <br/>
+ex. "Alexa, tell my computer to shut down"
 
 <br/>
 
