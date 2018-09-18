@@ -71,13 +71,14 @@ namespace AlexaComp{
             frag.InnerXml = "<path programName=\"" + programName + 
                             "\" programPath=\"" + programPath + "\"/>";
 
-            Console.WriteLine(frag.InnerXml);
+            AlexaComp._log.Info("Add new program - " + frag.InnerXml);
             doc.DocumentElement.AppendChild(frag);
             doc.Save(AlexaComp.pathToDebug);
             doc.Save(AlexaComp.pathToProject);
             AlexaComp._log.Info("pathDir appended");
 
             dataListView_Load();
+            
         }
 
         private void label1_Click(object sender, EventArgs e) { }
@@ -87,5 +88,16 @@ namespace AlexaComp{
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e) { }
         private void dataListView_SelectedIndexChanged(object sender, EventArgs e) { }
         private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void FormClosing(object sender, FormClosedEventArgs e) { }
+
+        protected override void OnFormClosing(FormClosingEventArgs e){
+            base.OnFormClosing(e);
+            AlexaComp._log.Info("Closing Program");
+            AlexaComp.stopProgramFlag = true;
+            AlexaComp._log.Info("StopServerLoopFlag Raised");
+            AlexaCompSERVER.stopServer();
+            AlexaComp._log.Info("Server Stopped");
+            Application.Exit();
+        }
     }
 }

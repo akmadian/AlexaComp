@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using System.Diagnostics;
 
 namespace AlexaComp{
@@ -17,10 +18,10 @@ namespace AlexaComp{
             }
 
             try{
-                string programPath = AlexaComp.GetProgramPath(req.PRIMARY);
+                string programPath = GetProgramPath(req.PRIMARY);
                 AlexaComp._log.Info("ProgramPath - " + programPath);
                 AlexaComp._log.Info("req Program - " + req.PRIMARY);
-                Process.Start(AlexaComp.GetProgramPath(req.PRIMARY));
+                Process.Start(GetProgramPath(req.PRIMARY));
                 AlexaComp._log.Info("Program Launched");
                 AlexaCompMQTT.mqttPublish("pass");
                 AlexaCompSERVER.stopServer(); // Restart Server to Handle Next Request
@@ -52,9 +53,28 @@ namespace AlexaComp{
         }
 
         static void compStatRequest(Request req){
-            // Hardwaremonitor code
+            if (req.PRIMARY == "GPU"){
+                if (req.SECONDARY == "TEMPERATURE"){
+                    Console.WriteLine(AlexaCompHARDWARE.partStat("GPU", "GPU Core"));
+                } 
+            }
         }
 
+        public static string GetProgramPath(string program){
+            XmlDocument doc = new XmlDocument();
+            doc.Load("pathDir.xml");
+            AlexaComp._log.Info("pathDIR loaded");
+            XmlElement elem = doc.SelectSingleNode("//path[@programName='" + program + "']") as XmlElement;
+            if (elem != null){
+                string path = elem.GetAttribute("programPath");
+                AlexaComp._log.Info("Path - " + path);
+                return path;
+            }
+            else{
+                AlexaComp._log.Info("null returned");
+                return null;
+            }
+        }
     }
 
     public class Request{
