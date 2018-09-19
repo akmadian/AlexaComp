@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">AlexaComp</h1>
-  <h3 align="center">An Alexa skill to interact with your computer</h3>
+  <h3 align="center"></h3>
 </p>
 <br/>
 <br/>
