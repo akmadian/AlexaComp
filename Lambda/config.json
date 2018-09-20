@@ -1,0 +1,11 @@
+{
+    "SOCKET":{
+        "HOST" : "Client's public IP",
+        "PORT" : "Open port on client's network",
+    
+        "AUTH" : "Auth Key"
+    },
+    "ASK": {
+        "APP_ID": "App ID"
+    }
+}

@@ -28,121 +28,137 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlexaComp_Config_Window));
-            this.addToListButton = new System.Windows.Forms.Button();
-            this.programNameTextBox = new System.Windows.Forms.TextBox();
-            this.programPathTextBox = new System.Windows.Forms.TextBox();
-            this.programNameLable = new System.Windows.Forms.Label();
-            this.programPathLabel = new System.Windows.Forms.Label();
-            this.dataListView = new System.Windows.Forms.ListView();
+            this.EditConfigButton = new System.Windows.Forms.Button();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.editProgramListButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.RepoLink = new System.Windows.Forms.LinkLabel();
+            this.openLogFileButton = new System.Windows.Forms.Button();
+            this.LogAllSensorsButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // addToListButton
+            // EditConfigButton
             // 
-            this.addToListButton.Location = new System.Drawing.Point(477, 360);
-            this.addToListButton.Name = "addToListButton";
-            this.addToListButton.Size = new System.Drawing.Size(150, 23);
-            this.addToListButton.TabIndex = 0;
-            this.addToListButton.Text = "Add Program to List";
-            this.addToListButton.UseVisualStyleBackColor = true;
-            this.addToListButton.Click += new System.EventHandler(this.addToListButton_Click);
+            this.EditConfigButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.EditConfigButton.Location = new System.Drawing.Point(209, 46);
+            this.EditConfigButton.Name = "EditConfigButton";
+            this.EditConfigButton.Size = new System.Drawing.Size(173, 25);
+            this.EditConfigButton.TabIndex = 10;
+            this.EditConfigButton.Text = "Edit Config";
+            this.EditConfigButton.UseVisualStyleBackColor = true;
+            this.EditConfigButton.Click += new System.EventHandler(this.EditConfigButton_Click);
             // 
-            // programNameTextBox
+            // notifyIcon
             // 
-            this.programNameTextBox.Location = new System.Drawing.Point(147, 308);
-            this.programNameTextBox.Name = "programNameTextBox";
-            this.programNameTextBox.Size = new System.Drawing.Size(493, 20);
-            this.programNameTextBox.TabIndex = 2;
-            this.programNameTextBox.TextChanged += new System.EventHandler(this.programNameTextBox_TextChanged);
+            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon.BalloonTipText = "AlexaComp has been minimized to system tray.";
+            this.notifyIcon.BalloonTipTitle = "AlexaComp";
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "AlexaComp";
             // 
-            // programPathTextBox
+            // editProgramListButton
             // 
-            this.programPathTextBox.Location = new System.Drawing.Point(147, 334);
-            this.programPathTextBox.Name = "programPathTextBox";
-            this.programPathTextBox.Size = new System.Drawing.Size(493, 20);
-            this.programPathTextBox.TabIndex = 3;
-            this.programPathTextBox.TextChanged += new System.EventHandler(this.programPathTextBox_TextChanged);
+            this.editProgramListButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editProgramListButton.Location = new System.Drawing.Point(209, 77);
+            this.editProgramListButton.Name = "editProgramListButton";
+            this.editProgramListButton.Size = new System.Drawing.Size(173, 25);
+            this.editProgramListButton.TabIndex = 12;
+            this.editProgramListButton.Text = "Edit Program List";
+            this.editProgramListButton.UseVisualStyleBackColor = true;
+            this.editProgramListButton.Click += new System.EventHandler(this.editProgramListButton_Click);
             // 
-            // programNameLable
+            // pictureBox1
             // 
-            this.programNameLable.AutoSize = true;
-            this.programNameLable.Location = new System.Drawing.Point(12, 311);
-            this.programNameLable.Name = "programNameLable";
-            this.programNameLable.Size = new System.Drawing.Size(83, 13);
-            this.programNameLable.TabIndex = 4;
-            this.programNameLable.Text = "Program Name -";
-            this.programNameLable.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // programPathLabel
-            // 
-            this.programPathLabel.AutoSize = true;
-            this.programPathLabel.Location = new System.Drawing.Point(12, 337);
-            this.programPathLabel.Name = "programPathLabel";
-            this.programPathLabel.Size = new System.Drawing.Size(127, 13);
-            this.programPathLabel.TabIndex = 5;
-            this.programPathLabel.Text = "Program Path (Absolute) -";
-            // 
-            // dataListView
-            // 
-            this.dataListView.Location = new System.Drawing.Point(12, 45);
-            this.dataListView.Name = "dataListView";
-            this.dataListView.Size = new System.Drawing.Size(685, 252);
-            this.dataListView.TabIndex = 8;
-            this.dataListView.UseCompatibleStateImageBehavior = false;
-            this.dataListView.SelectedIndexChanged += new System.EventHandler(this.dataListView_SelectedIndexChanged);
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(-42, 28);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(225, 236);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Font = new System.Drawing.Font("Roboto", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(17, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 29);
-            this.label1.TabIndex = 9;
+            this.label1.Size = new System.Drawing.Size(166, 38);
+            this.label1.TabIndex = 14;
             this.label1.Text = "AlexaComp";
             // 
-            // vScrollBar1
+            // RepoLink
             // 
-            this.vScrollBar1.Location = new System.Drawing.Point(676, 45);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(21, 252);
-            this.vScrollBar1.TabIndex = 7;
-            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            this.RepoLink.AutoSize = true;
+            this.RepoLink.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.RepoLink.LinkArea = new System.Windows.Forms.LinkArea(41, 57);
+            this.RepoLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(230)))));
+            this.RepoLink.Location = new System.Drawing.Point(12, 393);
+            this.RepoLink.Name = "RepoLink";
+            this.RepoLink.Size = new System.Drawing.Size(294, 17);
+            this.RepoLink.TabIndex = 15;
+            this.RepoLink.TabStop = true;
+            this.RepoLink.Text = "This Alexa skill is open source, see the Github Repo here.";
+            this.RepoLink.UseCompatibleTextRendering = true;
+            this.RepoLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.RepoLink_LinkClicked);
+            // 
+            // openLogFileButton
+            // 
+            this.openLogFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.openLogFileButton.Location = new System.Drawing.Point(209, 108);
+            this.openLogFileButton.Name = "openLogFileButton";
+            this.openLogFileButton.Size = new System.Drawing.Size(173, 25);
+            this.openLogFileButton.TabIndex = 16;
+            this.openLogFileButton.Text = "Open Log File";
+            this.openLogFileButton.UseVisualStyleBackColor = true;
+            this.openLogFileButton.Click += new System.EventHandler(this.openLogFileButton_Click);
+            // 
+            // LogAllSensorsButton
+            // 
+            this.LogAllSensorsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LogAllSensorsButton.Location = new System.Drawing.Point(209, 139);
+            this.LogAllSensorsButton.Name = "LogAllSensorsButton";
+            this.LogAllSensorsButton.Size = new System.Drawing.Size(173, 25);
+            this.LogAllSensorsButton.TabIndex = 17;
+            this.LogAllSensorsButton.Text = "Log All Sensors";
+            this.LogAllSensorsButton.UseVisualStyleBackColor = true;
+            this.LogAllSensorsButton.Click += new System.EventHandler(this.LogAllSensorsButton_Click);
             // 
             // AlexaComp_Config_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(712, 450);
+            this.ClientSize = new System.Drawing.Size(404, 419);
+            this.Controls.Add(this.LogAllSensorsButton);
+            this.Controls.Add(this.openLogFileButton);
+            this.Controls.Add(this.RepoLink);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataListView);
-            this.Controls.Add(this.vScrollBar1);
-            this.Controls.Add(this.programPathLabel);
-            this.Controls.Add(this.programNameLable);
-            this.Controls.Add(this.programPathTextBox);
-            this.Controls.Add(this.programNameTextBox);
-            this.Controls.Add(this.addToListButton);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.editProgramListButton);
+            this.Controls.Add(this.EditConfigButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(420, 458);
             this.Name = "AlexaComp_Config_Window";
             this.Text = "AlexaComp Configuration";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button addToListButton;
-        private System.Windows.Forms.TextBox programNameTextBox;
-        private System.Windows.Forms.TextBox programPathTextBox;
-        private System.Windows.Forms.Label programNameLable;
-        private System.Windows.Forms.Label programPathLabel;
-        private System.Windows.Forms.ListView dataListView;
+        private System.Windows.Forms.Button EditConfigButton;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.Button editProgramListButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.LinkLabel RepoLink;
+        private System.Windows.Forms.Button openLogFileButton;
+        private System.Windows.Forms.Button LogAllSensorsButton;
     }
 }
 

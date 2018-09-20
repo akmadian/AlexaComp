@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using OpenHardwareMonitor.Hardware;
 using log4net;
 using log4net.Config;
@@ -16,7 +17,9 @@ namespace AlexaComp{
             computer.Open();
             partOneHot(computer, part);
             computer.Accept(updateVisitor);
+            #pragma warning disable CS0162 // Unreachable code detected
             for (int i = 0; i < computer.Hardware.Length; i++){
+            #pragma warning restore CS0162 // Unreachable code detected
                 for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++){
                     if (computer.Hardware[i].Sensors[j].Name == stat) {
                         if (computer.Hardware[i].Sensors[j].SensorType.ToString() == "Temperature") {
@@ -45,29 +48,34 @@ namespace AlexaComp{
             else if (part == "FANCONTROLLER") { comp.FanControllerEnabled = true; }
         }
 
-        public static void getAllSensors(string part){
-            // List<string> partNames = new List<string>() {"GPU", "CPU", "RAM", "MAINBOARD"};
-            // foreach (string part in partNames){
+        public static void getAllSensors(object openOnComplete){
+            bool openOnCompleteBool = (bool)openOnComplete;
             ILog _SensorListLogger = LogManager.GetLogger("SensorListAppender");
             XmlConfigurator.Configure();
-            UpdateVisitor updateVisitor = new UpdateVisitor();
-            Computer computer = new Computer();
-            computer.Open();
-            partOneHot(computer, part);
-            computer.Accept(updateVisitor);
-            for (int i = 0; i < computer.Hardware.Length; i++){
-                _SensorListLogger.Info(part + " - " + computer.Hardware[i].Name + 
-                                       " - Hardware Length " + computer.Hardware.Length.ToString());
-                for (int k = 0; k < computer.Hardware.Length; k++) {
-                    _SensorListLogger.Info("    " + computer.Hardware[k].Name);
-                    _SensorListLogger.Info("    Sensors Length - " + computer.Hardware[i].Sensors.Length.ToString());
-                    for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++){
-                        _SensorListLogger.Info("        " + computer.Hardware[k].Sensors[j].Name + " - " +
-                                                            computer.Hardware[k].Sensors[j].SensorType + " - " +
-                                                            computer.Hardware[k].Sensors[j].Value);
+            List<string> partNames = new List<string>() {"GPU", "CPU", "RAM", "MAINBOARD", "HDD", "FANCONTROLLER"};
+            foreach (string part in partNames){
+                UpdateVisitor updateVisitor = new UpdateVisitor();
+                Computer computer = new Computer();
+                computer.Open();
+                partOneHot(computer, part);
+                computer.Accept(updateVisitor);
+                for (int i = 0; i < computer.Hardware.Length; i++){
+                    _SensorListLogger.Info(part + " - " + computer.Hardware[i].Name +
+                                           " - Hardware Length " + computer.Hardware.Length.ToString());
+                    for (int k = 0; k < computer.Hardware.Length; k++) {
+                        _SensorListLogger.Info("    " + computer.Hardware[k].Name);
+                        _SensorListLogger.Info("    Sensors Length - " + computer.Hardware[i].Sensors.Length.ToString());
+                        for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++){
+                            _SensorListLogger.Info("        " + computer.Hardware[k].Sensors[j].Name + " - " +
+                                                                computer.Hardware[k].Sensors[j].SensorType + " - " +
+                                                                computer.Hardware[k].Sensors[j].Value);
+                        }
                     }
+                    computer.Close();
                 }
-                computer.Close();
+            }
+            if (openOnCompleteBool){
+                System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\SensorList.txt");
             }
         }
 

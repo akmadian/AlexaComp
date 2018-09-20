@@ -20,23 +20,27 @@ namespace AlexaComp
 
             string AUTH = AlexaComp.GetConfigValue("AUTH");
             string HOST = AlexaComp.GetConfigValue("HOST");
-            int PORT = int.Parse(AlexaComp.GetConfigValue("PORT"));
+            try{
+                int PORT = int.Parse(AlexaComp.GetConfigValue("PORT"));
+                IPAddress host = IPAddress.Parse(HOST);
 
-            IPAddress host = IPAddress.Parse(HOST);
-
-            server = new TcpListener(host, PORT); 
-            server.Start(); // Start Server
-            AlexaComp._log.Info("Listening");
-            if (AlexaComp.stopProgramFlag == true){
-                AlexaComp._log.Info("awegfrargse");
-                return;
+                server = new TcpListener(host, PORT);
+                server.Start(); // Start Server
+                AlexaComp._log.Info("Listening");
+                if (AlexaComp.stopProgramFlag == true){
+                    return;
+                }
+            }
+            catch (FormatException) {
+                AlexaComp._log.Debug("FormatException Caught during attempt to read PORT value from config, most likely no value configured");
             }
 
-            try
-            {
+            try{
                 client = server.AcceptTcpClient(); // Accept Client Connection
             } catch (SocketException) {
-                AlexaComp._log.Info("SocketException Caught when accepting client");
+                AlexaComp._log.Debug("SocketException Caught when accepting client");
+            } catch (NullReferenceException){
+                AlexaComp._log.Debug("NullReferenceException Caught when accepting client");
             }
             AlexaComp._log.Info("Client Connected");
             try
@@ -64,7 +68,7 @@ namespace AlexaComp
                 }
             } catch (NullReferenceException)
             {
-                AlexaComp._log.Info("abcdefg");
+                AlexaComp._log.Debug("NullReferenceException Caught in AlexaCompSERVER");
             }
         }
 
@@ -74,10 +78,13 @@ namespace AlexaComp
                 client.Close();
                 AlexaComp._log.Info("Client closed");
             } catch (NullReferenceException){
-                AlexaComp._log.Info("NullReferenceException when closing client, object is null or does not exist");
+                AlexaComp._log.Debug("NullReferenceException when closing client, object is null or does not exist");
             }
-            AlexaComp._log.Info("awefawf");
-            server.Stop();
+            try{
+                server.Stop();
+            } catch (NullReferenceException){
+                AlexaComp._log.Debug("NullReferenceException caught when stopping server");
+            }
             AlexaComp._log.Info("Server Stopped");
             if (AlexaComp.stopProgramFlag == false){
                 newServerFlag = true;
