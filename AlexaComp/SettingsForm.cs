@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
-namespace AlexaComp
-{
-    public partial class SettingsForm : Form
-    {
+namespace AlexaComp{
+    public partial class SettingsForm : Form{
 
         private Dictionary<string, string> textBoxDict = new Dictionary<string, string>();
         public SettingsForm(){
@@ -52,6 +45,17 @@ namespace AlexaComp
 
         private void AlexaCompSettingsForm_Closing(object sender, FormClosingEventArgs e) {
             AlexaComp._log.Info("Closing SettingsForm");
+        }
+
+        private void runOnStartCheck_CheckedChanged(object sender, EventArgs e) {
+            RegistryKey regKey = Registry.CurrentUser.OpenSubKey
+                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (runOnStartCheck.Checked) {
+                regKey.SetValue("AlexaComp", AlexaComp.pathToDebug + "\\AlexaComp.exe");
+            } else {
+                regKey.DeleteValue("AlexaComp", false);
+            }
         }
     }
 }

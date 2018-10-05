@@ -32,7 +32,7 @@
     <PublisherName>Ari Madian</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.1.0</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -90,8 +90,8 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="M2Mqtt.Net, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\M2Mqtt.4.3.0.0\lib\net45\M2Mqtt.Net.dll</HintPath>
+    <Reference Include="Mono.Nat, Version=1.2.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Mono.Nat.1.2.24.0\lib\net40\Mono.Nat.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -124,11 +124,22 @@
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="AlexaComp.cs" />
-    <Compile Include="AlexaCompMQTT.cs" />
     <Compile Include="AlexaCompSERVER.cs" />
     <Compile Include="AlexaCompREQUEST.cs" />
     <Compile Include="AlexaCompHARDWARE.cs" />
     <Compile Include="AlexaCompTESTS.cs" />
+    <Compile Include="DeviceLinkingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviceLinkingForm.Designer.cs">
+      <DependentUpon>DeviceLinkingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadingScreenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingScreenForm.Designer.cs">
+      <DependentUpon>LoadingScreenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +155,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AlexaCompGUI.resx">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviceLinkingForm.resx">
+      <DependentUpon>DeviceLinkingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadingScreenForm.resx">
+      <DependentUpon>LoadingScreenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgramListForm.resx">
       <DependentUpon>ProgramListForm.cs</DependentUpon>
@@ -201,12 +218,12 @@
   <ItemGroup>
     <PublishFile Include="pathDir.xml">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>

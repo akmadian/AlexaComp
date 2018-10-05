@@ -10,27 +10,37 @@ using log4net.Config;
 
 namespace AlexaComp{
     class AlexaCompHARDWARE{
+        private static string failMessage = "There was an error, please check the Alexa Comp log file.";
+        public static List<string> partNames = new List<string>() { "GPU", "CPU", "RAM", "MAINBOARD", "HDD", "FANCONTROLLER" };
+        public static Dictionary<string, Dictionary<string, string>> partDict = new Dictionary<string, Dictionary<string, string>>() {
+            { "GPU", new Dictionary<string, string> {{"TEMP", ""}, {"LOAD", ""}, {"CLOCK_CORE", ""}, {"CLOCK_RAM", ""}}},
+            { "CPU", new Dictionary<string, string> {{"TEMP", ""}, {"LOAD", ""}, {"CLOCK_CORE", ""}}},
+            { "RAM", new Dictionary<string, string> {{"USED", "Used Memory"}, {"AVAILABLE", "Available Memory"}}},
+            { "MAINBOARD", new Dictionary<string, string> {}}
+        };
 
-        public static string partStat(string part, string stat){
+        public static string partStat(string part, string stat, string tertiary){
             UpdateVisitor updateVisitor = new UpdateVisitor();
             Computer computer = new Computer();
             computer.Open();
             partOneHot(computer, part);
             computer.Accept(updateVisitor);
+            try {
+                Console.WriteLine(partDict[part][stat]);
+            } catch (KeyNotFoundException e) {
+                AlexaComp._log.Info("KeyNotFoundException during attempt to get part stat " + e.Message);
+                Response res = new Response(false, failMessage, "", "");
+                return "null";
+            } 
             #pragma warning disable CS0162 // Unreachable code detected
             for (int i = 0; i < computer.Hardware.Length; i++){
             #pragma warning restore CS0162 // Unreachable code detected
                 for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++){
-                    if (computer.Hardware[i].Sensors[j].Name == stat) {
-                        if (computer.Hardware[i].Sensors[j].SensorType.ToString() == "Temperature") {
-                            return tempFormat(computer.Hardware[i].Sensors[j].Value).ToString() + "Degrees";
-                        } else if (computer.Hardware[i].Sensors[j].SensorType.ToString() == "Load") {
-                            return loadFormat(computer.Hardware[i].Sensors[j].Value).ToString() + "%";
-                        } else if (computer.Hardware[i].Sensors[j].SensorType.ToString() == "Load"){
-                            return computer.Hardware[i].Sensors[j].Value.ToString() + "MHz";
+                    var currentSensor = computer.Hardware[i].Sensors[j];
+                    if (currentSensor.Name == partDict[part][stat]) {
+                        if (currentSensor.SensorType.ToString() == tertiary) {
+                            return currentSensor.Value.ToString() + " Mega Hertz";
                         }
-                        // string statValue = Math.Round(Convert.ToDecimal(computer.Hardware[i].Sensors[j].Value), 1).ToString();
-                        // return statValue;
                     }
                 }
                 computer.Close();
@@ -38,6 +48,59 @@ namespace AlexaComp{
             }
             return "null";
         }
+
+        public static void assignSensors() {
+            foreach (string part in partNames) {
+                UpdateVisitor updateVisitor = new UpdateVisitor();
+                Computer computer = new Computer();
+                computer.Open();
+                partOneHot(computer, part);
+                computer.Accept(updateVisitor);
+                for (int i = 0; i < computer.Hardware.Length; i++) {
+                    for (int k = 0; k < computer.Hardware.Length; k++) {
+                        for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++) {
+                            var currentSensor = computer.Hardware[k].Sensors[j];
+                            if (currentSensor.SensorType == SensorType.Temperature) { // If sensor is a temp sensor
+                                try {
+                                    partDict[part]["TEMP"] = currentSensor.Name;
+                                } catch (KeyNotFoundException) {}
+                            }
+
+                            if (currentSensor.SensorType == SensorType.Clock) {
+                                Console.WriteLine("Clock Sensor");
+                                if (currentSensor.Name.Contains("Core")) {
+                                    Console.WriteLine("Core Clock Sensor");
+                                    partDict[part]["CLOCK_CORE"] = currentSensor.Name;
+                                } else if (currentSensor.Name.Contains("Memory")) {
+                                    Console.WriteLine("Ram Clock Sensor");
+                                    partDict[part]["CLOCK_RAM"] = currentSensor.Name;
+                                }
+                            }
+
+                            if (currentSensor.SensorType == SensorType.Load) { // If sensor is a load sensor
+                                try {
+                                    partDict[part]["LOAD"] = currentSensor.Name;
+                                }
+                                catch (KeyNotFoundException) {}
+                            } else if (currentSensor.SensorType == SensorType.Load && // Else if the hardware is a CPU get total load, not core loads.
+                                part == "CPU" && "Total".Contains(currentSensor.Name)) {
+                                    partDict[part]["LOAD"] = currentSensor.Name;
+                            }
+                        }
+                    }
+                    computer.Close();
+                }
+            }
+            foreach(KeyValuePair<string, Dictionary<string, string>> pair in partDict) {
+                Console.WriteLine("Part - " + pair.Key);
+                foreach (KeyValuePair<string, string> pair2 in pair.Value) {
+                    Console.WriteLine("    " + pair2.Key + " - " + pair2.Value);
+                }
+            }
+        }
+
+
+
 
         public static void partOneHot(Computer comp, string part){
             if (part == "GPU") { comp.GPUEnabled = true; }
@@ -52,23 +115,23 @@ namespace AlexaComp{
             bool openOnCompleteBool = (bool)openOnComplete;
             ILog _SensorListLogger = LogManager.GetLogger("SensorListAppender");
             XmlConfigurator.Configure();
-            List<string> partNames = new List<string>() {"GPU", "CPU", "RAM", "MAINBOARD", "HDD", "FANCONTROLLER"};
             foreach (string part in partNames){
                 UpdateVisitor updateVisitor = new UpdateVisitor();
                 Computer computer = new Computer();
                 computer.Open();
                 partOneHot(computer, part);
                 computer.Accept(updateVisitor);
-                for (int i = 0; i < computer.Hardware.Length; i++){
+                for (int i = 0; i < computer.Hardware.Length; i++){ // For part
                     _SensorListLogger.Info(part + " - " + computer.Hardware[i].Name +
                                            " - Hardware Length " + computer.Hardware.Length.ToString());
-                    for (int k = 0; k < computer.Hardware.Length; k++) {
-                        _SensorListLogger.Info("    " + computer.Hardware[k].Name);
-                        _SensorListLogger.Info("    Sensors Length - " + computer.Hardware[i].Sensors.Length.ToString());
-                        for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++){
-                            _SensorListLogger.Info("        " + computer.Hardware[k].Sensors[j].Name + " - " +
-                                                                computer.Hardware[k].Sensors[j].SensorType + " - " +
-                                                                computer.Hardware[k].Sensors[j].Value);
+                    for (int k = 0; k < computer.Hardware.Length; k++) { // For hardware in part
+                        var currentHardware = computer.Hardware[k];
+                        _SensorListLogger.Info(string.Format("    Hardware {0}/ {1} - " + currentHardware.Name, k + 1, computer.Hardware.Length.ToString()));
+                        _SensorListLogger.Info("    Sensors Length - " + currentHardware.Sensors.Length.ToString());
+                        for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++){ // For sensor in hardware
+                            _SensorListLogger.Info("\t" + computer.Hardware[k].Sensors[j].Name + " - " +
+                                                            computer.Hardware[k].Sensors[j].SensorType + " - " +
+                                                            computer.Hardware[k].Sensors[j].Value);
                         }
                     }
                     computer.Close();
@@ -93,5 +156,21 @@ namespace AlexaComp{
         }
         public void VisitSensor(ISensor sensor) { }
         public void VisitParameter(IParameter parameter) { }
+    }
+
+    class SensorObject {
+        public string part;
+        public string stat;
+        public string type;
+
+      
+
+        public SensorObject(string part, string stat, string type) {
+            this.part = part;
+            this.stat = stat;
+            this.type = type;
+        }
+
+
     }
 }
