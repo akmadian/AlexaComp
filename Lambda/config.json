@@ -3,9 +3,14 @@
         "HOST" : "Client's public IP",
         "PORT" : "Open port on client's network",
     
-        "AUTH" : "Auth Key"
+        "AUTH" : "Auth Key",
+        "TESTING": "Tells instance to default to testing values"
     },
     "ASK": {
         "APP_ID": "App ID"
+    },
+    "S3":{
+        "BUCKET": "Bucket Name",
+        "KEY": "Bucket Key"
     }
 }

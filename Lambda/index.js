@@ -3,116 +3,137 @@
 
 'use strict';
 console.log('--START--')
-const config = require('./config.json');
 const Alexa = require('alexa-sdk');
-const mqttBroker = ('mqtt');
-const net = require('net');
-const http = require('http');
+const config = require('./config.json');
+const Functions = require('./Functions.js');
 console.log('Required Modules Imported')
-const APP_ID = config.ASK.APP_ID;
-const HOST = config.SOCKET.HOST;
-const PORT = config.SOCKET.PORT;
-const auth_key = config.SOCKET.AUTH;
-console.log('Vars Imported From Config File')
-var client = new net.Socket();
-console.log('Socket Created')
-var server = new net.Server();
-console.log('Server Created')
-const SKILL_NAME = 'ComputerInteract';
 
-// MQTT
-var mqttClient = mqttBroker.connect('https://m11.cloudmqtt.com:15387');
+Functions.readFromS3("", {'initialize': true});
+console.log(Functions.IPMap);
 
-mqttClient.on('connect', function(){
-    mqttClient.subscribe('AlexaComp/confirmations');
-    console.log("Client subscribed")
-    mqttClient.publish('AlexaComp/confirmations', '1');
-    console.log("published")
-    
-})
-
-mqttClient.on('message', (topic, message) => {
-    console.log("new MQTT from - " + topic + " -- " + message)
-})
-
+const SKILL_NAME = 'AlexaComp';
 const STOP_MESSAGE = 'Goodbye!';
 const HELP_MESSAGE = 'You can ask me to launch a program, tell your computer to ' + 
                     'do something, or get some hardware information like CPU temp.'
-const successful = 'Socket created and data has been sent'
+                    
+// Responses                    
+const responsesSuccessful = ['Done!', 'Sent!', 'The request has been sent.'];
+const responsesFailed = ['Sorry, that didn\'t work.', 'Something went wrong.', 'I wasn\t able to complete that request.'];
 
-function SendJson(js){
-    console.info("Start Server");
-    client.connect(PORT, HOST, function() {
-        var js_ = JSON.stringify(js)
-        console.info(js_)
-        console.log('BEFORE WRITE')
-        try{
-            client.write(js_);
-        } catch (TypeError) {
-            console.warn('TypeError caught while sending json.')
-        }
-    })
+Functions.writeToS3("testtest", "TESTTEST");
+
+function makeId() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  for (var i = 0; i < 4; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
 }
+
+function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
+    const auth_key = require('./config.json').SOCKET.AUTH;
+    return {"AUTH": auth_key, "COMMAND": COMMAND, "PRIMARY": PRIMARY, 
+            "SECONDARY": SECONDARY, "TERTIARY": TERTIARY};
+}
+
 // Code
 const handlers = {
     'LaunchProgramIntent': function () {
+        console.log('LaunchProgramIntent');
         var programName = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
-
-        console.info("ProgramName - " + programName);
-        var j = {"AUTH": auth_key, "COMMAND": "LAUNCH", "PRIMARY": programName, "SECONDARY": "null"};
-        SendJson(j);
+        var deviceID = this.event.context.System.device.deviceId;
+        var j = makeJson("LAUNCH", programName);
+        var options = {
+            'sendParams': {
+                'responseObj': this,
+                'js': j
+            }
+        }
+        Functions.readFromS3(deviceID, options);
     },
     
-    'GetComputerStat': function () {
-        var part = this.event.request.intent.slots;
-        var stat = null;
-        var j = {"AUTH": auth_key, "COMMAND": "GETCOMPSTAT", "PRIMARY": part, "SECONDARY": stat};
-        SendJson(j);
-        this.response.speak("This intent is not working yet");
-        this.emit(':responseReady:');
+    'GetComputerStatIntent': function () {
+        console.log('GetStat Intent');
+        var part = this.event.request.intent.slots.Part.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        var stat = this.event.request.intent.slots.Stat.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        var deviceID = this.event.context.System.device.deviceId;
+        Functions.readFromS3(deviceID);
+        
+        var j = makeJson("GETCOMPSTAT", part, stat);
+        if (stat.includes('CLOCK')){
+            j["TERTIARY"] = "Clock"
+        } 
+        var params = {
+            'sendParams':{
+                'responseObj': this,
+                'js': j
+            }
+        }
+        Functions.readFromS3(deviceID, params);
     },
     
     'ComputerCommandIntent': function(){
-      var command = null;
-      var j = {"AUTH": auth_key, "COMMAND": "COMPUTERCOMMAND", "PRIMARY": command, "SECONDARY": "null"};
-      SendJson(j);
-      this.response.speak("Command Successfully Issued");
-      this.emit(':responseReady:');
+        console.log('Command Intent')
+        var command = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        var deviceID = this.event.context.System.device.deviceId;
+        Functions.readFromS3(deviceID);
+        
+        var j = makeJson("COMPUTERCOMMAND", command);
+        var params = {
+            'sendParams':{
+                'responseObj': this,
+                'js': j
+            }
+        }
+        Functions.readFromS3(deviceID, params);
     },
     
-    'GetNewFactIntent': function () {
-        const speechOutput = successful;
-        console.log('speechOutput Definition Successful');
-
-        this.response.cardRenderer(SKILL_NAME, successful)
-        console.log('cardRenderer executed');
-        this.response.speak(speechOutput);
-        console.log('Speak executed');
-        this.emit(':responseReady');
+    'DeviceLinkingIntent': function(){
+        var deviceID = this.event.context.System.device.deviceId;
+        console.log(deviceID);
+        var slotsLoc = this.event.request.intent.slots;
+        console.log(typeof slotsLoc.one.value);
+        var IP = slotsLoc.one.value + '.' + 
+                       slotsLoc.two.value + '.' + 
+                       slotsLoc.three.value + '.' + 
+                       slotsLoc.four.value;
+        console.log(IP);
+        
+        var keyToSend = makeId();
+        var j = makeJson("DEVICELINK", keyToSend);
+        var params = {
+            'sendParams':{
+                'responseObj': this,
+                'js': j
+            }
+        }
+        Functions.readFromS3(deviceID, params);
+    },
+    
+    'LaunchRequest' : function(){
+        this.emit(':tell', 'Please try again and specify a command')
     },
     
     'AMAZON.HelpIntent': function () {
-        const speechOutput = 'HelpIntent has not been set yet.';
-        const reprompt = 'Help reprompt has not been set yet.';
-
-        this.response.speak(speechOutput).listen(reprompt);
-        this.emit(':responseReady');
+        this.emit(':tell', HELP_MESSAGE);
     },
     
     'AMAZON.CancelIntent': function () {
-        this.response.speak(STOP_MESSAGE);
-        this.emit(':responseReady');
+        this.emit(':tell', STOP_MESSAGE);
     },
     
     'AMAZON.StopIntent': function () {
-        this.response.speak(STOP_MESSAGE);
-        this.emit(':responseReady');
+        this.emit(':tell', STOP_MESSAGE);
     },
 };
 
 exports.handler = function (event, context, callback) {
     const alexa = Alexa.handler(event, context, callback);
+    
     alexa.APP_ID = config.ASK.APP_ID;
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
+
