@@ -5,6 +5,9 @@ using System.Threading;
 using System.Linq;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Xml.XPath;
 
 using log4net;
 using log4net.Config;
@@ -46,8 +49,7 @@ namespace AlexaComp {
                     LogSensorsThread.Start(false);
                 }
             }
-            // Process.Start("curl -4 https://icanhazip.com/");
-            // getExternalIP();
+            getExternalIP();
             ServerThread.Name = "ServerThread";
             ServerLoopThread.Name = "ServerLoopThread";
             AppWindowThread.Name = "AppWindowThread";
@@ -70,15 +72,12 @@ namespace AlexaComp {
             }
         }
 
-        public static string getExternalIP() {
-            Process p = new Process();
-            p.StartInfo.Arguments = "curl -4 https://icanhasip.com/";
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.Start();
-            string output = p.StandardOutput.ReadToEnd();
-            Console.WriteLine(output);
-            return output;
+        public static void getExternalIP() {
+            string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
+            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b");
+            if (match.Success) {
+                _log.Info("extip - " + match);
+            }
         }
 
         /// <summary>

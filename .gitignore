@@ -39,9 +39,12 @@ AlexaComp/obj
 AlexaComp/pathDir.xml
 AlexaComp/AlexaCompTESTS.cs
 AlexaComp/SavedMethods.cs
+*node_modules/
+*config.json
 Docs/
 Setup1/
 setup.exe
+*package.zip
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
