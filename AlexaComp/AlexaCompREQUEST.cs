@@ -8,20 +8,23 @@ namespace AlexaComp {
 
         private static string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static void processRequest(Request req) {
-            if (req.COMMAND == "LAUNCH") {
-                launchRequest(req);
-                req.logTimeElapsed();
+            switch (req.COMMAND) {
+                case "LAUNCH":
+                    launchRequest(req);
+                    req.logTimeElapsed();
+                    break;
+                case "COMMAND":
+                    commandRequest(req);
+                    req.logTimeElapsed();
+                    break;
+                case "GETCOMPSTAT":
+                    compStatRequest(req);
+                    req.logTimeElapsed();
+                    break;
+                case "DEVICELINK":
+                    deviceLinkRequest(req);
+                    break;
             }
-            else if (req.COMMAND == "COMMAND") {
-                commandRequest(req);
-                req.logTimeElapsed();
-            }
-            else if (req.COMMAND == "GETCOMPSTAT") {
-                compStatRequest(req);
-                req.logTimeElapsed();
-            }
-            else if (req.COMMAND == "DEVICELINK") { deviceLinkRequest(req); }
-            
         }
 
         static void launchRequest(Request req) {
@@ -88,7 +91,6 @@ namespace AlexaComp {
             DeviceLinkingThread.Start(req);
             */
         }
-
 
         static string GetProgramPath(string program) {
             XmlDocument doc = new XmlDocument();

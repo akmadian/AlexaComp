@@ -8,7 +8,7 @@ from sys import argv
 
 def zipFiles():
     print('Zipping Files')
-    filesToZip = ['index.js', 'functions.js', 'package-lock.json']
+    filesToZip = ['index.js', 'functions.js', 'package-lock.json', 'config.json']
     packageFile = zipfile.ZipFile("package.zip", "w")
 
     for root, dirs, files in os.walk("node_modules/"):
@@ -23,7 +23,6 @@ def zipFiles():
 
 
 def pushToLambda():
-    print('Pushing To Lambda')
     p = subprocess.Popen("aws lambda update-function-code --function-name AlexaCompDeviceLinking --zip-file fileb://" +
                          "D:/Programming/1.GitHub_Repos/AlexaComp/Lambda/DeviceLinking_Lambda/package.zip",
                          stdout=subprocess.PIPE,
