@@ -52,3 +52,6 @@ setup.exe
 # Config
 AlexaComp/App.config
 *.pfx
+Lambda/Main_Lambda/Device_Linking_Email/config.py
+Lambda/Main_Lambda/Device_Linking_Email/pushtemplatetoses.py
+Lambda/Main_Lambda/Device_Linking_Email/testemail.py
