@@ -1,0 +1,7 @@
+{
+  "Template": {
+    "TemplateName": "DeviceLinkingTemplatev4",
+    "SubjectPart":  "AlexaComp Device Linking",
+    "HtmlPart":     "<style>body {background-color: linen;font-family: Arial, Helvetica, sans-serif;}h1 {text-align: center;}</style><body><h1>AlexaComp Device Linking</h1><p>This is an email from AlexaComp. If you did not start device linking, just ignore this link.<br/>If you did start device linking, please click the link below.</p><a href=\"https://e2tp7gic95.execute-api.us-west-2.amazonaws.com/default/AlexaCompDeviceLinking/?deviceId={{DEVICEIDHERE}}&x-api-key={{APIKEY}}&alexacomp-api-key={{ALEXACOMPKEY}}\">Link Devices</a><br/><br/><p>AlexaComp is an open-source skill. You can find the GitHub =><a href=\"https://github.com/akmadian/AlexaComp\">here.</a></p><body>"
+  }
+}

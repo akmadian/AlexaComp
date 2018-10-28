@@ -6,9 +6,30 @@ console.log('--START--')
 const Alexa = require('alexa-sdk');
 const config = require('./config.json');
 const Functions = require('./Functions.js');
+const crypto = require('crypto');
 console.log('Required Modules Imported')
 
-Functions.sendEmail('', 'test123', 'test456')
+function encrypt(text){
+  var cipher = crypto.createCipher('aes-256-cbc',config.ENCRYPTION.KEY)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+
+function hashPass(pass){
+    var salt = crypto.randomBytes(128).toString('base64');
+    var iterations = 10000;
+    console.log(salt)
+    var hash = crypto.pbkdf2('test', salt, iterations, 512, 'sha512',function(err, derivedKey){
+        if (err) throw err;
+        console.log(salt)
+        console.log("\n")
+        console.log(derivedKey.toString('hex'))
+    });
+
+    console.log(salt)
+}
+// Functions.sendEmail('', 'test123', 'test456')
 
 
 // Functions.readFromS3("", {'initialize': true});
@@ -96,7 +117,7 @@ const handlers = {
         var deviceID = this.event.context.System.device.deviceId;
         var userID = this.event.session.user.userId;
 
-        Functions.sendEmail('akmadian@gmail.com', deviceID, userID)
+        Functions.sendEmail('akmadian@gmail.com', encrypt(deviceID), encrypt(userID));
     },
 
     'LaunchRequest' : function(){

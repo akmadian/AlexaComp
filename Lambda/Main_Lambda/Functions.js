@@ -85,7 +85,7 @@ module.exports = {
     'sendEmail': function sendEmail(toAddr, deviceID, userID){
         console.log('Sending email to user - ' + deviceID + ' - ' + userID)
         var eParams = {}
-        var paramString = require('util').format('{\"DEVICEIDHERE\":\"%s\", \"USERIDHERE\": \"%s\", \"APIKEY\":\"%s\"}', deviceID, userID, config.SES.APIKEY)
+        var paramString = require('util').format('{\"DEVICEIDHERE\":\"%s\", \"APIKEY\": \"%s\", \"ALEXACOMPKEY\":\"%s\"}', deviceID, config.SES.APIKEY, encrypt(config.ENCRYPTION.APIPASS))
 
         fs.readFile('Device_Linking_Email_email.html', 'utf8', function(err, data_){
           console.log('in read html')
@@ -93,7 +93,7 @@ module.exports = {
               Destination: {
                 ToAddresses: ["akmadian@gmail.com"]
               },
-              Template: "DeviceLinkingTemplatev3",
+              Template: "DeviceLinkingTemplatev4",
               ConfigurationSetName: "AlexaCompSES",
               Source: "alexacompdevicelinking@gmail.com",
               TemplateData: paramString
