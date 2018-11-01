@@ -62,7 +62,7 @@ namespace AlexaComp {
             } catch (InvalidOperationException) {
 
             }
-            Thread.Sleep(wait);
+            // Thread.Sleep(wait);
         }
 
         private void closeSplashScreen() {

@@ -71,6 +71,7 @@ namespace AlexaComp{
                 } else {
                     AlexaComp._log.Info("Auth Valid");
                     Console.WriteLine("Auth Valid");
+                    /*
                     if (req.COMMAND == "DEVICELINK") {
                         Console.WriteLine("Devicelinkrequest");
                         Options opt = new Options(req, nwStream);
@@ -79,7 +80,7 @@ namespace AlexaComp{
                         Thread.Sleep(8000);
                     } else {
                         Console.WriteLine("not devicelink");
-                    }
+                    }*/
 
                     AlexaCompREQUEST.processRequest(req);
                     stopServer();
