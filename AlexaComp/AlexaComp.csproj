@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B8379353-325F-4858-9E4A-0E9FD4357872}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>AlexaComp</RootNamespace>
     <AssemblyName>AlexaComp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -128,23 +128,17 @@
     <Compile Include="AlexaCompREQUEST.cs" />
     <Compile Include="AlexaCompHARDWARE.cs" />
     <Compile Include="AlexaCompTESTS.cs" />
-    <Compile Include="DeviceLinkingForm.cs">
+    <Compile Include="ConsoleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeviceLinkingForm.Designer.cs">
-      <DependentUpon>DeviceLinkingForm.cs</DependentUpon>
+    <Compile Include="ConsoleForm.Designer.cs">
+      <DependentUpon>ConsoleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadingScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoadingScreenForm.Designer.cs">
       <DependentUpon>LoadingScreenForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ProgramListForm.cs">
       <SubType>Form</SubType>
@@ -156,17 +150,14 @@
     <EmbeddedResource Include="AlexaCompGUI.resx">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeviceLinkingForm.resx">
-      <DependentUpon>DeviceLinkingForm.cs</DependentUpon>
+    <EmbeddedResource Include="ConsoleForm.resx">
+      <DependentUpon>ConsoleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadingScreenForm.resx">
       <DependentUpon>LoadingScreenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgramListForm.resx">
       <DependentUpon>ProgramListForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SettingsForm.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

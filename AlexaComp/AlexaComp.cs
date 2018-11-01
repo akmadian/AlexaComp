@@ -44,9 +44,17 @@ namespace AlexaComp {
             _log.Info("Start Program");
 
             foreach (string arg in args) {
-                if ("--LogSensors".Contains(arg)) {
+                if ("-LogSensors".Contains(arg)) {
                     Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
                     LogSensorsThread.Start(false);
+                } 
+                if ("-GetPrograms".Contains(arg)) {
+
+                }
+                if ("-AddProgram".Contains(arg)) {
+                    if ("--AddProgramLiteral".Contains(arg)) {
+
+                    }
                 }
             }
             getExternalIP();
@@ -74,9 +82,11 @@ namespace AlexaComp {
 
         public static void getExternalIP() {
             string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
-            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b");
+            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
             if (match.Success) {
                 _log.Info("extip - " + match);
+            } else {
+                _log.Error("IP Regex Match Unsuccessful.");
             }
         }
 

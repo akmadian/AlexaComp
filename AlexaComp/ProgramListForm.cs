@@ -91,34 +91,49 @@ namespace AlexaComp
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load("pathDir.xml");
             string programName = programNameTextBox.Text;
             string programPath = programPathTextBox.Text;
-            programNameTextBox.Clear();
-            programPathTextBox.Clear();
 
-            programName = programName.Replace(" ", string.Empty).ToUpper();
+            if (string.IsNullOrEmpty(programName) && string.IsNullOrEmpty(programPath)) { // If both are empty.
+                errorLabel.Text = "Please specify a program name and path.";
+            } else if (string.IsNullOrEmpty(programPath)) { // If only path is empty.
+                errorLabel.Text = "Please specify a program path.";
+            } else if (string.IsNullOrEmpty(programName)) { // If only name is empty.
+                errorLabel.Text = "Please specify a program name.";
+            } else { // If both name and path are filled.
+                XmlDocument doc = new XmlDocument();
+                doc.Load("pathDir.xml");
 
-            string log = "{Name: " + programName + ", Path: " + programPath + "}";
-            AlexaComp._log.Info("Add Program - " + log);
+                programNameTextBox.Clear();
+                programPathTextBox.Clear();
 
-            XmlDocumentFragment frag = doc.CreateDocumentFragment();
-            frag.InnerXml = "<path programName=\"" + programName +
-                            "\" programPath=\"" + programPath + "\"/>";
+                programName = programName.Replace(" ", string.Empty).ToUpper(); // Format string
 
-            AlexaComp._log.Info("Add new program - " + frag.InnerXml);
-            doc.DocumentElement.AppendChild(frag);
-            doc.Save(AlexaComp.pathToDebug + "\\pathDir.xml");
-            doc.Save(AlexaComp.pathToProject + "\\pathDir.xml");
-            AlexaComp._log.Info("pathDir appended");
+                string log = "{Name: " + programName + ", Path: " + programPath + "}";
+                AlexaComp._log.Info("Add Program - " + log);
 
-            dataListView_Load();
+                XmlDocumentFragment frag = doc.CreateDocumentFragment();
+                frag.InnerXml = "<path programName=\"" + programName +
+                                "\" programPath=\"" + programPath + "\"/>";
 
+                AlexaComp._log.Info("Add new program - " + frag.InnerXml);
+                doc.DocumentElement.AppendChild(frag);
+                doc.Save(AlexaComp.pathToDebug + "\\pathDir.xml");
+                doc.Save(AlexaComp.pathToProject + "\\pathDir.xml");
+                AlexaComp._log.Info("pathDir appended");
+
+                dataListView_Load(); // Reset program list
+
+                errorLabel.Text = "";
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e) {
 
         }
     }
