@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlexaCompGUI));
-            this.EditConfigButton = new System.Windows.Forms.Button();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.editProgramListButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -39,20 +38,9 @@
             this.openLogFileButton = new System.Windows.Forms.Button();
             this.LogAllSensorsButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.startDeviceLinkButton = new System.Windows.Forms.Button();
+            this.runOnStartupCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // EditConfigButton
-            // 
-            this.EditConfigButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.EditConfigButton.Location = new System.Drawing.Point(209, 46);
-            this.EditConfigButton.Name = "EditConfigButton";
-            this.EditConfigButton.Size = new System.Drawing.Size(173, 25);
-            this.EditConfigButton.TabIndex = 10;
-            this.EditConfigButton.Text = "Edit Config";
-            this.EditConfigButton.UseVisualStyleBackColor = true;
-            this.EditConfigButton.Click += new System.EventHandler(this.EditConfigButton_Click);
             // 
             // notifyIcon
             // 
@@ -133,16 +121,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // startDeviceLinkButton
+            // runOnStartupCheck
             // 
-            this.startDeviceLinkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.startDeviceLinkButton.Location = new System.Drawing.Point(209, 170);
-            this.startDeviceLinkButton.Name = "startDeviceLinkButton";
-            this.startDeviceLinkButton.Size = new System.Drawing.Size(173, 25);
-            this.startDeviceLinkButton.TabIndex = 18;
-            this.startDeviceLinkButton.Text = "Start Device Linking";
-            this.startDeviceLinkButton.UseVisualStyleBackColor = true;
-            this.startDeviceLinkButton.Click += new System.EventHandler(this.startDeviceLinkButton_Click);
+            this.runOnStartupCheck.AutoSize = true;
+            this.runOnStartupCheck.Location = new System.Drawing.Point(12, 279);
+            this.runOnStartupCheck.Name = "runOnStartupCheck";
+            this.runOnStartupCheck.Size = new System.Drawing.Size(156, 17);
+            this.runOnStartupCheck.TabIndex = 15;
+            this.runOnStartupCheck.Text = "Run AlexaComp On Startup";
+            this.runOnStartupCheck.UseVisualStyleBackColor = true;
             // 
             // AlexaCompGUI
             // 
@@ -150,19 +137,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(404, 419);
-            this.Controls.Add(this.startDeviceLinkButton);
+            this.Controls.Add(this.runOnStartupCheck);
             this.Controls.Add(this.LogAllSensorsButton);
             this.Controls.Add(this.openLogFileButton);
             this.Controls.Add(this.RepoLink);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.editProgramListButton);
-            this.Controls.Add(this.EditConfigButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(420, 458);
             this.Name = "AlexaCompGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AlexaComp Configuration";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AlexaCompGUI_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -170,7 +158,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button EditConfigButton;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.Button editProgramListButton;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -179,7 +166,7 @@
         private System.Windows.Forms.Button openLogFileButton;
         private System.Windows.Forms.Button LogAllSensorsButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button startDeviceLinkButton;
+        private System.Windows.Forms.CheckBox runOnStartupCheck;
     }
 }
 

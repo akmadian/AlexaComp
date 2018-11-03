@@ -20,12 +20,13 @@ namespace AlexaComp{
         }
 
         // Control Callbacks
+        /*
         private void EditConfigButton_Click(object sender, EventArgs e) {
             AlexaComp._log.Info("EditConfigButton Clicked");
             Thread startConfigFormThread = new Thread(startConfigForm);
             startConfigFormThread.Name = "startConfigFormThread";
             startConfigFormThread.Start();
-        }
+        }*/
 
         private void editProgramListButton_Click(object sender, EventArgs e) {
             AlexaComp._log.Info("EditProgramListButton Clicked");
@@ -55,11 +56,12 @@ namespace AlexaComp{
             System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\AlexaCompLOG.log");
         }
 
+        /*
         private void startConfigForm() {
             AlexaComp._log.Info("StartConfigFormThread Started");
             SettingsForm SettingsForm = new SettingsForm();
             SettingsForm.ShowDialog();
-        }
+        }*/
 
         private void startProgramListForm() {
             AlexaComp._log.Info("StartProgramListFormThread Started");
@@ -89,10 +91,37 @@ namespace AlexaComp{
             }
         }
 
+        /*
         private void startDeviceLinkButton_Click(object sender, EventArgs e) {
             Thread DeviceLinkingThread = new Thread(DeviceLinkingForm.startDeviceLinking);
             DeviceLinkingThread.Start();
+        }*/
+
+        private void AlexaCompGUI_KeyPress(object sender, KeyPressEventArgs e) {
+            Console.WriteLine("Keypress detected");
+            Console.WriteLine(e.KeyChar);
+            Console.WriteLine(e.KeyChar.ToString());
+            switch (e.KeyChar.ToString()) {
+                case "`":
+                    Thread ConsoleWindowThread = new Thread(ConsoleForm.StartConsoleWindow);
+                    ConsoleWindowThread.Name = "ConsoleWindowThread";
+                    ConsoleWindowThread.Start();
+                    break;
+    }
         }
+
+        /* 
+        private void runOnStartCheck_CheckedChanged(object sender, EventArgs e) {
+            RegistryKey regKey = Registry.CurrentUser.OpenSubKey
+                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (runOnStartCheck.Checked) {
+                regKey.SetValue("AlexaComp", AlexaComp.pathToDebug + "\\AlexaComp.exe");
+            }
+            else {
+                regKey.DeleteValue("AlexaComp", false);
+            }
+        }*/
 
         private void label1_Click(object sender, EventArgs e) { }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
