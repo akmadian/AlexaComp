@@ -40,6 +40,7 @@ AlexaComp/pathDir.xml
 AlexaComp/AlexaCompTESTS.cs
 AlexaComp/SavedMethods.cs
 Deprecated/
+*packages/
 *node_modules/
 *config.json
 Docs/
