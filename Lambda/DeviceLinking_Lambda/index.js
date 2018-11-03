@@ -85,6 +85,7 @@ exports.handler = (event) => {
             body: event
         };
         console.log('Response Defined')
+        return response;
     }
     console.timeEnd('Body');
     return event;
