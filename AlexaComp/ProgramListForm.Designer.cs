@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.programNameTextBox = new System.Windows.Forms.TextBox();
             this.dataListView = new System.Windows.Forms.ListView();
+            this.errorLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // programPathTextBox
@@ -91,11 +92,23 @@
             this.dataListView.TabIndex = 7;
             this.dataListView.UseCompatibleStateImageBehavior = false;
             // 
-            // Form1
+            // errorLabel
+            // 
+            this.errorLabel.AutoSize = true;
+            this.errorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.errorLabel.ForeColor = System.Drawing.Color.Red;
+            this.errorLabel.Location = new System.Drawing.Point(27, 373);
+            this.errorLabel.Name = "errorLabel";
+            this.errorLabel.Size = new System.Drawing.Size(0, 18);
+            this.errorLabel.TabIndex = 8;
+            this.errorLabel.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // ProgramListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 407);
+            this.Controls.Add(this.errorLabel);
             this.Controls.Add(this.dataListView);
             this.Controls.Add(this.programNameTextBox);
             this.Controls.Add(this.programPathTextBox);
@@ -105,7 +118,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(682, 446);
             this.MinimumSize = new System.Drawing.Size(682, 446);
-            this.Name = "Form1";
+            this.Name = "ProgramListForm";
             this.Text = "AlexaComp Program List Editor";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -120,5 +133,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox programNameTextBox;
         private System.Windows.Forms.ListView dataListView;
+        private System.Windows.Forms.Label errorLabel;
     }
 }

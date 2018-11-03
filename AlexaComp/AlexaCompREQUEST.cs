@@ -129,8 +129,7 @@ namespace AlexaComp {
         }
 
         public void printRequest() {
-            string str = "New Request - {Command: " + this.COMMAND + ", Primary: " + this.PRIMARY +
-                          ", Secondary: " + this.SECONDARY + ", Tertiary: " + this.TERTIARY + "}";
+            string str = string.Format("New Request - {{Command: {0}, Primary: {1}, Secondary: {2}, Tertiary: {3}}}", COMMAND, PRIMARY, SECONDARY, TERTIARY);
             Console.WriteLine(str);
         }
     }

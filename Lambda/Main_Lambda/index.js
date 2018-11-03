@@ -8,12 +8,6 @@ const config = require('./config.json');
 const Functions = require('./Functions.js');
 console.log('Required Modules Imported')
 
-Functions.sendEmail('', 'test123', 'test456')
-
-
-// Functions.readFromS3("", {'initialize': true});
-// console.log(Functions.IPMap);
-
 const SKILL_NAME = 'AlexaComp';
 const STOP_MESSAGE = 'Goodbye!';
 const HELP_MESSAGE = 'You can ask me to launch a program, tell your computer to ' +
@@ -21,18 +15,7 @@ const HELP_MESSAGE = 'You can ask me to launch a program, tell your computer to 
 
 // Responses
 const responsesSuccessful = ['Done!', 'Sent!', 'The request has been sent.'];
-const responsesFailed = ['Sorry, that didn\'t work.', 'Something went wrong.', 'I wasn\t able to complete that request.'];
-
-
-function makeId() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-  for (var i = 0; i < 4; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
+const responsesFailed = ['Sorry, that didn\'t work.', 'Something went wrong.', 'I wasn\'t able to complete that request.'];
 
 function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
     const auth_key = require('./config.json').SOCKET.AUTH;
