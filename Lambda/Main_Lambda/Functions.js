@@ -6,6 +6,8 @@ const config = require('./config.json');
 const net = require('net');
 const nodemailer = require('nodemailer');
 const replace = require('replace');
+const crypto = require('crypto');
+
 const fs = require('fs');
 
 const aws = require('aws-sdk');
@@ -28,6 +30,13 @@ var IPExists = false;
 
 function convertToJson(stringtoconv){
     return JSON.parse(stringtoconv);
+}
+
+function encrypt(text){
+  var cipher = crypto.createCipher('aes-256-cbc',config.ENCRYPTION.KEY)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
 }
 
 
@@ -93,7 +102,7 @@ module.exports = {
               Destination: {
                 ToAddresses: ["akmadian@gmail.com"]
               },
-              Template: "DeviceLinkingTemplatev4",
+              Template: "DeviceLinkingTemplatev6",
               ConfigurationSetName: "AlexaCompSES",
               Source: "alexacompdevicelinking@gmail.com",
               TemplateData: paramString
