@@ -12,9 +12,12 @@ using System.Xml.XPath;
 using log4net;
 using log4net.Config;
 
-// TODO: Implement MQTT for server response
-// TODO: Experiment with HTTP responses instead of MQTT
 // TODO: Documentation
+/** Documentation format
+     * Description
+     * @param <paramname> <description>
+     * @return <returns>
+     */
 
 namespace AlexaComp {
     public class AlexaComp {
