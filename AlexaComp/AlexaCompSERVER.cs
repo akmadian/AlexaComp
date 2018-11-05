@@ -20,6 +20,8 @@ namespace AlexaComp{
         private static int PORT = int.Parse(AlexaComp.GetConfigValue("PORT"));
         private static INatDevice device;
 
+
+        // COMMUNICATION TO AND FROM LAMBDAS
         public static void startServer() {
             AlexaComp._log.Info("Server Thread Started");
             AlexaComp._log.Info("Active Threads - " + Process.GetCurrentProcess().Threads.Count.ToString());
@@ -92,6 +94,11 @@ namespace AlexaComp{
             }
         }
 
+        /*
+        * Description
+        * @param json - The json string to send back to the lambda instance, usually sent from a request object.
+        * @param customStream - If defined, sends the response over a provided network stream instead of the most current stream.
+        */
         public static void sendToLambda(string json, NetworkStream customStream) {
             AlexaComp._log.Info("Sending Back to Lambda - " + json);
             Console.WriteLine("Sending Back to Lambda - " + json);
@@ -104,23 +111,42 @@ namespace AlexaComp{
             }
         }
 
-        // Port Forwarding
+        // PORT FORWARDING
+        /*
+        * Start the device discovery process
+        */
+        public static void forwardPort() {
+            NatUtility.DeviceFound += new EventHandler<DeviceEventArgs>(onDeviceFound);
+            NatUtility.DeviceLost += new EventHandler<DeviceEventArgs>(onDeviceLost);
+            AlexaComp._log.Info("Starting Port Forwarding Device Discovery");
+            NatUtility.StartDiscovery();
+        }
+
+        /*
+        * When device is found, forward the port set up in App.config.
+        */
         public static void onDeviceFound(object sender, DeviceEventArgs args) {
             Console.WriteLine("Port Forwarding Device Found");
             device = args.Device;
             device.CreatePortMap(new Mapping(Protocol.Tcp, PORT, PORT)); // Forward Port
             AlexaComp._log.Info("Port - " + PORT.ToString() + " - Forwarded Successfully");
 
-            foreach (Mapping portMap in device.GetAllMappings()) {
+            foreach (Mapping portMap in device.GetAllMappings()) { // Log all portmaps
                 AlexaComp._log.Info("Port Map - " + portMap.ToString());
             }
         }
 
+        /*
+        * Do when device is lost.
+        */
         public static void onDeviceLost(object sender, DeviceEventArgs args) {
             device = args.Device;
             AlexaComp._log.Info("Forwarding Device Lost");
         }
 
+        /*
+        * Deletes all port maps.
+        */
         public static void delPortMap() {
             try {
                 device.DeletePortMap(new Mapping(Protocol.Tcp, PORT, PORT));
@@ -129,14 +155,10 @@ namespace AlexaComp{
             }
         }
 
-        public static void forwardPort() {
-            NatUtility.DeviceFound += new EventHandler<DeviceEventArgs>(onDeviceFound);
-            NatUtility.DeviceLost += new EventHandler<DeviceEventArgs>(onDeviceLost);
-            NatUtility.StartDiscovery();
-            AlexaComp._log.Info("Starting Port Forwarding Device Discovery");
-        }
-
-        // Server Management
+        // SERVER MANAGEMENT
+        /*
+        * Stops the currently running server.
+        */
         public static void stopServer(){
             AlexaComp._log.Info("Stopping Server");
             try{
@@ -154,6 +176,9 @@ namespace AlexaComp{
             }
         }
 
+        /*
+        * Checks to see if the server is stopped, if true, restarts it.
+        */
         public static void ServerLoop(){
             if (AlexaComp.stopProgramFlag == false) {
                 while (true){

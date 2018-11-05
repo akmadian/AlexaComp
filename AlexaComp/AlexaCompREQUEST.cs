@@ -31,8 +31,9 @@ namespace AlexaComp {
             if (req.PRIMARY == "SHUTDOWN") {
                 AlexaCompSERVER.stopServer();
                 Process.Start("shutdown", "/s /t .5");
-            }
+            } 
 
+            // For starting a
             try {
                 string programPath = GetProgramPath(req.PRIMARY);
                 AlexaComp._log.Info("ProgramPath - " + programPath);
@@ -60,15 +61,20 @@ namespace AlexaComp {
         }
 
         static void commandRequest(Request req) {
-            if (req.PRIMARY == "SHUTDOWN") {
-                AlexaCompSERVER.stopServer();
-                Process.Start("shutdown", "/s /t .5");
-            }
-            else if (req.PRIMARY == "RESTART") {
-                Process.Start("shutdown", "/r /t 0");
-            }
-            else if (req.PRIMARY == "SLEEP") {
-                // Sleep Code Here
+            switch (req.PRIMARY) {
+                case "SHUTDOWN":
+                    AlexaCompSERVER.stopServer();
+                    Process.Start("shutdown", "/s /t .5");
+                    break;
+                case "LOCK":
+                    // Lock computer
+                    break;
+                case "RESTART":
+                    // Restart Computer
+                    break;
+                case "SLEEP":
+                    // Make Computer Sleep
+                    break;
             }
         }
 

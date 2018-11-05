@@ -14,10 +14,11 @@ using log4net.Config;
 
 // TODO: Documentation
 /** Documentation format
-     * Description
-     * @param <paramname> <description>
-     * @return <returns>
-     */
+* Description
+* @param <paramname> <description>
+* @return <returns>
+* @throws <throws>
+*/
 
 namespace AlexaComp {
     public class AlexaComp {
@@ -46,6 +47,7 @@ namespace AlexaComp {
             XmlConfigurator.Configure();
             _log.Info("Start Program");
 
+            // Parse cli args
             foreach (string arg in args) {
                 if ("-LogSensors".Contains(arg)) {
                     Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
@@ -60,29 +62,34 @@ namespace AlexaComp {
                     }
                 }
             }
-            getExternalIP();
-            ServerThread.Name = "ServerThread";
-            ServerLoopThread.Name = "ServerLoopThread";
-            AppWindowThread.Name = "AppWindowThread";
-
-            LoadingScreenThread.Start();
 
             // Log Paths
             _log.Info(exePath.ToString());
             _log.Info("PathToDebug - " + pathToDebug);
             _log.Info("PathToProject - " + pathToProject);
-            
+
+            getExternalIP();
+
+            // Define Thread Names
+            ServerThread.Name = "ServerThread";
+            ServerLoopThread.Name = "ServerLoopThread";
+            AppWindowThread.Name = "AppWindowThread";
+
+            LoadingScreenThread.Start();
         }
 
-        /// <summary>
-        /// Reads all user configured values into a dictionary.
-        /// </summary>
+        /*
+        * Reads all user configured values into the settingsDict.
+        */
         public static void readConfig(){
             foreach (string key in ConfigurationManager.AppSettings.AllKeys){
                 settingsDict[key] = GetConfigValue(key);
             }
         }
 
+        /*
+        * Gets the user's public IP address.
+        */
         public static void getExternalIP() {
             string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
             Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
@@ -92,10 +99,10 @@ namespace AlexaComp {
                 _log.Error("IP Regex Match Unsuccessful.");
             }
         }
-
-        /// <summary>
-        /// Verifies that the necessary config values are entered and correctly formatted.
-        /// </summary>
+        
+        /*
+        * Verifies that the necessary config values are entered and correctly formatted.
+        */
         public static void verifyConfig() {
             foreach (KeyValuePair<string, string> pair in settingsDict){
                 Console.WriteLine("pair: '" + pair.Key + "' - " + pair.Value);
@@ -111,20 +118,19 @@ namespace AlexaComp {
             }
         }
         
-        /// <summary>
-        /// Gets a config value.
-        /// </summary>
-        /// <param name="key">The name or key of the config value to get.</param>
-        /// <returns></returns>
+        /*
+        * Gets a specified config value
+        * @ param key - The name or key of the config value to get.
+        */
         public static string GetConfigValue(string key) {
             return ConfigurationManager.AppSettings[key];
         }
-
-        /// <summary>
-        /// Updates a config value of name {key} with value {value}.
-        /// </summary>
-        /// <param name="key">The name of the config value to update.</param>
-        /// <param name="value">The value to update to</param>
+        
+        /*
+        * Updates a config value of name {key} with value {value}.
+        * @ param key - The name of the config value to update.
+        * @ param value - The value to update to.
+        */
         public static void UpdateConfigValue(string key, string value){
             Console.WriteLine(key + " - " + value);
             ExeConfigurationFileMap debugMap = new ExeConfigurationFileMap { ExeConfigFilename = pathToDebug + "\\AlexaComp.exe.config" };
@@ -141,6 +147,9 @@ namespace AlexaComp {
             ConfigurationManager.RefreshSection("appSettings");
         }
 
+        /*
+        * Inventories all user installed programs.
+        */
         public static void inventoryPrograms() {
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key)) {

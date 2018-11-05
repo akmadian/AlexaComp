@@ -21,18 +21,48 @@ namespace AlexaComp{
 
         // Control Callbacks
         /*
-        private void EditConfigButton_Click(object sender, EventArgs e) {
-            AlexaComp._log.Info("EditConfigButton Clicked");
-            Thread startConfigFormThread = new Thread(startConfigForm);
-            startConfigFormThread.Name = "startConfigFormThread";
-            startConfigFormThread.Start();
-        }*/
-
+        * Starts the ProgramList Form
+        */
         private void editProgramListButton_Click(object sender, EventArgs e) {
             AlexaComp._log.Info("EditProgramListButton Clicked");
             startProgramListForm();
         }
 
+        /*
+        * If repo link clicked, start a new browser window and go to the repo page.
+        */
+        private void RepoLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            System.Diagnostics.Process.Start("https://github.com/akmadian/AlexaComp");
+        }
+
+        /*
+        * Logs all discoverable hardware sensors and opens the resulting log.
+        */
+        private void LogAllSensorsButton_Click(object sender, EventArgs e) {
+            Thread logSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
+            logSensorsThread.Name = "logSensorsThread";
+            logSensorsThread.Start(true);
+        }
+
+        /*
+        * Opens the AlexaComp log file.
+        */
+        private void openLogFileButton_Click(object sender, EventArgs e) {
+            AlexaComp._log.Info("OpenLogFileButtonClicked");
+            System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\AlexaCompLOG.log");
+        }
+
+        private void startProgramListForm() {
+            AlexaComp._log.Info("StartProgramListFormThread Started");
+            ProgramListForm ProgramListForm = new ProgramListForm();
+            ProgramListForm.ShowDialog();
+        }
+
+
+        // Application Winodow Event Handlers
+        /*
+        * When notify icon is double clicked, show app.
+        */
         private void notifyIcon_DoubleClick(object sender, EventArgs e) {
             AlexaComp._log.Info("Restore Clicks Detected");
             Show();
@@ -41,35 +71,9 @@ namespace AlexaComp{
             this.ShowInTaskbar = true;
         }
 
-        private void RepoLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start("https://github.com/akmadian/AlexaComp");
-        }
-
-        private void LogAllSensorsButton_Click(object sender, EventArgs e) {
-            Thread logSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
-            logSensorsThread.Name = "logSensorsThread";
-            logSensorsThread.Start(true);
-        }
-
-        private void openLogFileButton_Click(object sender, EventArgs e) {
-            AlexaComp._log.Info("OpenLogFileButtonClicked");
-            System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\AlexaCompLOG.log");
-        }
-
         /*
-        private void startConfigForm() {
-            AlexaComp._log.Info("StartConfigFormThread Started");
-            SettingsForm SettingsForm = new SettingsForm();
-            SettingsForm.ShowDialog();
-        }*/
-
-        private void startProgramListForm() {
-            AlexaComp._log.Info("StartProgramListFormThread Started");
-            ProgramListForm ProgramListForm = new ProgramListForm();
-            ProgramListForm.ShowDialog();
-        }
-
-        // Application Winodow Event Handlers
+        * Handler for X button click.
+        */
         protected override void OnFormClosing(FormClosingEventArgs e) {
             base.OnFormClosing(e);
             AlexaComp._log.Info("CLOSING PROGRAM");
@@ -81,6 +85,9 @@ namespace AlexaComp{
             Environment.Exit(1);
         }
 
+        /*
+        * Handler for minimize button click.
+        */
         protected override void OnResize(EventArgs e) {
             base.OnResize(e);
             if (this.WindowState == FormWindowState.Minimized) {
@@ -92,11 +99,8 @@ namespace AlexaComp{
         }
 
         /*
-        private void startDeviceLinkButton_Click(object sender, EventArgs e) {
-            Thread DeviceLinkingThread = new Thread(DeviceLinkingForm.startDeviceLinking);
-            DeviceLinkingThread.Start();
-        }*/
-
+        * Waits for ` press, then opens console.
+        */
         private void AlexaCompGUI_KeyPress(object sender, KeyPressEventArgs e) {
             Console.WriteLine("Keypress detected");
             Console.WriteLine(e.KeyChar);
@@ -110,6 +114,7 @@ namespace AlexaComp{
     }
         }
 
+        // Copied from settings form, will adapt soon.
         /* 
         private void runOnStartCheck_CheckedChanged(object sender, EventArgs e) {
             RegistryKey regKey = Registry.CurrentUser.OpenSubKey
