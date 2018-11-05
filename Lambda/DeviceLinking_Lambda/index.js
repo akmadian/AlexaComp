@@ -16,6 +16,32 @@ function decrypt(text){
     return dec;
 }
 
+function pushToMDB(deviceID, userIP){
+    console.time('MDB-Write');
+    console.log('In MDB Write');
+    MongoClient.connect(URI_CONN_STRING, {useNewUrlParser: true}, function(err, client) {
+        console.log('In MDB Connect.');
+        if (err){
+            console.log(err);
+        } else {
+            console.log('No error during connection to MongoDB.')
+        }
+        const collection = client.db('IPTable').collection("IPTable");
+        var document = {deviceID:deviceId, userIP:userIp};
+        collection.insert(document, {w: 1}, function(err, records){
+            console.log('In MDB Insert.');
+            if (err){
+                console.log(err);
+            } else {
+                console.log('No error during write to MongoDB.');
+            }
+        });
+        console.log("Connected and wrote to MongoDB successfully.");
+        client.close();
+    });
+    console.timeEnd('MDB-Write');
+}
+
 exports.handler = (event) => {
     console.time('GetParams');
     const queryParams = event['queryStringParameters'];
@@ -47,28 +73,7 @@ exports.handler = (event) => {
     } else if (key == config.APIPASS){
         console.log('Auth key good')
 
-        console.time('MDB-Write');
-        MongoClient.connect(URI_CONN_STRING, {useNewUrlParser: true}, function(err, client) {
-            console.log('In MDB Connect.')
-            if (err){
-                console.log(err);
-            } else {
-                console.log('No error during connection to MongoDB.')
-            }
-            const collection = client.db('IPTable').collection("IPTable");
-            var document = {deviceID:deviceId, userIP:userIp};
-            collection.insert(document, {w: 1}, function(err, records){
-                console.log('In MDB Insert.');
-                if (err){
-                    console.log(err);
-                } else {
-                    console.log('No error during write to MongoDB.');
-                }
-            });
-            console.log("Connected and wrote to MongoDB successfully.");
-            client.close();
-        });
-        console.timeEnd('MDB-Write');
+        pushToMDB(deviceId, userIp);
 
         var htmlv2 ="<h1>AlexaComp Device Linking</h1>\
                     <p>Your devices have been linked! You may now close this tab.</p>\
