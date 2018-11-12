@@ -36,7 +36,8 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, options);
+        // Get IP pair from MDB
+        // Send Req
     },
 
     'GetComputerStatIntent': function () {
@@ -44,7 +45,6 @@ const handlers = {
         var part = this.event.request.intent.slots.Part.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var stat = this.event.request.intent.slots.Stat.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
-        Functions.readFromS3(deviceID);
 
         var j = makeJson("GETCOMPSTAT", part, stat);
         if (stat.includes('CLOCK')){
@@ -56,14 +56,14 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, params);
+        // Get IP pair from MDB
+        // Send req
     },
 
     'ComputerCommandIntent': function(){
         console.log('Command Intent')
         var command = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
-        Functions.readFromS3(deviceID);
 
         var j = makeJson("COMPUTERCOMMAND", command);
         var params = {
@@ -72,7 +72,8 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, params);
+        // Get IP pair from MDB
+        // Send req
     },
 
     'DeviceLinkingIntent': function(){

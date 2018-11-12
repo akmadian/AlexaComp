@@ -5,6 +5,7 @@
 const config = require('./config.json');
 const net = require('net');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 const fs = require('fs');
 
 const aws = require('aws-sdk');
@@ -13,6 +14,13 @@ const APP_ID = config.ASK.APP_ID;
 
 function convertToJson(stringtoconv){
     return JSON.parse(stringtoconv);
+}
+
+function encrypt(text){
+    var cipher = crypto.createCipher('aes-256-cbc',config.ENCRYPTION.KEY)
+    var crypted = cipher.update(text,'utf8','hex')
+    crypted += cipher.final('hex');
+    return crypted;
 }
 
 function SendJson(ip, params){
@@ -52,7 +60,7 @@ module.exports = {
 
         console.log('Sending email to user - ' + deviceID + ' - ' + userID)
         var eParams = {}
-        var paramString = require('util').format('{\"DEVICEIDHERE\":\"%s\", \"USERIDHERE\": \"%s\", \"APIKEY\":\"%s\"}', deviceID, userID, config.SES.APIKEY);
+        var paramString = require('util').format('{\"DEVICEIDHERE\":\"%s\", \"ALEXACOMPKEY\": \"%s\", \"APIKEY\":\"%s\"}', encrypt(deviceID), encrypt(config.ENCRYPTION.APIPASS), config.SES.APIKEY);
 
         fs.readFile('Device_Linking_Email_email.html', 'utf8', function(err, data_){
           console.log('in read html')
@@ -60,7 +68,7 @@ module.exports = {
               Destination: {
                 ToAddresses: ["akmadian@gmail.com"]
               },
-              Template: "DeviceLinkingTemplatev3",
+              Template: "DeviceLinkingTemplatev9_1_1",
               ConfigurationSetName: "AlexaCompSES",
               Source: "alexacompdevicelinking@gmail.com",
               TemplateData: paramString
