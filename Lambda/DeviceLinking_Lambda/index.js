@@ -1,8 +1,10 @@
-var crypto = require('crypto');
-var config = require('./config.json');
+const crypto = require('crypto');
+const config = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
 
 const URI_CONN_STRING = config.MONGODB.URI;
+const sessID = makeSessionId();
+console.log(sessID);
 
 function decrypt(text){
     console.time('Decrypt');
@@ -16,82 +18,121 @@ function decrypt(text){
     return dec;
 }
 
+function makeSessionId() {
+    var text = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 8; i++){
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
+}
+
+function responseString(message, err){
+    var response = "Device Linking Unsuccessful -- " + message +
+                   " Please contact the maker of AlexaComp about this at akmadian@gmail.com -- Session ID: " + sessID +
+                   " In your email, please provide the session ID and the following error message, otherwise we won't be able to resolve your issue."
+    if (err != undefined && err != null){
+        response += " ==Begin Error== " + err + "==End Error=="
+    }
+    return JSON.stringify(response);
+}
+
 function pushToMDB(deviceID, userIP){
-    console.time('MDB-Write');
-    console.log('In MDB Write');
-    MongoClient.connect(URI_CONN_STRING, {useNewUrlParser: true}, function(err, client) {
-        console.log('In MDB Connect.');
-        if (err){
-            console.log(err);
-        } else {
-            console.log('No error during connection to MongoDB.')
-        }
-        const collection = client.db('IPTable').collection("IPTable");
-        var document = {deviceID:deviceId, userIP:userIp};
-        collection.insert(document, {w: 1}, function(err, records){
-            console.log('In MDB Insert.');
+    return new Promise(function(resolve, reject){
+        console.time('MDB-Write');
+        console.log('In MDB Write');
+        MongoClient.connect(URI_CONN_STRING, {useNewUrlParser: true}, function(err, client) {
+            console.log('In MDB Connect.');
             if (err){
                 console.log(err);
             } else {
-                console.log('No error during write to MongoDB.');
+                console.log('No error during connection to MongoDB.')
             }
+            const collection = client.db('IPTable').collection("IPTable");
+            var document = {deviceID:deviceID, userIP:userIP, sessionID:sessID};
+            collection.insert(document, {w: 1}, function(err, records){
+                console.log('In MDB Insert.');
+                if (err){
+                    console.log(err);
+                } else {
+                    console.log('No error during write to MongoDB.');
+                }
+            });
+            console.log("Connected and wrote to MongoDB successfully.");
+            client.close();
+            console.timeEnd('MDB-Write');
+            resolve();
         });
-        console.log("Connected and wrote to MongoDB successfully.");
-        client.close();
     });
-    console.timeEnd('MDB-Write');
 }
 
-exports.handler = (event) => {
+exports.handler = async (event, context) => {
+    console.time('LogContext')
+    console.log("==BEGIN EVENT==")
+    console.log(event);
+    console.log("==END EVENT==")
+    console.log("==BEGIN CONTEXT==")
+    console.log(context);
+    console.log("==END CONTEXT==")
+    console.time('LogContext')
+
+    const response = {
+        statusCode: 500,
+        body: JSON.stringify("Default Body")
+    };
+
     console.time('GetParams');
-    const queryParams = event['queryStringParameters'];
-    const password = decrypt(queryParams['password']);
-    const deviceId = decrypt(queryParams['deviceId']);
-    const key = decrypt(queryParams['alexacomp-api-key']);
-    const userIp = event['requestContext']['identity']['sourceIp'];
+    var queryParams;
+    var deviceId;
+    var key;
+    var userIp;
+
+    try {
+        queryParams = event['queryStringParameters'];
+    } catch (err) {
+        console.log("Error occurred when defining queryParams");
+        console.log(err);
+
+        response.body = responseString("Event or queryParams undefined.", err);
+        context.succeed(response);
+    }
+    try {
+        deviceId = decrypt(queryParams['deviceId']);
+        key = decrypt(queryParams['alexacomp-api-key']);
+        userIp = event['requestContext']['identity']['sourceIp'];
+    } catch (err) {
+        console.log("Error occurred when defining param");
+        console.log(err);
+
+        response.body = responseString("Error occurred when defining queryParams", err);
+        context.succeed(response);
+    }
     console.timeEnd('GetParams');
 
     console.time('Body');
-    if (key == undefined){
+    if (key == undefined) {
         console.log("No Password Provided In Request");
-        const response = {
-            statusCode: 403,
-            body: "<p>No password provided in request. <br/>\
-                     Please contact the maker of AlexaComp at akmadian@gmail.com.</p>"
-        };
-        console.log('Response Defined')
-        return response;
+        response.statusCode = 403;
+        response.body = responseString("No auth key provided in request");
+
+        context.succeed(response);
     } else if (key != config.APIPASS){
         console.log("Invalid Password");
-        const response = {
-            statusCode: 403,
-            body: "<p>Invalid password provided in request. <br/>\
-                     Please contact the maker of AlexaComp at akmadian@gmail.com.</p>"
-        };
-        console.log('Response Defined')
-        return response;
+        response.statusCode = 403;
+        response.body = responseString("Invalid auth key provided in request.")
+
+        context.succeed(respnse);
     } else if (key == config.APIPASS){
         console.log('Auth key good')
 
-        pushToMDB(deviceId, userIp);
+        await pushToMDB(deviceId, userIp);
 
-        var htmlv2 ="<h1>AlexaComp Device Linking</h1>\
-                    <p>Your devices have been linked! You may now close this tab.</p>\
-                    <p>IP - '+ userIp + '</p>\
-                    <p>Device ID - ' + deviceId + '</p>\
-                    <p>User ID   - ' + 'n/a' + '</p><br/>\
-                    <p>CRYPTED</p><br/>\
-                    <p>Crypted DeviceId - ' + queryParams['deviceId'] + '</p>\
-                    <p>Crypted UserId   - ' + 'n/a' +'</p>'"
-        console.log('HTML Defined')
+        response.statusCode = 200;
+        response.body = JSON.stringify("Device Linking completed successfully. You can now close this tab. Session ID: " + sessID)
 
-        const response = {
-            statusCode: 200,
-            body: event
-        };
-        console.log('Response Defined')
-        return response;
+        context.succeed(response);
     }
     console.timeEnd('Body');
-    return event;
 };

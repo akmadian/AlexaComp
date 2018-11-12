@@ -8,7 +8,7 @@ from sys import argv
 
 def zipFiles():
     print('Zipping Files')
-    filesToZip = ['index.js', 'functions.js', 'package-lock.json', 'config.json']
+    filesToZip = ['index.js', 'package-lock.json', 'config.json']
     packageFile = zipfile.ZipFile("package.zip", "w")
 
     for root, dirs, files in os.walk("node_modules/"):
