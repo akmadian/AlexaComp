@@ -24,7 +24,7 @@ namespace AlexaComp {
     public class AlexaComp {
 
         // Paths
-        private static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+        public static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
         private static string[] splitExePath = exePath.Split('\\').ToArray();
         public static string pathToDebug = string.Join("\\\\", splitExePath.Reverse().Skip(1).Reverse());
         public static string pathToProject = string.Join("\\\\", splitExePath.Reverse().Skip(3).Reverse());
@@ -76,6 +76,15 @@ namespace AlexaComp {
             AppWindowThread.Name = "AppWindowThread";
 
             LoadingScreenThread.Start();
+        }
+
+        public static void stopApplication() {
+            _log.Info("CLOSING PROGRAM");
+            stopProgramFlag = true;
+            AlexaCompSERVER.stopServer();
+            AlexaCompSERVER.delPortMap();
+            
+            Environment.Exit(1);
         }
 
         /*

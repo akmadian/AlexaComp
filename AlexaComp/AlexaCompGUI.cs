@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
+using System.Xml;
 
 namespace AlexaComp{
 
@@ -17,16 +18,13 @@ namespace AlexaComp{
         public AlexaCompGUI() {
             InitializeComponent();
             this.notifyIcon.DoubleClick += new EventHandler(this.notifyIcon_DoubleClick);
+            this.AcceptButton = this.addToListButton;
+            dataListView.View = View.Details;
+            dataListView.GridLines = true;
+            dataListView_Load();
         }
 
         // Control Callbacks
-        /*
-        * Starts the ProgramList Form
-        */
-        private void editProgramListButton_Click(object sender, EventArgs e) {
-            AlexaComp._log.Info("EditProgramListButton Clicked");
-            startProgramListForm();
-        }
 
         /*
         * If repo link clicked, start a new browser window and go to the repo page.
@@ -52,13 +50,6 @@ namespace AlexaComp{
             System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\AlexaCompLOG.log");
         }
 
-        private void startProgramListForm() {
-            AlexaComp._log.Info("StartProgramListFormThread Started");
-            ProgramListForm ProgramListForm = new ProgramListForm();
-            ProgramListForm.ShowDialog();
-        }
-
-
         // Application Winodow Event Handlers
         /*
         * When notify icon is double clicked, show app.
@@ -74,8 +65,10 @@ namespace AlexaComp{
         /*
         * Handler for X button click.
         */
-        protected override void OnFormClosing(FormClosingEventArgs e) {
-            base.OnFormClosing(e);
+        protected override void OnFormClosing(FormClosingEventArgs e = null) {
+            if (e != null) {
+                base.OnFormClosing(e);
+            }
             AlexaComp._log.Info("CLOSING PROGRAM");
             AlexaComp.stopProgramFlag = true;
             AlexaCompSERVER.stopServer();
@@ -98,36 +91,90 @@ namespace AlexaComp{
             }
         }
 
-        /*
-        * Waits for ` press, then opens console.
-        */
-        private void AlexaCompGUI_KeyPress(object sender, KeyPressEventArgs e) {
-            Console.WriteLine("Keypress detected");
-            Console.WriteLine(e.KeyChar);
-            Console.WriteLine(e.KeyChar.ToString());
-            switch (e.KeyChar.ToString()) {
-                case "`":
-                    Thread ConsoleWindowThread = new Thread(ConsoleForm.StartConsoleWindow);
-                    ConsoleWindowThread.Name = "ConsoleWindowThread";
-                    ConsoleWindowThread.Start();
-                    break;
-    }
-        }
-
         // Copied from settings form, will adapt soon.
-        /* 
         private void runOnStartCheck_CheckedChanged(object sender, EventArgs e) {
-            RegistryKey regKey = Registry.CurrentUser.OpenSubKey
+            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey
                 ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
-            if (runOnStartCheck.Checked) {
-                regKey.SetValue("AlexaComp", AlexaComp.pathToDebug + "\\AlexaComp.exe");
+            if (runOnStartupCheck.Checked) {
+                regKey.SetValue("AlexaComp", AlexaComp.exePath);
             }
             else {
                 regKey.DeleteValue("AlexaComp", false);
             }
-        }*/
+        }
 
+        /// PROGRAM LIST TAB
+        private void dataListView_Load() {
+            // Clear on refresh
+            dataListView.Clear();
+            dataListView.Items.Clear();
+            // Add Columns
+            dataListView.Columns.Add("Program Name");
+            dataListView.Columns.Add("Program Path");
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("pathDir.xml");
+            XmlNodeList list = doc.SelectNodes("/pathDir/path");
+
+            // Loop over XML doc
+            foreach (XmlNode node in list) {
+                string programName = node.Attributes[0].Value;
+                string programPath = node.Attributes[1].Value;
+
+                // Make and add row to listview
+                string[] row = { programName, programPath };
+                // Console.WriteLine(row);
+                var item = new ListViewItem(row);
+                dataListView.Items.Add(item);
+
+                // Console.WriteLine("Name - " + programName + " -- " + programPath);
+            }
+            AlexaComp._log.Info("Data List Reloaded");
+            // Reset column width
+            foreach (ColumnHeader column in dataListView.Columns) { column.Width = -1; }
+        }
+
+        private void addToListButton_Click_1(object sender, EventArgs e) {
+            string programName = programNameTextBox.Text;
+            string programPath = programPathTextBox.Text;
+
+            if (string.IsNullOrEmpty(programName) && string.IsNullOrEmpty(programPath)) { // If both are empty.
+                errorLabel.Text = "Please specify a program name and path.";
+            }
+            else if (string.IsNullOrEmpty(programPath)) { // If only path is empty.
+                errorLabel.Text = "Please specify a program path.";
+            }
+            else if (string.IsNullOrEmpty(programName)) { // If only name is empty.
+                errorLabel.Text = "Please specify a program name.";
+            }
+            else { // If both name and path are filled.
+                XmlDocument doc = new XmlDocument();
+                doc.Load("pathDir.xml");
+
+                programNameTextBox.Clear();
+                programPathTextBox.Clear();
+
+                programName = programName.Replace(" ", string.Empty).ToUpper(); // Format string
+
+                string log = "{Name: " + programName + ", Path: " + programPath + "}";
+                AlexaComp._log.Info("Add Program - " + log);
+
+                XmlDocumentFragment frag = doc.CreateDocumentFragment();
+                frag.InnerXml = "<path programName=\"" + programName +
+                                "\" programPath=\"" + programPath + "\"/>";
+
+                AlexaComp._log.Info("Add new program - " + frag.InnerXml);
+                doc.DocumentElement.AppendChild(frag);
+                doc.Save(AlexaComp.pathToDebug + "\\pathDir.xml");
+                doc.Save(AlexaComp.pathToProject + "\\pathDir.xml");
+                AlexaComp._log.Info("pathDir appended");
+
+                dataListView_Load(); // Reset program list
+
+                errorLabel.Text = "";
+            }
+        }
         private void label1_Click(object sender, EventArgs e) { }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void programNameTextBox_TextChanged(object sender, EventArgs e) { }
@@ -136,9 +183,11 @@ namespace AlexaComp{
         private void dataListView_SelectedIndexChanged(object sender, EventArgs e) { }
         private void panel1_Paint(object sender, PaintEventArgs e) { }
         private void pictureBox1_Click(object sender, EventArgs e) { }
-        private void pictureBox1_Click_1(object sender, EventArgs e) {}
-        private void logListView_SelectedIndexChanged(object sender, EventArgs e){}
-        private void logTextBox_TextChanged(object sender, EventArgs e){ }
-        private void textBox1_TextChanged(object sender, EventArgs e) {}
+        private void pictureBox1_Click_1(object sender, EventArgs e) { }
+        private void logListView_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void logTextBox_TextChanged(object sender, EventArgs e) { }
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void errorLabel_Click(object sender, EventArgs e) {}
+        private void label3_Click(object sender, EventArgs e) {}
     }
 }

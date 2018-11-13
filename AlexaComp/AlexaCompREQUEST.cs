@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Xml;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace AlexaComp {
     public class AlexaCompREQUEST {
+
+        [DllImport("user32.dll")]
+        private static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
+
+        [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
 
         private static string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static void processRequest(Request req) {
@@ -21,9 +28,42 @@ namespace AlexaComp {
                     compStatRequest(req);
                     req.logTimeElapsed();
                     break;
-                case "DEVICELINK":
-                    deviceLinkRequest(req);
+                case "AUDIOCOMMAND":
+                    audioRequest(req);
                     break;
+                case "NETWORKCOMMAND":
+                    break;
+            }
+        }
+
+        static void audioRequest(Request req) {
+            try {
+                switch (req.PRIMARY) {
+                    case "PLAYPAUSE":
+                        AudioController.togglePlayPause();
+                        break;
+                    case "NEXTTRACK":
+                        AudioController.nextTrack();
+                        break;
+                    case "PREVTRACK":
+                        AudioController.prevTrack();
+                        break;
+                    case "SETVOLUME":
+                        AudioController.setVolume(Convert.ToInt32(req.SECONDARY));
+                        break;
+                    case "VOLUMEUP":
+                        AudioController.volUp();
+                        break;
+                    case "VOLUMEDOWN":
+                        AudioController.volDown();
+                        break;
+                    case "TOGGLEMUTE":
+                        break;
+                }
+                Response res = new Response(true, "Done!", "", "");
+            } catch (Exception e) {
+                AlexaComp._log.Error(e);
+                Response res = new Response(false, "Oops! Something went wrong...", "", "");
             }
         }
 
@@ -63,17 +103,24 @@ namespace AlexaComp {
         static void commandRequest(Request req) {
             switch (req.PRIMARY) {
                 case "SHUTDOWN":
-                    AlexaCompSERVER.stopServer();
+                    AlexaComp.stopApplication();
                     Process.Start("shutdown", "/s /t .5");
                     break;
                 case "LOCK":
-                    // Lock computer
+                    Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation");
                     break;
                 case "RESTART":
-                    // Restart Computer
+                    AlexaComp.stopApplication();
+                    Process.Start("shutdown", "/r /t .5");
                     break;
                 case "SLEEP":
-                    // Make Computer Sleep
+                    SetSuspendState(false, true, true);
+                    break;
+                case "LOGOFF":
+                    ExitWindowsEx(0, 0);
+                    break;
+                case "HIBERNATE":
+                    SetSuspendState(true, true, true);
                     break;
             }
         }
@@ -88,14 +135,6 @@ namespace AlexaComp {
                 Console.WriteLine(AlexaCompHARDWARE.partStat(req.PRIMARY, req.SECONDARY, req.TERTIARY));
                 Response res = new Response(true, AlexaCompHARDWARE.partStat(req.PRIMARY, req.SECONDARY, req.TERTIARY), "", "");
             }
-        }
-
-        static void deviceLinkRequest(Request req) {
-            /*
-            Console.WriteLine("Devicelinkrequest");
-            Thread DeviceLinkingThread = new Thread(new ParameterizedThreadStart(DeviceLinkingForm.startDeviceLinking));
-            DeviceLinkingThread.Start(req);
-            */
         }
 
         static string GetProgramPath(string program) {

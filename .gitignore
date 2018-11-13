@@ -44,6 +44,8 @@ AlexaComp/CompatibilityTool/bin/Debug/Images
 AlexaComp/CompatibilityTool/bin/Debug/Layouts
 AlexaComp/CompatibilityTool/bin/Debug/x86
 AlexaComp/CompatibilityTool/bin/Debug/x64
+AlexaComp/HardwareDevice.cs
+AlexaComp/LightingController.cs
 *packages/
 *node_modules/
 *config.json
