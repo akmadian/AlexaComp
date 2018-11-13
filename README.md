@@ -27,4 +27,5 @@ ex. "Alexa, tell my computer to shut down"
 <br/>
 
 ___
-###### Hardware monitoring code made by [openhardwaremonitor](https://github.com/openhardwaremonitor/openhardwaremonitor)
+###### Hardware monitoring package made by [openhardwaremonitor](https://github.com/openhardwaremonitor/openhardwaremonitor)
+###### RGB Lighting package made by [RGB.NET](https://github.com/DarthAffe/RGB.NET)
