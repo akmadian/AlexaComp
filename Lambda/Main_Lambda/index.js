@@ -5,14 +5,9 @@
 console.log('--START--')
 const Alexa = require('alexa-sdk');
 const config = require('./config.json');
+const net = require('net');
 const Functions = require('./Functions.js');
 console.log('Required Modules Imported')
-
-Functions.sendEmail('', 'test123', 'test456')
-
-
-// Functions.readFromS3("", {'initialize': true});
-// console.log(Functions.IPMap);
 
 const SKILL_NAME = 'AlexaComp';
 const STOP_MESSAGE = 'Goodbye!';
@@ -21,23 +16,41 @@ const HELP_MESSAGE = 'You can ask me to launch a program, tell your computer to 
 
 // Responses
 const responsesSuccessful = ['Done!', 'Sent!', 'The request has been sent.'];
-const responsesFailed = ['Sorry, that didn\'t work.', 'Something went wrong.', 'I wasn\t able to complete that request.'];
-
-
-function makeId() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-  for (var i = 0; i < 4; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
+const responsesFailed = ['Sorry, that didn\'t work.', 'Something went wrong.', 'I wasn\'t able to complete that request.'];
 
 function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
     const auth_key = require('./config.json').SOCKET.AUTH;
     return {"AUTH": auth_key, "COMMAND": COMMAND, "PRIMARY": PRIMARY,
             "SECONDARY": SECONDARY, "TERTIARY": TERTIARY};
+}
+
+function SendJson(ip, params){
+    var client = new net.Socket();
+    console.log('Socket Created')
+    var server = new net.Server();
+    console.log('Server Created')
+
+    const HOST = config.SOCKET.HOST;
+    const PORT = config.SOCKET.PORT;
+    const auth_key = config.SOCKET.AUTH;
+
+    client.connect("5406", "73.157.7.156", function() {
+        client.write(JSON.stringify({"AUTH": auth_key, "COMMAND": "COMMAND", "PRIMARY": "LOCK", "SECONDARY": "TST", "TERTIARY": "TST2"}));
+    });
+    client.on('data', function(data){
+        var response = JSON.parse(data);
+        console.log(response);
+        if (data.message == 'devicelinking'){
+            writeToS3(params.responseObj.event.context.System.device.deviceId, response.primary);
+        }
+        params['responseObj'].emit(':tell', response.message);
+    });
+    client.on('error', function(ex){
+        if (ex['code'] == 'ECONNREFUSED'){
+            params['responseObj'].emit(':tell', 'Couldn\'t connect to your computer, please be sure alexa comp is running.');
+        }
+        console.log('Exception Caught: ' + ex);
+    });
 }
 
 // Code
@@ -53,7 +66,8 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, options);
+        // Get IP pair from MDB
+        // Send Req
     },
 
     'GetComputerStatIntent': function () {
@@ -61,7 +75,6 @@ const handlers = {
         var part = this.event.request.intent.slots.Part.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var stat = this.event.request.intent.slots.Stat.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
-        Functions.readFromS3(deviceID);
 
         var j = makeJson("GETCOMPSTAT", part, stat);
         if (stat.includes('CLOCK')){
@@ -73,14 +86,14 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, params);
+        // Get IP pair from MDB
+        // Send req
     },
 
     'ComputerCommandIntent': function(){
         console.log('Command Intent')
-        var command = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
-        var deviceID = this.event.context.System.device.deviceId;
-        Functions.readFromS3(deviceID);
+        var command = this.event.request.intent.slots.ComputerCommandConfirm.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        // var deviceID = this.event.context.System.device.deviceId;
 
         var j = makeJson("COMPUTERCOMMAND", command);
         var params = {
@@ -89,7 +102,7 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, params);
+        SendJson();
     },
 
     'DeviceLinkingIntent': function(){

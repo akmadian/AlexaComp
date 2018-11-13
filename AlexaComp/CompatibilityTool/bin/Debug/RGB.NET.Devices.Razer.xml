@@ -1,0 +1,558 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RGB.NET.Devices.Razer</name>
+    </assembly>
+    <members>
+        <member name="T:RGB.NET.Devices.Razer.RazerLogicalKeyboardLayout">
+            <summary>
+            Contains list of available logical layouts for razer keyboards.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerPhysicalKeyboardLayout">
+            <summary>
+            Contains list of available physical layouts for razer keyboards.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerException">
+            <inheritdoc />
+            <summary>
+            Represents an exception thrown by the Razer-SDK.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerException.ErrorCode">
+            <summary>
+            Gets the error code provided by the SDK.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerException.#ctor(RGB.NET.Devices.Razer.RazerError)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerException" /> class.
+            </summary>
+            <param name="errorCode">The error code provided by the SDK.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerRGBDevice`1">
+            <inheritdoc cref="T:RGB.NET.Core.AbstractRGBDevice`1" />
+            <inheritdoc cref="T:RGB.NET.Devices.Razer.IRazerRGBDevice" />
+            <summary>
+            Represents a generic razer-device. (keyboard, mouse, headset, mousepad).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDevice`1.DeviceInfo">
+            <inheritdoc />
+            <summary>
+            Gets information about the <see cref="T:RGB.NET.Devices.Razer.RazerRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDevice`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerRGBDevice`1"/> class.
+            </summary>
+            <param name="info">The generic information provided by razer for the device.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDevice`1.Initialize">
+            <summary>
+            Initializes the device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDevice`1.InitializeLayout">
+            <summary>
+            Initializes the <see cref="T:RGB.NET.Core.Led"/> and <see cref="T:RGB.NET.Core.Size"/> of the device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDevice`1.UpdateLeds(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDevice`1.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <summary>
+            Creates the device-specific effect parameters for the led-update.
+            </summary>
+            <param name="leds">The leds to be updated.</param>
+            <returns>An <see cref="T:System.IntPtr"/> pointing to the effect parameter struct.</returns>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDevice`1.Reset">
+            <summary>
+            Resets the device.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a Razer-<see cref="T:RGB.NET.Core.IRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.DeviceId">
+            <summary>
+            Gets the Id of the <see cref="T:RGB.NET.Devices.Razer.RazerRGBDevice`1"/>.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.DeviceType">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.Manufacturer">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.Model">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.Image">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.SupportsSyncBack">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.Lighting">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerRGBDeviceInfo.#ctor(System.Guid,RGB.NET.Core.RGBDeviceType,System.String)">
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerRGBDeviceInfo"/>.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="deviceType">The type of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.IRazerRGBDevice">
+            <summary>
+            Represents a razer RGB-device.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a razer chroma link.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice.#ctor(RGB.NET.Devices.Razer.RazerChromaLinkRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the chroma link.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerChromaLinkRGBDeviceInfo.#ctor(System.Guid,System.String)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerMousepadRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a razer mousepad.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMousepadRGBDevice.#ctor(RGB.NET.Devices.Razer.RazerMousepadRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMousepadRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the mousepad.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMousepadRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMousepadRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMousepadRGBDevice.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerMousepadRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerMousepadRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMousepadRGBDeviceInfo.#ctor(System.Guid,System.String)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerMousepadRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerKeypadRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a razer keypad.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeypadRGBDevice.#ctor(RGB.NET.Devices.Razer.RazerKeypadRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeypadRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the keypad.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeypadRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeypadRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeypadRGBDevice.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerKeypadRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerKeypadRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeypadRGBDeviceInfo.#ctor(System.Guid,System.String)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerKeypadRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a razer headset.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice.#ctor(RGB.NET.Devices.Razer.RazerHeadsetRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the headset.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerHeadsetRGBDeviceInfo.#ctor(System.Guid,System.String)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a razer mouse.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMouseRGBDevice.#ctor(RGB.NET.Devices.Razer.RazerMouseRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the mouse.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMouseRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMouseRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMouseRGBDevice.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerMouseRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerMouseRGBDeviceInfo.#ctor(System.Guid,System.String)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a razer keyboard.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice.#ctor(RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the keyboard.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice.CreateEffectParams(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo.PhysicalLayout">
+            <summary>
+            Gets the physical layout of the keyboard.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo.LogicalLayout">
+            <summary>
+            Gets the logical layout of the keyboard as set in CUE settings.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo.#ctor(System.Guid,System.String,System.Globalization.CultureInfo)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceId">The Id of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The model of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.Native._DeviceInfo">
+            <summary>
+            Razer-SDK: Device info.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.Native._DeviceInfo.Type">
+            <summary>
+            Razer-SDK: Device types.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.Native._DeviceInfo.Connected">
+            <summary>
+            Razer-SDK: Number of devices connected.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.Native._RazerSDK.LoadedArchitecture">
+            <summary>
+            Gets the loaded architecture (x64/x86).
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.Native._RazerSDK.Reload">
+            <summary>
+            Reloads the SDK.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.Native._RazerSDK.Init">
+            <summary>
+            Razer-SDK: Initialize Chroma SDK.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.Native._RazerSDK.UnInit">
+            <summary>
+            Razer-SDK: UnInitialize Chroma SDK.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.Native._RazerSDK.QueryDevice(System.Guid,RGB.NET.Devices.Razer.Native._DeviceInfo@)">
+            <summary>
+            Razer-SDK: Query for device information. 
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerDeviceProvider">
+            <inheritdoc />
+            <summary>
+            Represents a device provider responsible for razer devices.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.Instance">
+            <summary>
+            Gets the singleton <see cref="T:RGB.NET.Devices.Razer.RazerDeviceProvider"/> instance.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.PossibleX86NativePaths">
+            <summary>
+            Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
+            The first match will be used.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.PossibleX64NativePaths">
+            <summary>
+            Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
+            The first match will be used.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.IsInitialized">
+            <inheritdoc />
+            <summary>
+            Indicates if the SDK is initialized and ready to use.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.LoadedArchitecture">
+            <summary>
+            Gets the loaded architecture (x64/x86).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.HasExclusiveAccess">
+            <inheritdoc />
+            <summary>
+            Gets whether the application has exclusive access to the SDK or not.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.Devices">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.GetCulture">
+            <summary>
+            Gets or sets a function to get the culture for a specific device.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProvider.LoadEmulatorDevices">
+            <summary>
+            Forces to load the devices represented by the emulator even if they aren't reported to exist.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerDeviceProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerDeviceProvider"/> class.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerDeviceProvider.Initialize(RGB.NET.Core.RGBDeviceType,System.Boolean,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerDeviceProvider.ResetDevices">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerDeviceProvider.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerError">
+            <summary>
+            Razer-SDK: Error codes for Chroma SDK. If the error is not defined here, refer to WinError.h from the Windows SDK.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.Invalid">
+            <summary>
+            Razer-SDK: Invalid.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.Success">
+            <summary>
+            Razer-SDK: Success.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.AccessDenied">
+            <summary>
+            Razer-SDK: Access denied.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.InvalidHandle">
+            <summary>
+            Razer-SDK: Invalid handle.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.NotSupported">
+            <summary>
+            Razer-SDK: Not supported.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.InvalidParameter">
+            <summary>
+            Razer-SDK: Invalid parameter.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.ServiceNotActive">
+            <summary>
+            Razer-SDK: The service has not been started.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.SingleInstanceApp">
+            <summary>
+            Razer-SDK: Cannot start more than one instance of the specified program.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.DeviceNotConnected">
+            <summary>
+            Razer-SDK: Device not connected.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.NotFound">
+            <summary>
+            Razer-SDK: Element not found.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.RequestAborted">
+            <summary>
+            Razer-SDK: Request aborted.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.AlreadyInitialized">
+            <summary>
+            Razer-SDK: An attempt was made to perform an initialization operation when initialization has already been completed.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.ResourceDisabled">
+            <summary>
+            Razer-SDK: Resource not available or disabled.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.DeviceNotAvailable">
+            <summary>
+            Razer-SDK: Device not available or supported.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.NotValidState">
+            <summary>
+            Razer-SDK: The group or resource is not in the correct state to perform the requested operation.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.NoMoreItems">
+            <summary>
+            Razer-SDK: No more items.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Razer.RazerError.Failed">
+            <summary>
+            Razer-SDK: General failure.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Razer.RazerDeviceProviderLoader">
+            <summary>
+            Represents a device provider loaded used to dynamically load razer devices into an application.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Razer.RazerDeviceProviderLoader.RequiresInitialization">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Razer.RazerDeviceProviderLoader.GetDeviceProvider">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
