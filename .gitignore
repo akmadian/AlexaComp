@@ -40,6 +40,9 @@ AlexaComp/pathDir.xml
 AlexaComp/AlexaCompTESTS.cs
 AlexaComp/SavedMethods.cs
 Deprecated/
+AlexaComp/CompatibilityTool
+AlexaComp/HardwareDevice.cs
+AlexaComp/LightingController.cs
 *packages/
 *node_modules/
 *config.json
