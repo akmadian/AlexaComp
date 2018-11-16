@@ -6,6 +6,12 @@ AlexaComp is an open source Alexa skill that allows you to interact with your co
 ## Installation
 Installation and setup instructions can be found in the [Setup.md][0] file.
 
+If you would like to help test AlexaComp, you can [email me][5] and request beta access.
+I should reply relatively soon with a link to the skill and the next steps to take. 
+
+Please keep in mind that during beta testing, the skill, and all of its components are in active development, 
+and certain functionality may stop working at any time. If something stops working, please [submit an issue.][6]
+
 <pre>
     <b>Account Linking</b>
     Q: Why do I need to link my Amazon account to use AlexaComp?
@@ -55,3 +61,5 @@ ___
 [2]: https://github.com/akmadian/AlexaComp/blob/docs/Docs/Privacy-Policy.md
 [3]: https://github.com/openhardwaremonitor/openhardwaremonitor
 [4]: https://github.com/DarthAffe/RGB.NET
+[5]: https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=akmadian@gmail.com
+[6]: https://github.com/akmadian/AlexaComp/issues/new
