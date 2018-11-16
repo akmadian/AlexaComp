@@ -48,6 +48,8 @@ and certain functionality may stop working at any time. If something stops worki
 A great way to contribute without spending much time or writing any code is to help hardware compatibility by running the [compatibility tool][1] on your computer.
 <br>Forks and pull requests are welcome! No real format guidelines, just fork, make changes, and submit a PR detailing changes made :)
 
+You can also help out by trying to fix [issues marked as `help wanted`.][7]
+
 ## Privacy
 AlexaComp **_does_** collect some information about users. However, it only collects enough to make the skill work.
 The data that is gathered is anonymized, and never sold. See the [AlexaComp privacy policy][2] for more information.
@@ -63,3 +65,4 @@ ___
 [4]: https://github.com/DarthAffe/RGB.NET
 [5]: https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=Beta%20Access%20Request&to=akmadian@gmail.com
 [6]: https://github.com/akmadian/AlexaComp/issues/new
+[7]: https://github.com/akmadian/AlexaComp/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
