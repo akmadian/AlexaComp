@@ -48,10 +48,10 @@ namespace AlexaComp {
             AlexaComp.inventoryPrograms();
 
             updateProgress("Starting Server");
-            // AlexaComp.ServerThread.Start();
+            AlexaCompCore.ServerThread.Start();
 
             updateProgress("Starting Server Loop");
-            // AlexaComp.ServerLoopThread.Start();
+            AlexaCompCore.ServerLoopThread.Start();
 
             updateProgress("Starting AleComp", 400);
             closeSplashScreen();

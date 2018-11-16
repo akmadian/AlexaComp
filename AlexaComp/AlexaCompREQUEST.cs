@@ -6,7 +6,7 @@ using AlexaComp.Controllers;
 using System.Threading;
 
 namespace AlexaComp {
-    class AlexaCompREQUEST : AlexaCompCore{
+    class AlexaCompREQUEST : AlexaCompCore {
 
         [DllImport("user32.dll")]
         private static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
@@ -17,33 +17,34 @@ namespace AlexaComp {
         private static string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static void processRequest(Request req) {
             switch (req.COMMAND) {
-                case "LAUNCH":         launchRequest(req); break;
-                case "COMMAND":        commandRequest(req); break;
+                case "LAUNCH":         launchRequest(req);   break;
+                case "COMMAND":        commandRequest(req);  break;
                 case "GETCOMPSTAT":    compStatRequest(req); break;
-                case "AUDIOCOMMAND":   audioRequest(req); break;
-                case "NETWORKCOMMAND": break; // TODO : Implement NWCommand
-                case "RGBCOMMAND":     break; // TODO : Implement RGBCommand
+                case "AUDIOCOMMAND":   audioRequest(req);    break;
+                case "RGBCOMMAND":     RGBRequest(req);      break; // TODO : Implement RGBCommand
             }
             req.logTimeElapsed();
         }
-
-        /*
-        static void RGBRequest(Request req) {
-            switch (req.PRIMARY) {
-                case "RAINBOWFADE": LightingController.LightingEffects.fadingEffect(); break;
-                case "STATICCOLOR": LightingController.LightingEffects.staticColor(255, 255, 255); break;
-            }
-        }*/
+        
+        
+        public static void RGBRequest(Request req) {
+            RGBColor priColor;
+            RGBColor secColor;
+            if (req.OPTIONS != null) { priColor = new RGBColor(req.OPTIONS); } else { priColor = null; };
+            if (req.OPTIONS2 != null) { secColor = new RGBColor(req.OPTIONS2); } else { secColor = null; };
+            LightingController.lightingProcess(priColor, secColor, req.PRIMARY);
+        }
 
         static void audioRequest(Request req) {
             try {
                 switch (req.PRIMARY) {
-                    case "PLAYPAUSE":  AudioController.togglePlayPause(); break;
-                    case "NEXTTRACK":  AudioController.nextTrack(); break;
-                    case "PREVTRACK":  AudioController.prevTrack(); break;
+                    // All are working
+                    case "PLAYPAUSE":  AudioController.togglePlayPause();                         break;
+                    case "NEXTTRACK":  AudioController.nextTrack();                               break;
+                    case "PREVTRACK":  AudioController.prevTrack();                               break;
                     case "SETVOLUME":  AudioController.setVolume(Convert.ToInt32(req.SECONDARY)); break;
-                    case "VOLUMEUP":   AudioController.volUp(); break;
-                    case "VOLUMEDOWN": AudioController.volDown(); break;
+                    case "VOLUMEUP":   AudioController.volUp();                                   break;
+                    case "VOLUMEDOWN": AudioController.volDown();                                 break;
                     case "TOGGLEMUTE": break; // TODO: Implement Mute Functionality
                 }
                 Response res = new Response(true, "Done!");
@@ -55,7 +56,7 @@ namespace AlexaComp {
 
         static void launchRequest(Request req) {
             if (req.PRIMARY == "SHUTDOWN") {
-                // AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.stopServer();
                 Process.Start("shutdown", "/s /t .5");
             } 
 
@@ -67,33 +68,33 @@ namespace AlexaComp {
                 Process.Start(GetProgramPath(req.PRIMARY));
                 clog("Program Launched");
                 Response res = new Response(true, "Program Launched!", "", "");
-                // AlexaCompSERVER.stopServer(); // Restart Server to Handle Next Request
+                AlexaCompSERVER.stopServer(); // Restart Server to Handle Next Request
             }
             catch (NullReferenceException) {
                 clog("NullReferenceException caught during attempt to launch program, " +
                     "null most likely returned from GetProgramPath.");
                 Response res = new Response(false, failMessage);
-                // AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.stopServer();
             }
             catch (System.ComponentModel.Win32Exception e) {
                 clog("Win32Exception Caught during attempt to launch program " + e.Message);
                 Response res = new Response(false, failMessage);
-                // AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.stopServer();
             }catch (InvalidOperationException e) {
                 clog("InvalidOperationException Caught during attempt to launch program " + e.Message);
                 Response res = new Response(false, failMessage);
-                // AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.stopServer();
             }
         }
 
         static void commandRequest(Request req) {
             switch (req.PRIMARY) {
-                case "SHUTDOWN":  stopApplication(); Process.Start("shutdown", "/s /t .5"); break;
-                case "LOCK":      Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation"); break;
-                case "RESTART":   stopApplication(); Process.Start("shutdown", "/r /t .5"); break;
-                case "SLEEP":     SetSuspendState(false, true, true); break;
-                case "LOGOFF":    ExitWindowsEx(0, 0); break;
-                case "HIBERNATE": SetSuspendState(true, true, true); break;
+                case "SHUTDOWN":  stopApplication(); Process.Start("shutdown", "/s /t .5");                         break; // To Test
+                case "LOCK":      Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation"); break; // Working
+                case "RESTART":   stopApplication(); Process.Start("shutdown", "/r /t .5");                         break; // To Test
+                case "SLEEP":     SetSuspendState(false, true, true);                                               break; // To Test
+                case "LOGOFF":    ExitWindowsEx(0, 0);                                                              break; // To Test
+                case "HIBERNATE": SetSuspendState(true, true, true);                                                break; // To Test
             }
         }
 
@@ -135,14 +136,24 @@ namespace AlexaComp {
         public string PRIMARY { get; set; }
         public string SECONDARY { get; set; }
         public string TERTIARY { get; set; }
-
-        public static AlexaCompServerInstance originInstance;
+        public string[] OPTIONS { get; set; }
+        public string[] OPTIONS2 { get; set; }
 
         public Stopwatch sw = new Stopwatch();
 
-        public Request(AlexaCompServerInstance inst) {
+        public Request() {
             sw.Start();
-            originInstance = inst;
+        }
+
+        public Request(string AUTH_, string COMMAND_, string PRIMARY_, string SECONDARY_, string TERTIARY_, string[] options, string[] options2) {
+            sw.Start();
+            AUTH = AUTH_;
+            COMMAND = COMMAND_;
+            PRIMARY = PRIMARY_;
+            SECONDARY = SECONDARY_;
+            TERTIARY = TERTIARY_;
+            OPTIONS = options;
+            OPTIONS2 = options2;
         }
 
         public void logTimeElapsed() {
@@ -177,9 +188,9 @@ namespace AlexaComp {
 
         public void sendResponse(System.Net.Sockets.NetworkStream customStream) {
             if (customStream != null) {
-                // AlexaCompSERVER.sendToLambda(json, customStream);
+                AlexaCompSERVER.sendToLambda(json, customStream);
             } else {
-                // AlexaCompSERVER.sendToLambda(json, null);
+                AlexaCompSERVER.sendToLambda(json, null);
             }
         }
     }

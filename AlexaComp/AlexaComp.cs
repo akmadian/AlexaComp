@@ -51,6 +51,9 @@ namespace AlexaComp {
             _log.Info("PathToDebug - " + pathToDebug);
             _log.Info("PathToProject - " + pathToProject);
 
+            string[] opt1 = new string[] { "255", "255", "255" };
+            string[] opt2 = new string[] { "0", "0", "0" };
+
             getExternalIP();
 
             // Define Thread Names
@@ -60,6 +63,15 @@ namespace AlexaComp {
             LightingControlThread.Name = "LightingControlThread";
 
             LoadingScreenThread.Start();
+            /*
+            LightingControlThread.Start();
+            Console.WriteLine("Waiting Before Effect Start");
+            Thread.Sleep(1000);
+            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT", "", "", opt1, opt2);
+            AlexaCompREQUEST.processRequest(requ);
+            Thread.Sleep(5000);
+            Request requ_ = new Request("testAuth", "RGBCOMMAND", "ERROREFFECT", "", "", opt1, opt2);
+            AlexaCompREQUEST.processRequest(requ_);*/
         }
 
         /*
@@ -78,9 +90,9 @@ namespace AlexaComp {
             string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
             Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
             if (match.Success) {
-                _log.Info("extip - " + match);
+                clog("Public IP - " + match);
             } else {
-                _log.Error("IP Regex Match Unsuccessful.");
+                clog("IP Regex Match Unsuccessful.", "ERROR");
             }
         }
         
@@ -89,7 +101,7 @@ namespace AlexaComp {
         */
         public static void verifyConfig() {
             foreach (KeyValuePair<string, string> pair in settingsDict){
-                Console.WriteLine("pair: '" + pair.Key + "' - " + pair.Value);
+                // Console.WriteLine("pair: '" + pair.Key + "' - " + pair.Value);
                 if (pair.Value == "" || pair.Value == " " || pair.Value == "null"){
                     _log.Fatal("Config Value" + pair.Key + " not configured correctly or are missing. AlexaComp will not work.");
                 } else if (pair.Key == "HOST"){ // Is Host IP formatted properly?

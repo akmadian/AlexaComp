@@ -20,6 +20,7 @@ namespace AlexaComp.Controllers {
     class LightingController : AlexaCompCore {
 
         public static RGBSurface surface = RGBSurface.Instance;
+        public static Thread lightingThread;
 
         /// <summary>
         /// Loads and logs all devices.
@@ -34,7 +35,6 @@ namespace AlexaComp.Controllers {
                         device.DeviceInfo.DeviceType));
             }
             surface.UpdateMode = UpdateMode.Continuous;
-            // You can run lighting effects here
         }
 
         /// <summary>
@@ -51,6 +51,24 @@ namespace AlexaComp.Controllers {
             surface.LoadDevices(DMXDeviceProvider.Instance);
             surface.LoadDevices(NovationDeviceProvider.Instance);
             surface.LoadDevices(RazerDeviceProvider.Instance);
+        }
+
+        public static void lightingProcess(RGBColor color1, RGBColor color2, string effect = "", int speed_ = -20, double granularity_ = -0.1, int speed2 = -1) {
+            if (color1 == null) { color1 = new RGBColor(-1, -1, -1); }
+            if (color2 == null) { color2 = new RGBColor(-1, -1, -1); }
+
+            switch (effect) {
+                case "": break;
+                /* TO TEST */case "STATICCOLOR":       lightingThread = new Thread(unused => LightingEffects.staticColor(R: color1.R, G: color1.G, B: color1.B)); break;
+                /* TO TEST */case "ERROREFFECT":       lightingThread = new Thread(unused => LightingEffects.errorEffect(speed: speed_)); break;
+                /* TO TEST */case "BREATHINGEFFECT":   lightingThread = new Thread(unused => LightingEffects.breathingEffect(R: color1.R, G: color1.G, B: color1.B, speed: speed_, brightnessStep: granularity_)); break;
+                /* WORKING */case "RAINBOWFADEEFFECT": lightingThread = new Thread(unused => LightingEffects.fadingEffect()); break;
+                /* TO TEST */case "PULSEEFFECT":       lightingThread = new Thread(unused => LightingEffects.pulseEffect(R: color1.R, G: color1.G, B: color1.B, effectSpeed: speed_, fadeSpeed: speed2, brightnessStep: granularity_)); break;
+                // case "ALTERNATINGEFFECT": lightingThread = new Thread(unused => LightingEffects.alternatingEffect()); break;
+                // case "BLINKINGEFFECT": lightingThread = new Thread(unused => LightingEffects.blinkingEffect(color: color1, speed: speed_)); break;
+                /* WORKING */case "ALLLEDOFF":         lightingThread = new Thread(unused => LightingEffects.allLedOff()); break;
+            }
+            lightingThread.Start();
         }
 
         /// <summary>
@@ -77,7 +95,12 @@ namespace AlexaComp.Controllers {
             /// <param name="brightnessStep"></param>
             // TODO : Implement color cieling. Only default color values work.
             // If values are 255, 255, 255, they are added to and subtracted from an equal ammount.
-            public static void breathingAnimation(int R = 1, int G = 1, int B = 1, int speed = 20, double brightnessStep = 0.01) {
+            public static void breathingEffect(int R = 1, int G = 1, int B = 1, int speed = 20, double brightnessStep = 0.01) {
+                if (R < 0) { R = 1; }
+                if (G < 0) { G = 1; }
+                if (B < 0) { B = 1; }
+                if (speed < 0) { speed = 20; }
+                if (brightnessStep < 0) { brightnessStep = 0.01; }
                 clog(String.Format("RGB -- Breathing Animation Set -- Color: {0}, {1}, {2} - Speed: {3} - Brightness Step: {4}",
                     R, G, B, speed, brightnessStep));
                 while (true) {
@@ -101,6 +124,12 @@ namespace AlexaComp.Controllers {
             /// <param name="brightnessStep">The granularity of the brightness adjustments</param>
             // TODO : Fix. Has same color issue as breathingAnimation.
             public static void pulseEffect(int R, int G, int B, int effectSpeed = 100, int fadeSpeed = 10, double brightnessStep = 0.01) {
+                if (R < 0) { B = 255; }
+                if (G < 0) { B = 255; }
+                if (B < 0) { B = 255; }
+                if (effectSpeed < 0) { effectSpeed = 100; }
+                if (fadeSpeed < 0) { fadeSpeed = 10; }
+                if (brightnessStep < 0) { brightnessStep = 0.01; }
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
                     ledGroup.Brush = new SolidColorBrush(new Color(255, 255, 255));
@@ -118,7 +147,12 @@ namespace AlexaComp.Controllers {
             /// <param name="color1">The first color</param>
             /// <param name="color2">The second color</param>
             /// <param name="speed"></param>
-            public static void alternatingEffect(RGBColor color1, RGBColor color2, int speed = 400) {
+            /// Broken at the moment...
+            /*
+            public static void alternatingEffect(R1 = 255, RGBColor color2 , int speed = 400) {
+                if (color1 == null) { color1 = new RGBColor(255, 0, 0); }
+                if (color2 == null) { color2 = new RGBColor(0, 0, 255); }
+                if (speed < 0) { speed = 400; }
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
                     ledGroup.Brush = new SolidColorBrush(color1.toRGBNETColor());
@@ -126,7 +160,7 @@ namespace AlexaComp.Controllers {
                     ledGroup.Brush = new SolidColorBrush(color2.toRGBNETColor());
                     Thread.Sleep(speed);
                 }
-            }
+            }*/
 
             /// <summary>
             /// Blinks a color on and off.
@@ -134,16 +168,23 @@ namespace AlexaComp.Controllers {
             /// <param name="color"></param>
             /// <param name="speed"></param>
             public static void blinkingEffect(RGBColor color, int speed = 400) {
-                alternatingEffect(color, new RGBColor(0, 0, 0), speed);
+                if (color == null) { color = new RGBColor(255, 255, 255); }
+                if (speed < 0) { speed = 400; }
+                // alternatingEffect(color, new RGBColor(0, 0, 0), speed);
             }
 
             /// <summary>
             /// Sets all leds to a static color
             /// </summary>
-            public static void staticColor(int R, int G, int B) {
+            public static void staticColor(int R = 255, int G = 255, int B = 255) {
+                if (R < 0) { R = 255; }
+                if (G < 0) { G = 255; }
+                if (B < 0) { B = 255; }
                 clog(String.Format("RGB -- Setting Static Color -- Color: {0}, {1}, {2}", R, G, B));
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
-                ledGroup.Brush = new LinearGradientBrush(new RainbowGradient());
+                while (true) {
+                    ledGroup.Brush = new LinearGradientBrush(new RainbowGradient());
+                }
             }
 
             /// <summary>
@@ -175,11 +216,13 @@ namespace AlexaComp.Controllers {
             /// Turns all leds off
             /// </summary>
             public static void allLedOff() {
+                clog("Setting All LED Off Effect");
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 ledGroup.Brush = new SolidColorBrush(new Color(0, 0, 0));
             }
 
             public static void errorEffect(int speed = 1) {
+                if (speed < 0) { speed = 1; }
                 clog("RGB Error Effect Started.");
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 for (int j = 0; j <= 2; j++) {
@@ -331,10 +374,8 @@ namespace AlexaComp.Controllers {
             G = g;
             B = b;
         }
-
-        public RGBColor RGBColorFromSystemDrawingColor(System.Drawing.Color color) {
-            return new RGBColor(color.R, color.B, color.G);
-        }
+        public RGBColor (System.Drawing.Color color) => new RGBColor(color.R, color.B, color.G);
+        public RGBColor(string[] color) => new RGBColor(Convert.ToInt32(color[0]), Convert.ToInt32(color[1]), Convert.ToInt32(color[2]));
 
         public void setColorByIndex(int index, int value) {
             switch (index) {

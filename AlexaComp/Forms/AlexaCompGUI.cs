@@ -45,7 +45,10 @@ namespace AlexaComp{
         }
 
         private void RGBSubmitButton_Click(object sender, EventArgs e) {
-            // TODO : Implement
+            string[] opt1 = new string[] { "255", "255", "255" };
+            string[] opt2 = new string[] { "0", "0", "0" };
+            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT", "", "", opt1, opt2);
+            AlexaCompREQUEST.processRequest(requ);
         }
 
         /*
@@ -54,7 +57,6 @@ namespace AlexaComp{
         private void openLogFileButton_Click(object sender, EventArgs e) {
             AlexaCompCore.clog("OpenLogFileButtonClicked");
             System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\AlexaCompLOG.log");
-            LightingController.LightingEffects.fadingEffect();
         }
 
         // Copied from settings form, will adapt soon.
@@ -172,7 +174,7 @@ namespace AlexaComp{
             }
             AlexaCompCore.clog("CLOSING PROGRAM");
             AlexaCompCore.stopProgramFlag = true;
-            // AlexaCompSERVER.stopServer();
+            AlexaCompSERVER.stopServer();
             AlexaCompSERVER.delPortMap();
 
             Environment.Exit(1);
