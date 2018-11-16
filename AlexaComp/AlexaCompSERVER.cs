@@ -15,13 +15,13 @@ namespace AlexaComp{
         // TODO: Work on abstraction.
         public static bool newServerFlag = false;
 
-        private static TcpListener server;
-        private static TcpClient client;
+        public static TcpListener server;
+        public static TcpClient client;
         private static NetworkStream nwStream;
 
-        protected static int PORT = int.Parse(GetConfigValue("PORT"));
-        protected static string AUTH = GetConfigValue("AUTH");
-        protected static string HOST = GetConfigValue("HOST");
+        public static int PORT = int.Parse(GetConfigValue("PORT"));
+        public static string AUTH = GetConfigValue("AUTH");
+        public static string HOST = GetConfigValue("HOST");
 
         private static INatDevice device;
 
@@ -53,7 +53,7 @@ namespace AlexaComp{
                     byte[] buffer = new byte[client.ReceiveBufferSize];
                     int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize); // Read Data
                     string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead); // Convert Data to String
-                    Console.WriteLine(dataReceived);
+                    clog(dataReceived);
                     deserializeRequest(dataReceived);
                 }
                 catch (NullReferenceException ex) { AlexaComp._log.Debug(ex); }
