@@ -8,46 +8,34 @@ using Microsoft.Win32;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
+using AlexaComp.Controllers;
 
 using log4net;
 using log4net.Config;
 
-// TODO: Implement MQTT for server response
-// TODO: Experiment with HTTP responses instead of MQTT
-// TODO: Documentation
+// TODO : Documentation
+// TODO : Add region tags to files where appropriate.
+/** Documentation format
+* Description
+* @param <paramname> <description>
+* @return <returns>
+* @throws <throws>
+*/
 
 namespace AlexaComp {
-    public class AlexaComp {
-
-        // Paths
-        private static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-        private static string[] splitExePath = exePath.Split('\\').ToArray();
-        public static string pathToDebug = string.Join("\\\\", splitExePath.Reverse().Skip(1).Reverse());
-        public static string pathToProject = string.Join("\\\\", splitExePath.Reverse().Skip(3).Reverse());
-
-        // Threads
-        public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow);
-        public static Thread ServerThread = new Thread(AlexaCompSERVER.startServer);
-        public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop);
-        private static Thread LoadingScreenThread = new Thread(LoadingScreenForm.startLoadingScreen);
-
-        // Misc
-        public static bool updateLogBoxFlag = false;
-        public static bool stopProgramFlag = false;
-        public static Dictionary<string, string> settingsDict = new Dictionary<string, string>();
-        public static readonly ILog _log = LogManager.GetLogger(typeof(AlexaComp));
-
+    class AlexaComp : AlexaCompCore{
 
         [STAThread]
         static void Main(string[] args) {
             XmlConfigurator.Configure();
             _log.Info("Start Program");
 
+            // Parse cli args
             foreach (string arg in args) {
                 if ("-LogSensors".Contains(arg)) {
                     Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
                     LogSensorsThread.Start(false);
-                } 
+                }
                 if ("-GetPrograms".Contains(arg)) {
 
                 }
@@ -57,45 +45,63 @@ namespace AlexaComp {
                     }
                 }
             }
-            getExternalIP();
-            ServerThread.Name = "ServerThread";
-            ServerLoopThread.Name = "ServerLoopThread";
-            AppWindowThread.Name = "AppWindowThread";
-
-            LoadingScreenThread.Start();
 
             // Log Paths
             _log.Info(exePath.ToString());
             _log.Info("PathToDebug - " + pathToDebug);
             _log.Info("PathToProject - " + pathToProject);
-            
+
+            string[] opt1 = new string[] { "255", "255", "255" };
+            string[] opt2 = new string[] { "0", "0", "0" };
+
+            getExternalIP();
+
+            // Define Thread Names
+            // ServerThread.Name = "ServerThread";
+            // ServerLoopThread.Name = "ServerLoopThread";
+            AppWindowThread.Name = "AppWindowThread";
+            LightingControlThread.Name = "LightingControlThread";
+
+            LoadingScreenThread.Start();
+            /*
+            LightingControlThread.Start();
+            Console.WriteLine("Waiting Before Effect Start");
+            Thread.Sleep(1000);
+            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT", "", "", opt1, opt2);
+            AlexaCompREQUEST.processRequest(requ);
+            Thread.Sleep(5000);
+            Request requ_ = new Request("testAuth", "RGBCOMMAND", "ERROREFFECT", "", "", opt1, opt2);
+            AlexaCompREQUEST.processRequest(requ_);*/
         }
 
-        /// <summary>
-        /// Reads all user configured values into a dictionary.
-        /// </summary>
+        /*
+        * Reads all user configured values into the settingsDict.
+        */
         public static void readConfig(){
             foreach (string key in ConfigurationManager.AppSettings.AllKeys){
                 settingsDict[key] = GetConfigValue(key);
             }
         }
 
+        /*
+        * Gets the user's public IP address.
+        */
         public static void getExternalIP() {
             string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
             Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
             if (match.Success) {
-                _log.Info("extip - " + match);
+                clog("Public IP - " + match);
             } else {
-                _log.Error("IP Regex Match Unsuccessful.");
+                clog("IP Regex Match Unsuccessful.", "ERROR");
             }
         }
-
-        /// <summary>
-        /// Verifies that the necessary config values are entered and correctly formatted.
-        /// </summary>
+        
+        /*
+        * Verifies that the necessary config values are entered and correctly formatted.
+        */
         public static void verifyConfig() {
             foreach (KeyValuePair<string, string> pair in settingsDict){
-                Console.WriteLine("pair: '" + pair.Key + "' - " + pair.Value);
+                // Console.WriteLine("pair: '" + pair.Key + "' - " + pair.Value);
                 if (pair.Value == "" || pair.Value == " " || pair.Value == "null"){
                     _log.Fatal("Config Value" + pair.Key + " not configured correctly or are missing. AlexaComp will not work.");
                 } else if (pair.Key == "HOST"){ // Is Host IP formatted properly?
@@ -108,20 +114,11 @@ namespace AlexaComp {
             }
         }
         
-        /// <summary>
-        /// Gets a config value.
-        /// </summary>
-        /// <param name="key">The name or key of the config value to get.</param>
-        /// <returns></returns>
-        public static string GetConfigValue(string key) {
-            return ConfigurationManager.AppSettings[key];
-        }
-
-        /// <summary>
-        /// Updates a config value of name {key} with value {value}.
-        /// </summary>
-        /// <param name="key">The name of the config value to update.</param>
-        /// <param name="value">The value to update to</param>
+        /*
+        * Updates a config value of name {key} with value {value}.
+        * @ param key - The name of the config value to update.
+        * @ param value - The value to update to.
+        */
         public static void UpdateConfigValue(string key, string value){
             Console.WriteLine(key + " - " + value);
             ExeConfigurationFileMap debugMap = new ExeConfigurationFileMap { ExeConfigFilename = pathToDebug + "\\AlexaComp.exe.config" };
@@ -138,6 +135,9 @@ namespace AlexaComp {
             ConfigurationManager.RefreshSection("appSettings");
         }
 
+        /*
+        * Inventories all user installed programs.
+        */
         public static void inventoryPrograms() {
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key)) {
@@ -160,7 +160,7 @@ namespace AlexaComp {
         }
     }
 
-    public class Options {
+    class Options {
         public Request req;
         public System.Net.Sockets.NetworkStream nwStream;
 

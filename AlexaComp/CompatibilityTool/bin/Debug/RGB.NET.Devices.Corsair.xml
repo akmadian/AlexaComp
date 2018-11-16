@@ -1,0 +1,803 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RGB.NET.Devices.Corsair</name>
+    </assembly>
+    <members>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairDeviceProvider">
+            <inheritdoc />
+            <summary>
+            Represents a device provider responsible for corsair (CUE) devices.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.Instance">
+            <summary>
+            Gets the singleton <see cref="T:RGB.NET.Devices.Corsair.CorsairDeviceProvider"/> instance.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.PossibleX86NativePaths">
+            <summary>
+            Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
+            The first match will be used.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.PossibleX64NativePaths">
+            <summary>
+            Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
+            The first match will be used.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.IsInitialized">
+            <inheritdoc />
+            <summary>
+            Indicates if the SDK is initialized and ready to use.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.LoadedArchitecture">
+            <summary>
+            Gets the loaded architecture (x64/x86).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.ProtocolDetails">
+            <summary>
+            Gets the protocol details for the current SDK-connection.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.HasExclusiveAccess">
+            <inheritdoc />
+            <summary>
+            Gets whether the application has exclusive access to the SDK or not.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.LastError">
+            <summary>
+            Gets the last error documented by CUE.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProvider.Devices">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairDeviceProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairDeviceProvider"/> class.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairDeviceProvider.Initialize(RGB.NET.Core.RGBDeviceType,System.Boolean,System.Boolean)">
+            <inheritdoc />
+            <exception cref="T:RGB.NET.Core.RGBDeviceException">Thrown if the SDK is already initialized or if the SDK is not compatible to CUE.</exception>
+            <exception cref="T:RGB.NET.Devices.Corsair.CUEException">Thrown if the CUE-SDK provides an error.</exception>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairDeviceProvider.ResetDevices">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairDeviceProvider.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairDeviceProviderLoader">
+            <summary>
+            Represents a device provider loaded used to dynamically load corsair devices into an application.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairDeviceProviderLoader.RequiresInitialization">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairDeviceProviderLoader.GetDeviceProvider">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairAccessMode">
+            <summary>
+            Contains list of available SDK access modes.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairDeviceCaps">
+            <summary>
+            Contains list of corsair device capabilities.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairDeviceCaps.None">
+            <summary>
+            For devices that do not support any SDK functions.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairDeviceCaps.Lighting">
+            <summary>
+            For devices that has controlled lighting.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairDeviceType">
+            <summary>
+            Contains list of available corsair device types.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairError">
+            <summary>
+            Shared list of all errors which could happen during calling of Corsair* functions.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairError.Success">
+            <summary>
+            If previously called function completed successfully.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairError.ServerNotFound">
+            <summary>
+            CUE is not running or was shut down or third-party control is disabled in CUE settings. (runtime error)
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairError.NoControl">
+            <summary>
+            If some other client has or took over exclusive control. (runtime error)
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairError.ProtocolHandshakeMissing">
+            <summary>
+            If developer did not perform protocol handshake. (developer error)
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairError.IncompatibleProtocol">
+            <summary>
+            If developer is calling the function that is not supported by the server (either because protocol has broken by server or client or because the function is new and server is too old.
+            Check CorsairProtocolDetails for details). (developer error)
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairError.InvalidArguments">
+            <summary>
+            If developer supplied invalid arguments to the function (for specifics look at function descriptions). (developer error)
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairLedId">
+            <summary>
+            Contains list of all LEDs available for all corsair devices.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairLogicalKeyboardLayout">
+            <summary>
+            Contains list of available logical layouts for corsair keyboards.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairPhysicalKeyboardLayout">
+            <summary>
+            Contains list of available physical layouts for corsair keyboards.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalKeyboardLayout.US">
+            <summary>
+            US-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalKeyboardLayout.UK">
+            <summary>
+            UK-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalKeyboardLayout.BR">
+            <summary>
+            BR-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalKeyboardLayout.JP">
+            <summary>
+            JP-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalKeyboardLayout.KR">
+            <summary>
+            KR-Keyboard
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairPhysicalMouseLayout">
+            <summary>
+            Contains list of available physical layouts for mice.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalMouseLayout.Zones1">
+            <summary>
+            Zone1-Mouse
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalMouseLayout.Zones2">
+            <summary>
+            Zone2-Mouse
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalMouseLayout.Zones3">
+            <summary>
+            Zone3-Mouse
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.CorsairPhysicalMouseLayout.Zones4">
+            <summary>
+            Zone4-Mouse
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CUEException">
+            <inheritdoc />
+            <summary>
+            Represents an exception thrown by the CUE.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CUEException.Error">
+            <summary>
+            Gets the <see cref="T:RGB.NET.Devices.Corsair.CorsairError" /> provided by CUE.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CUEException.#ctor(RGB.NET.Devices.Corsair.CorsairError)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CUEException" /> class.
+            </summary>
+            <param name="error">The <see cref="T:RGB.NET.Devices.Corsair.CorsairError" /> provided by CUE, which leads to this exception.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairProtocolDetails">
+            <summary>
+            Managed wrapper for CorsairProtocolDetails.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairProtocolDetails.SdkVersion">
+            <summary>
+            String containing version of SDK(like "1.0.0.1").
+            Always contains valid value even if there was no CUE found.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairProtocolDetails.ServerVersion">
+            <summary>
+            String containing version of CUE(like "1.0.0.1") or NULL if CUE was not found.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairProtocolDetails.SdkProtocolVersion">
+            <summary>
+            Integer that specifies version of protocol that is implemented by current SDK.
+            Numbering starts from 1.
+            Always contains valid value even if there was no CUE found.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairProtocolDetails.ServerProtocolVersion">
+            <summary>
+            Integer that specifies version of protocol that is implemented by CUE.
+            Numbering starts from 1.
+            If CUE was not found then this value will be 0.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairProtocolDetails.BreakingChanges">
+            <summary>
+            Boolean that specifies if there were breaking changes between version of protocol implemented by server and client.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairProtocolDetails.#ctor(RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails)">
+            <summary>
+            Internal constructor of managed CorsairProtocolDetails.
+            </summary>
+            <param name="nativeDetails">The native CorsairProtocolDetails-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.CorsairDeviceType">
+            <summary>
+            Gets the corsair specific device type.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.CorsairDeviceIndex">
+            <summary>
+            Gets the index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice`1"/>.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.DeviceType">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.Manufacturer">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.Model">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.Image">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.SupportsSyncBack">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.Lighting">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.CapsMask">
+            <summary>
+            Gets a flag that describes device capabilities. (<see cref="T:RGB.NET.Devices.Corsair.CorsairDeviceCaps" />)
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo.#ctor(System.Int32,RGB.NET.Core.RGBDeviceType,RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo)">
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDeviceInfo"/>.
+            </summary>
+            <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice`1"/>.</param>
+            <param name="deviceType">The type of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairRGBDevice`1">
+            <inheritdoc cref="T:RGB.NET.Core.AbstractRGBDevice`1" />
+            <inheritdoc cref="T:RGB.NET.Devices.Corsair.ICorsairRGBDevice" />
+            <summary>
+            Represents a generic CUE-device. (keyboard, mouse, headset, mousepad).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.DeviceInfo">
+            <inheritdoc />
+            <summary>
+            Gets information about the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.InternalLedMapping">
+            <summary>
+            Gets a dictionary containing all <see cref="T:RGB.NET.Core.Led"/> of the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice`1"/>.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.Item(RGB.NET.Devices.Corsair.CorsairLedId)">
+            <summary>
+            Gets the <see cref="T:RGB.NET.Core.Led"/> with the specified <see cref="T:RGB.NET.Devices.Corsair.CorsairLedId"/>.
+            </summary>
+            <param name="ledId">The <see cref="T:RGB.NET.Devices.Corsair.CorsairLedId"/> of the <see cref="T:RGB.NET.Core.Led"/> to get.</param>
+            <returns>The <see cref="T:RGB.NET.Core.Led"/> with the specified <see cref="T:RGB.NET.Devices.Corsair.CorsairLedId"/> or null if no <see cref="T:RGB.NET.Core.Led"/> is found.</returns>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice`1"/> class.
+            </summary>
+            <param name="info">The generic information provided by CUE for the device.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.Initialize">
+            <summary>
+            Initializes the device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.InitializeLayout">
+            <summary>
+            Initializes the <see cref="T:RGB.NET.Core.Led"/> and <see cref="T:RGB.NET.Core.Size"/> of the device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.UpdateLeds(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairRGBDevice`1.SyncBack">
+            <inheritdoc cref="M:RGB.NET.Core.IRGBDevice.SyncBack" />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.ICorsairRGBDevice">
+            <summary>
+            Represents a corsair RGB-device.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a corsair headset stand.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice.#ctor(RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the headset stand</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDeviceInfo.#ctor(System.Int32,RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice" />.</param>
+            <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a corsair headset.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice.#ctor(RGB.NET.Devices.Corsair.CorsairHeadsetRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the headset</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDeviceInfo.#ctor(System.Int32,RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice" />.</param>
+            <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a corsair keyboard.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice.#ctor(RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the keyboard</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo.PhysicalLayout">
+            <summary>
+            Gets the physical layout of the keyboard.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo.LogicalLayout">
+            <summary>
+            Gets the logical layout of the keyboard as set in CUE settings.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo.#ctor(System.Int32,RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.</param>
+            <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a corsair mouse.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice.#ctor(RGB.NET.Devices.Corsair.CorsairMouseRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the mouse</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.CorsairMouseRGBDeviceInfo.PhysicalLayout">
+            <summary>
+            Gets the physical layout of the mouse.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMouseRGBDeviceInfo.#ctor(System.Int32,RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice" />.</param>
+            <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a corsair mousepad.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice.#ctor(RGB.NET.Devices.Corsair.CorsairMousepadRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by CUE for the mousepad</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.CorsairMousepadRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.CorsairMousepadRGBDeviceInfo.#ctor(System.Int32,RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairMousepadRGBDeviceInfo" />.
+            </summary>
+            <param name="deviceIndex">The index if the <see cref="T:RGB.NET.Devices.Corsair.CorsairMousepadRGBDevice" />.</param>
+            <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo">
+            <summary>
+            CUE-SDK: contains information about device
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo.type">
+            <summary>
+            CUE-SDK: enum describing device type
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo.model">
+            <summary>
+            CUE-SDK: null - terminated device model(like “K95RGB”)
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo.physicalLayout">
+            <summary>
+            CUE-SDK: enum describing physical layout of the keyboard or mouse
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo.logicalLayout">
+            <summary>
+            CUE-SDK: enum describing logical layout of the keyboard as set in CUE settings
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo.capsMask">
+            <summary>
+            CUE-SDK: mask that describes device capabilities, formed as logical “or” of CorsairDeviceCaps enum values
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo.ledsCount">
+            <summary>
+            CUE-SDK: number of controllable LEDs on the device
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.Native._CorsairLedColor">
+            <summary>
+            CUE-SDK: contains information about led and its color
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedColor.ledId">
+            <summary>
+            CUE-SDK: identifier of LED to set
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedColor.r">
+            <summary>
+            CUE-SDK: red   brightness[0..255]
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedColor.g">
+            <summary>
+            CUE-SDK: green brightness[0..255]
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedColor.b">
+            <summary>
+            CUE-SDK: blue  brightness[0..255]
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.Native._CorsairLedPosition">
+            <summary>
+            CUE-SDK: contains led id and position of led rectangle.Most of the keys are rectangular.
+            In case if key is not rectangular(like Enter in ISO / UK layout) it returns the smallest rectangle that fully contains the key
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPosition.LedId">
+            <summary>
+            CUE-SDK: identifier of led
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPosition.top">
+            <summary>
+            CUE-SDK: values in mm
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPosition.left">
+            <summary>
+            CUE-SDK: values in mm
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPosition.height">
+            <summary>
+            CUE-SDK: values in mm
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPosition.width">
+            <summary>
+            CUE-SDK: values in mm
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.Native._CorsairLedPositions">
+            <summary>
+            CUE-SDK: contains number of leds and arrays with their positions
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPositions.numberOfLed">
+            <summary>
+            CUE-SDK: integer value.Number of elements in following array
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairLedPositions.pLedPosition">
+            <summary>
+            CUE-SDK: array of led positions
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails">
+            <summary>
+            CUE-SDK: contains information about SDK and CUE versions
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails.sdkVersion">
+            <summary>
+            CUE-SDK: null - terminated string containing version of SDK(like “1.0.0.1”). Always contains valid value even if there was no CUE found
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails.serverVersion">
+            <summary>
+            CUE-SDK: null - terminated string containing version of CUE(like “1.0.0.1”) or NULL if CUE was not found.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails.sdkProtocolVersion">
+            <summary>
+            CUE-SDK: integer number that specifies version of protocol that is implemented by current SDK.
+            Numbering starts from 1. Always contains valid value even if there was no CUE found
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails.serverProtocolVersion">
+            <summary>
+            CUE-SDK: integer number that specifies version of protocol that is implemented by CUE.
+            Numbering starts from 1. If CUE was not found then this value will be 0
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Corsair.Native._CorsairProtocolDetails.breakingChanges">
+            <summary>
+            CUE-SDK: boolean value that specifies if there were breaking changes between version of protocol implemented by server and client
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.Native._CUESDK.LoadedArchitecture">
+            <summary>
+            Gets the loaded architecture (x64/x86).
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.Reload">
+            <summary>
+            Reloads the SDK.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairSetLedsColors(System.Int32,System.IntPtr)">
+            <summary>
+            CUE-SDK: set specified leds to some colors. The color is retained until changed by successive calls. This function does not take logical layout into account.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetLedsColors(System.Int32,System.IntPtr)">
+            <summary>
+            CUE-SDK: get current color for the list of requested LEDs.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetDeviceCount">
+            <summary>
+            CUE-SDK: returns number of connected Corsair devices that support lighting control.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetDeviceInfo(System.Int32)">
+            <summary>
+            CUE-SDK: returns information about device at provided index.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetLedPositions">
+            <summary>
+            CUE-SDK: provides list of keyboard LEDs with their physical positions.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetLedPositionsByDeviceIndex(System.Int32)">
+            <summary>
+            CUE-SDK: provides list of keyboard or mousepad LEDs with their physical positions.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetLedIdForKeyName(System.Char)">
+            <summary>
+            CUE-SDK: retrieves led id for key name taking logical layout into account.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairRequestControl(RGB.NET.Devices.Corsair.CorsairAccessMode)">
+            <summary>
+            CUE-SDK: requestes control using specified access mode.
+            By default client has shared control over lighting so there is no need to call CorsairRequestControl unless client requires exclusive control.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairReleaseControl(RGB.NET.Devices.Corsair.CorsairAccessMode)">
+            <summary>
+            CUE-SDK: releases previously requested control for specified access mode.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairPerformProtocolHandshake">
+            <summary>
+            CUE-SDK: checks file and protocol version of CUE to understand which of SDK functions can be used with this version of CUE.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.Native._CUESDK.CorsairGetLastError">
+            <summary>
+            CUE-SDK: returns last error that occured while using any of Corsair* functions.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Corsair.LightbarSpecialPart">
+            <inheritdoc />
+            <summary>
+            Represents a lightbar attached to a <see cref="T:RGB.NET.Core.IRGBDevice" />
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.LightbarSpecialPart.Leds">
+            <summary>
+            Gets a readonly collection of all <see cref="T:RGB.NET.Core.Led"/> of this <see cref="T:RGB.NET.Devices.Corsair.LightbarSpecialPart"/>.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.LightbarSpecialPart.Left">
+            <summary>
+            Gets a readonly collection of all <see cref="T:RGB.NET.Core.Led"/> in the left half of this <see cref="T:RGB.NET.Devices.Corsair.LightbarSpecialPart"/>.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.LightbarSpecialPart.Right">
+            <summary>
+            Gets a readonly collection of all <see cref="T:RGB.NET.Core.Led"/> in the right half of this <see cref="T:RGB.NET.Devices.Corsair.LightbarSpecialPart"/>.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Corsair.LightbarSpecialPart.Center">
+            <summary>
+            Gets the Center <see cref="T:RGB.NET.Core.Led"/> of this <see cref="T:RGB.NET.Devices.Corsair.LightbarSpecialPart"/>.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.LightbarSpecialPart.#ctor(RGB.NET.Core.IRGBDevice)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.LightbarSpecialPart"/> class.
+            </summary>
+            <param name="device">The device associated with this <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart"/>.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.LightbarSpecialPart.GetEnumerator">
+            <inheritdoc />
+            <summary>
+            Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.
+            </summary>
+            <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.</returns>
+        </member>
+        <member name="M:RGB.NET.Devices.Corsair.LightbarSpecialPart.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc />
+            <summary>
+            Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.
+            </summary>
+            <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.</returns>
+        </member>
+    </members>
+</doc>

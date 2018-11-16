@@ -5,6 +5,7 @@
 console.log('--START--')
 const Alexa = require('alexa-sdk');
 const config = require('./config.json');
+const net = require('net');
 const Functions = require('./Functions.js');
 console.log('Required Modules Imported')
 
@@ -21,6 +22,35 @@ function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
     const auth_key = require('./config.json').SOCKET.AUTH;
     return {"AUTH": auth_key, "COMMAND": COMMAND, "PRIMARY": PRIMARY,
             "SECONDARY": SECONDARY, "TERTIARY": TERTIARY};
+}
+
+function SendJson(ip, params){
+    var client = new net.Socket();
+    console.log('Socket Created')
+    var server = new net.Server();
+    console.log('Server Created')
+
+    const HOST = config.SOCKET.HOST;
+    const PORT = config.SOCKET.PORT;
+    const auth_key = config.SOCKET.AUTH;
+
+    client.connect("5406", "73.157.7.156", function() {
+        client.write(JSON.stringify({"AUTH": auth_key, "COMMAND": "COMMAND", "PRIMARY": "LOCK", "SECONDARY": "TST", "TERTIARY": "TST2"}));
+    });
+    client.on('data', function(data){
+        var response = JSON.parse(data);
+        console.log(response);
+        if (data.message == 'devicelinking'){
+            writeToS3(params.responseObj.event.context.System.device.deviceId, response.primary);
+        }
+        params['responseObj'].emit(':tell', response.message);
+    });
+    client.on('error', function(ex){
+        if (ex['code'] == 'ECONNREFUSED'){
+            params['responseObj'].emit(':tell', 'Couldn\'t connect to your computer, please be sure alexa comp is running.');
+        }
+        console.log('Exception Caught: ' + ex);
+    });
 }
 
 // Code
@@ -62,7 +92,7 @@ const handlers = {
 
     'ComputerCommandIntent': function(){
         console.log('Command Intent')
-        var command = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        var command = this.event.request.intent.slots.ComputerCommandConfirm.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
 
         var j = makeJson("COMPUTERCOMMAND", command);

@@ -23,6 +23,7 @@ function encrypt(text){
     return crypted;
 }
 
+/*
 function SendJson(ip, params){
     var client = new net.Socket();
     console.log('Socket Created')
@@ -51,7 +52,6 @@ function SendJson(ip, params){
         }
         console.log('Exception Caught: ' + ex);
     });
-}
 
 module.exports = {
     'sendEmail': function sendEmail(toAddr, deviceID, userID){
@@ -65,7 +65,7 @@ module.exports = {
         fs.readFile('Device_Linking_Email_email.html', 'utf8', function(err, data_){
           console.log('in read html')
           eParams = {
-              Destination: {
+              Destinatin: {
                 ToAddresses: ["akmadian@gmail.com"]
               },
               Template: "DeviceLinkingTemplatev9_1_1",
