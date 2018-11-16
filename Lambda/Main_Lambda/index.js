@@ -6,6 +6,8 @@ console.log('--START--')
 const Alexa = require('alexa-sdk');
 const config = require('./config.json');
 const Functions = require('./Functions.js');
+const net = require('net');
+const crypto = require('crypto');
 console.log('Required Modules Imported')
 
 const SKILL_NAME = 'AlexaComp';
@@ -23,6 +25,59 @@ function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
             "SECONDARY": SECONDARY, "TERTIARY": TERTIARY};
 }
 
+function encrypt(text){
+    var cipher = crypto.createCipher('aes-256-cbc',config.ENCRYPTION.KEY)
+    var crypted = cipher.update(text,'utf8','hex')
+    crypted += cipher.final('hex');
+    return crypted;
+}
+
+function decrypt(text){
+    console.time('Decrypt');
+    if (text == undefined || text == null){
+        return text;
+    }
+    var decipher = crypto.createDecipher('aes-256-cbc',config.ENCRYPTION.KEY)
+    var dec = decipher.update(text,'hex','utf8')
+    dec += decipher.final('utf8');
+    console.timeEnd('Decrypt');
+    return dec;
+}
+
+function getIPFromConfig(deviceId){
+    return config.TESTINGPAIRS[deviceId];
+}
+
+function SendJson(ip, params){
+    var client = new net.Socket();
+    console.log('Socket Created')
+    var server = new net.Server();
+    console.log('Server Created')
+
+    const HOST = config.SOCKET.HOST;
+    const PORT = config.SOCKET.PORT;
+    const auth_key = config.SOCKET.AUTH;
+
+    client.connect(PORT, ip, function() {
+        var js_ = JSON.stringify(params.js);
+        client.write(js_);
+    });
+    client.on('data', function(data){
+        var response = JSON.parse(data);
+        console.log(response);
+        if (data.message == 'devicelinking'){
+            writeToS3(params.responseObj.event.context.System.device.deviceId, response.primary);
+        }
+        params['responseObj'].emit(':tell', response.message);
+    });
+    client.on('error', function(ex){
+        if (ex['code'] == 'ECONNREFUSED'){
+            params['responseObj'].emit(':tell', 'Couldn\'t connect to your computer, please be sure alexa comp is running.');
+        }
+        console.log('Exception Caught: ' + ex);
+    });
+}
+
 // Code
 const handlers = {
     'LaunchProgramIntent': function () {
@@ -36,8 +91,12 @@ const handlers = {
                 'js': j
             }
         }
-        // Get IP pair from MDB
-        // Send Req
+        try{
+            SendJson(getIPFromConfig(deviceID), options);
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
     },
 
     'GetComputerStatIntent': function () {
@@ -56,8 +115,12 @@ const handlers = {
                 'js': j
             }
         }
-        // Get IP pair from MDB
-        // Send req
+        try{
+            SendJson(getIPFromConfig(deviceID), options);
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
     },
 
     'ComputerCommandIntent': function(){
@@ -72,15 +135,23 @@ const handlers = {
                 'js': j
             }
         }
-        // Get IP pair from MDB
-        // Send req
+        try{
+            SendJson(getIPFromConfig(deviceID), options);
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
     },
 
     'DeviceLinkingIntent': function(){
         var deviceID = this.event.context.System.device.deviceId;
         var userID = this.event.session.user.userId;
-
-        Functions.sendEmail('akmadian@gmail.com', deviceID, userID)
+        try{
+            Functions.sendEmail('akmadian@gmail.com', deviceID, userID)
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
     },
 
     'LaunchRequest' : function(){
