@@ -61,5 +61,5 @@ ___
 [2]: https://github.com/akmadian/AlexaComp/blob/docs/Docs/Privacy-Policy.md
 [3]: https://github.com/openhardwaremonitor/openhardwaremonitor
 [4]: https://github.com/DarthAffe/RGB.NET
-[5]: https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=akmadian@gmail.com
+[5]: https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=Beta%20Access%20Request&to=akmadian@gmail.com
 [6]: https://github.com/akmadian/AlexaComp/issues/new
