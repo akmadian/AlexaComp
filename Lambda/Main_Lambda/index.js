@@ -93,7 +93,7 @@ const handlers = {
     'ComputerCommandIntent': function(){
         console.log('Command Intent')
         var command = this.event.request.intent.slots.ComputerCommandConfirm.resolutions.resolutionsPerAuthority[0].values[0].value.id;
-        // var deviceID = this.event.context.System.device.deviceId;
+        var deviceID = this.event.context.System.device.deviceId;
 
         var j = makeJson("COMPUTERCOMMAND", command);
         var params = {
@@ -102,7 +102,8 @@ const handlers = {
                 'js': j
             }
         }
-        SendJson();
+        // Get IP pair from MDB
+        // Send req
     },
 
     'DeviceLinkingIntent': function(){

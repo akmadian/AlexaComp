@@ -34,8 +34,8 @@ function SendJson(ip, params){
     const PORT = config.SOCKET.PORT;
     const auth_key = config.SOCKET.AUTH;
 
-    client.connect(PORT, HOST, function() {
-        var js_ = params;
+    client.connect(PORT, config.SOCKET.TESTING, function() {
+        var js_ = JSON.stringify(params.js);
         client.write(js_);
     });
     client.on('data', function(data){
@@ -52,7 +52,6 @@ function SendJson(ip, params){
         }
         console.log('Exception Caught: ' + ex);
     });
-}*/
 
 module.exports = {
     'sendEmail': function sendEmail(toAddr, deviceID, userID){
