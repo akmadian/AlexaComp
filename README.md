@@ -47,7 +47,7 @@ AlexaComp **_does_** collect some information about users. However, it only coll
 The data that is gathered is anonymized, and never sold. See the [AlexaComp privacy policy][2] for more information.
 
 ___
-###### Hardware monitoring package made by [openhardwaremonitor][5]
+###### Hardware monitoring package made by [openhardwaremonitor][3]
 ###### RGB Lighting package made by [RGB.NET][4]
 
 [0]: https://github.com/akmadian/AlexaComp/blob/docs/Docs/Setup.md
