@@ -15,8 +15,9 @@ using RGB.NET.Devices.Novation;
 using RGB.NET.Devices.Razer;
 
 namespace AlexaComp.Controllers {
-    
-    class LightingController : AlexaCompBase {
+
+    // TODO : Method of assigning generic part names like "mouse" or "keyboard" to RGBDevice objects. 
+    class LightingController : AlexaCompCore {
 
         public static RGBSurface surface = RGBSurface.Instance;
 
@@ -24,8 +25,8 @@ namespace AlexaComp.Controllers {
         /// Loads and logs all devices.
         /// </summary>
         public static void startLightingThread() {
-            loadDevices();
             clog("RGB Devices Loaded, Printing...");
+            loadDevices();
             foreach (var device in surface.Devices) {
                 clog(String.Format("RGB Device Found - {0} {1} - Type: {2}",
                         device.DeviceInfo.Manufacturer,
@@ -33,7 +34,6 @@ namespace AlexaComp.Controllers {
                         device.DeviceInfo.DeviceType));
             }
             surface.UpdateMode = UpdateMode.Continuous;
-
             // You can run lighting effects here
         }
 
@@ -60,11 +60,11 @@ namespace AlexaComp.Controllers {
         /// </summary>
         // TODO : Make param quidelines for all methods.
         // TODO : Implement more methods.
-        class LightingEffects : LightingController {
+        public class LightingEffects : LightingController {
 
             /// <summary>
             /// Creates a static colored breathing effect.
-            /// Increasing the speed param makes the effect go slower. At high values, the 
+            /// Increasing the speed param makes the effect go slower. At high values, the
             ///     lighting updates can look choppy. This choppiness can be offset by 
             ///     reducing the brightnessStep param.
             ///     
@@ -78,7 +78,7 @@ namespace AlexaComp.Controllers {
             // TODO : Implement color cieling. Only default color values work.
             // If values are 255, 255, 255, they are added to and subtracted from an equal ammount.
             public static void breathingAnimation(int R = 1, int G = 1, int B = 1, int speed = 20, double brightnessStep = 0.01) {
-                clog(String.Format("RGB -- Breathing Animation Set -- Color: {0}, {1}, {2} - Speed: {3} - Brightness Step: {4}", 
+                clog(String.Format("RGB -- Breathing Animation Set -- Color: {0}, {1}, {2} - Speed: {3} - Brightness Step: {4}",
                     R, G, B, speed, brightnessStep));
                 while (true) {
                     ILedGroup ledGroup = new ListLedGroup(surface.Leds);
@@ -199,7 +199,7 @@ namespace AlexaComp.Controllers {
     /// <summary>
     /// Methods that convert color values.
     /// </summary>
-    class colorMethods : AlexaCompBase {
+    class colorMethods : AlexaCompCore {
 
         /// <summary>
         /// From: https://geekymonkey.com/Programming/CSharp/RGB2HSL_HSL2RGB.htm
@@ -266,7 +266,8 @@ namespace AlexaComp.Controllers {
             }
             try {
                 return new RGBColor(Convert.ToByte(r * 255), Convert.ToByte(g * 255.0f), Convert.ToByte(b * 255.0f));
-            } catch (OverflowException) {
+            }
+            catch (OverflowException) {
                 clog("Overflow Exception caught during attempt to return RGB object from HSLToRGB.");
                 return null;
             }
@@ -293,29 +294,37 @@ namespace AlexaComp.Controllers {
         /// </summary>
         /// <param name="array">The integer array to convert</param>
         /// <returns>An RGBColor object</returns>
-        public static RGBColor ArrToRGB(int[] array) {
-            return new RGBColor(array[0], array[1], array[2]);
-        }
+        public static RGBColor ArrToRGB(int[] array) => new RGBColor(array[0], array[1], array[2]);
 
         /// <summary>
         /// Converts an RGBColor object to a hex string
         /// </summary>
         /// <param name="color">The RGB object to convert</param>
         /// <returns>A hex string</returns>
-        public static string RGBToHex(RGBColor color) {
-            return color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
-        }
+        public static string RGBToHex(RGBColor color) => color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 
-        public static int[] RGBToArr(RGBColor color) {
-            return new int[] { color.R, color.G, color.B };
+        public static int[] RGBToArr(RGBColor color) => new int[] { color.R, color.G, color.B };
+    }
+
+    public static class Extensions {
+        public static int[] RGBAsIntArray(this Color thisColor, Color colorObj) => new int[3] {
+            Convert.ToInt32(colorObj.R),
+            Convert.ToInt32(colorObj.G),
+            Convert.ToInt32(colorObj.B)
+        };
+
+        public static void printObj(this Color thisColor) {
+            Console.WriteLine(String.Format("RGBColor Object -- R: {0}, G: {1}, B: {2}", thisColor.R, thisColor.G, thisColor.B));
         }
     }
 
-    class RGBColor{
+    class RGBColor {
 
         public int R;
         public int G;
         public int B;
+
+        public int A { get; }
 
         public RGBColor(int r = 0, int g = 0, int b = 0) {
             R = r;
@@ -335,28 +344,12 @@ namespace AlexaComp.Controllers {
             }
         }
 
-        public Color toRGBNETColor() {
-            return new Color(R, G, B);
-        }
-
-        public bool equalsColor(RGBColor color) {
-            if (color.R == R && color.G == G && color.B == B) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        public Color toRGBNETColor() => new Color(R, G, B);
 
         public void printObj() {
             Console.WriteLine(String.Format("RGBColor Object -- R: {0}, G: {1}, B: {2}", R, G, B));
         }
 
-        public int[] sliceColor() {
-            return new int[3] {R, G, B};
-        }
-
-        public RGBColor subtract(RGBColor toSub) {
-            return new RGBColor(R - toSub.R, G - toSub.G, B - toSub.B);
-        }
+        public int[] sliceColor() => new int[3] { R, G, B };
     }
 }

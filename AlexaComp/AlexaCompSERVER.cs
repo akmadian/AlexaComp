@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Net;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
 using System.Diagnostics;
@@ -9,25 +10,25 @@ using Newtonsoft.Json;
 using Mono.Nat;
 
 namespace AlexaComp{
-    class AlexaCompSERVER{
-        // TODO: Work on abstraction.
 
-        private static bool newServerFlag = false;
+   class AlexaCompServerInstance : AlexaCompSERVER {
+
+        public bool newServerFlag = false;
+        
         private static TcpListener server;
         private static TcpClient client;
         private static NetworkStream nwStream;
 
         private static int PORT = int.Parse(AlexaComp.GetConfigValue("PORT"));
-        private static INatDevice device;
+        private static string AUTH = AlexaComp.GetConfigValue("AUTH");
+        private static string HOST = AlexaComp.GetConfigValue("HOST");
 
+        public AlexaCompServerInstance() {
+            AlexaCompCore.serverInstances.Add(this);
+            startServer();
+        }
 
-        // COMMUNICATION TO AND FROM LAMBDAS
-        public static void startServer() {
-            AlexaComp._log.Info("Server Thread Started");
-            AlexaComp._log.Info("Active Threads - " + Process.GetCurrentProcess().Threads.Count.ToString());
-
-            string AUTH = AlexaComp.GetConfigValue("AUTH");
-            string HOST = AlexaComp.GetConfigValue("HOST");
+        public void startServer() {
             try {
                 IPAddress host = IPAddress.Parse(HOST);
 
@@ -38,59 +39,50 @@ namespace AlexaComp{
                 if (AlexaComp.stopProgramFlag == true) {
                     return;
                 }
-            } catch (FormatException ex) {
+            }
+            catch (FormatException ex) {
                 AlexaComp._log.Debug(ex);
             }
 
+            acceptClient();
+        }
+
+        public void acceptClient() {
             try {
                 client = server.AcceptTcpClient(); // Accept Client Connection
 
-            } catch (SocketException) { AlexaComp._log.Debug("SocketException Caught when accepting client");
-            } catch (NullReferenceException) { AlexaComp._log.Debug("NullReferenceException Caught when accepting client");
-            } catch (InvalidOperationException) { AlexaComp._log.Debug("InvalidOperationException Caught when trying to accept tcp Client, most likely server not listening.");
+                try {
+                    nwStream = client.GetStream(); // Get Incoming Data
+                    byte[] buffer = new byte[client.ReceiveBufferSize];
+                    int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize); // Read Data
+                    string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead); // Convert Data to String
+                    Console.WriteLine(dataReceived);
+                    deserializeRequest(dataReceived);
+                }
+                catch (NullReferenceException ex) { AlexaComp._log.Debug(ex); }
+                catch (ObjectDisposedException ex) { AlexaComp._log.Debug(ex); }
+            }
+            catch (SocketException) { clog("SocketException Caught when accepting client");}
+            catch (NullReferenceException) { clog("NullReferenceException Caught when accepting client");}
+            catch (InvalidOperationException) { clog("InvalidOperationException Caught when trying to accept tcp Client, most likely server not listening.");
                 startServer();
             }
-            
-            AlexaComp._log.Info("Client Connected");
+        }
 
-            try{
-                nwStream = client.GetStream(); // Get Incoming Data
-                byte[] buffer = new byte[client.ReceiveBufferSize];
-                int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize); // Read Data
-                string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead); // Convert Data to String
-                Console.WriteLine(dataReceived);
-                
-                Request req = JsonConvert.DeserializeObject<Request>(dataReceived);
-                AlexaComp._log.Info("New Request - {Command: " + req.COMMAND + ", Primary: " + req.PRIMARY +
-                          ", Secondary: " + req.SECONDARY + ", Tertiary: " + req.TERTIARY + "}");
-                Console.WriteLine("New Request - {Command: " + req.COMMAND + ", Primary: " + req.PRIMARY +
-                          ", Secondary: " + req.SECONDARY + ", Tertiary: " + req.TERTIARY + "}");
-                
-                if (req.AUTH != AUTH){
-                    AlexaComp._log.Info("Auth Invalid");
-                    newServerFlag = true;
-                    AlexaComp._log.Info("newServerFlag set to true");
-                } else {
-                    AlexaComp._log.Info("Auth Valid");
-                    Console.WriteLine("Auth Valid");
-                    /*
-                    if (req.COMMAND == "DEVICELINK") {
-                        Console.WriteLine("Devicelinkrequest");
-                        Options opt = new Options(req, nwStream);
-                        Thread DeviceLinkingThread = new Thread(new ParameterizedThreadStart(DeviceLinkingForm.startDeviceLinking));
-                        DeviceLinkingThread.Start(opt);
-                        Thread.Sleep(8000);
-                    } else {
-                        Console.WriteLine("not devicelink");
-                    }*/
+        public void deserializeRequest(string data) {
+            Request req = JsonConvert.DeserializeObject<Request>(data);
+            string reqString = String.Format("New Request - [Command: {0}, Primary: {1}, Secondary: {2}, Tertiary: {3}]", req.COMMAND, req.PRIMARY, req.SECONDARY, req.TERTIARY);
+            clog(reqString);
 
-                    AlexaCompREQUEST.processRequest(req);
-                    stopServer();
-                }
-            } catch (NullReferenceException ex){
-                AlexaComp._log.Debug(ex);
-            } catch (ObjectDisposedException ex){
-                AlexaComp._log.Debug(ex);
+            if (req.AUTH != AUTH) {
+                clog("Auth Invalid");
+                newServerFlag = true;
+                clog("destoryServerFlag set to true");
+            }
+            else {
+                clog("Auth Valid.");
+                AlexaCompREQUEST.processRequest(req);
+                stopServer();
             }
         }
 
@@ -106,17 +98,52 @@ namespace AlexaComp{
             int messageLength = Encoding.UTF8.GetBytes(json).Length;
             if (customStream != null) {
                 customStream.Write(message, 0, messageLength);
-            } else {
+            }
+            else {
                 nwStream.Write(message, 0, messageLength);
             }
         }
+
+        public void stopServer() {
+            AlexaComp._log.Info("Stopping Server");
+            try {
+                client.Close();
+                AlexaComp._log.Info("Client closed");
+                server.Stop();
+                AlexaComp._log.Info("Server Stopped");
+            }
+            catch (NullReferenceException ex) {
+                AlexaComp._log.Debug(ex);
+            }
+
+            if (AlexaComp.stopProgramFlag == false) {
+                newServerFlag = true;
+                AlexaComp._log.Info("newServerFlag Raised");
+            }
+        }
+
+        public static void clog(string message) {
+            AlexaCompCore._log.Info(message);
+            Console.WriteLine(message);
+        }
+    }
+
+    class AlexaCompSERVER : AlexaCompCore {
+        // TODO: Work on abstraction.
+        protected static List<AlexaCompServerInstance> serverInstances = new List<AlexaCompServerInstance>();
+
+        protected static int PORT = int.Parse(AlexaComp.GetConfigValue("PORT"));
+        protected static string AUTH = AlexaComp.GetConfigValue("AUTH");
+        protected static string HOST = AlexaComp.GetConfigValue("HOST");
+
+        private static INatDevice device;
 
         // PORT FORWARDING
         /*
         * Start the device discovery process
         */
         public static void forwardPort() {
-            NatUtility.DeviceFound += new EventHandler<DeviceEventArgs>(onDeviceFound);
+            // NatUtility.DeviceFound += new EventHandler<DeviceEventArgs>(onDeviceFound);
             NatUtility.DeviceLost += new EventHandler<DeviceEventArgs>(onDeviceLost);
             AlexaComp._log.Info("Starting Port Forwarding Device Discovery");
             NatUtility.StartDiscovery();
@@ -155,43 +182,26 @@ namespace AlexaComp{
             }
         }
 
-        // SERVER MANAGEMENT
-        /*
-        * Stops the currently running server.
-        */
-        public static void stopServer(){
-            AlexaComp._log.Info("Stopping Server");
-            try{
-                client.Close();
-                AlexaComp._log.Info("Client closed");
-                server.Stop();
-                AlexaComp._log.Info("Server Stopped");
-            } catch (NullReferenceException ex) {
-                AlexaComp._log.Debug(ex);
-            }
-            
-            if (AlexaComp.stopProgramFlag == false){
-                newServerFlag = true;
-                AlexaComp._log.Info("newServerFlag Raised");
-            }
-        }
-
         /*
         * Checks to see if the server is stopped, if true, restarts it.
         */
+        /*
         public static void ServerLoop(){
             if (AlexaComp.stopProgramFlag == false) {
                 while (true){
-                    Thread.Sleep(150);
-                    if (newServerFlag == true){
-                        AlexaComp._log.Info("Active Threads - " + Process.GetCurrentProcess().Threads.Count.ToString());
-                        Thread StartServerThread = new Thread(startServer);
-                        StartServerThread.Name = "startServerThread";
-                        StartServerThread.Start();
-                        newServerFlag = false;
+                    foreach (AlexaCompServerInstance instance in serverInstances) {
+                        Thread.Sleep(150);
+                        bool nServerFlag = instance.newServerFla
+                        if (instance. == true) {
+                            AlexaComp._log.Info("Active Threads - " + Process.GetCurrentProcess().Threads.Count.ToString());
+                            Thread StartServerThread = new Thread(startServer);
+                            StartServerThread.Name = "startServerThread";
+                            StartServerThread.Start();
+                            newServerFlag = false;
+                        }
                     }
                 }
             }
-        }
+        }*/
     }
 }

@@ -9,7 +9,7 @@ using log4net;
 using log4net.Config;
 
 namespace AlexaComp{
-    class AlexaCompHARDWARE{
+    class AlexaCompHARDWARE : AlexaCompCore{
         private static string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static List<string> partNames = new List<string>() { "GPU", "CPU", "RAM", "MAINBOARD", "HDD", "FANCONTROLLER" };
         public static Dictionary<string, Dictionary<string, string>> partDict = new Dictionary<string, Dictionary<string, string>>() {
@@ -28,18 +28,19 @@ namespace AlexaComp{
             try {
                 Console.WriteLine(partDict[part][stat]);
             } catch (KeyNotFoundException e) {
-                AlexaComp._log.Info("KeyNotFoundException during attempt to get part stat " + e.Message);
+                clog("KeyNotFoundException during attempt to get part stat " + e.Message);
                 Response res = new Response(false, failMessage, "", "");
                 return "null";
-            } 
-            #pragma warning disable CS0162 // Unreachable code detected
-            for (int i = 0; i < computer.Hardware.Length; i++){
-            #pragma warning restore CS0162 // Unreachable code detected
+            }
+
+            int hwLength = computer.Hardware.Length;
+            for (int i = 0; i < hwLength; i++){
                 for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++){
-                    var currentSensor = computer.Hardware[i].Sensors[j];
-                    if (currentSensor.Name == partDict[part][stat]) {
-                        if (currentSensor.SensorType.ToString() == tertiary) {
-                            return currentSensor.Value.ToString() + " Mega Hertz";
+                    foreach (ISensor sensor in computer.Hardware[i].Sensors) {
+                        if (sensor.Name == partDict[part][stat]) {
+                            if (getSensorType(sensor) == tertiary) {
+                                return sensor.Value.ToString() + " Mega Hertz";
+                            }
                         }
                     }
                 }
@@ -47,6 +48,10 @@ namespace AlexaComp{
                 return "null";
             }
             return "null";
+        }
+
+        public static string getSensorType(ISensor sensor) {
+            return sensor.SensorType.ToString();
         }
 
         public static void assignSensors() {
@@ -66,6 +71,7 @@ namespace AlexaComp{
                                 } catch (KeyNotFoundException) {}
                             }
 
+                            // TODO: Implement switch case
                             if (currentSensor.SensorType == SensorType.Clock) {
                                 Console.WriteLine("Clock Sensor");
                                 if (currentSensor.Name.Contains("Core")) {
@@ -99,9 +105,7 @@ namespace AlexaComp{
             }
         }
 
-
-
-
+        // Clicking log all sensors button quickly triggers nullreferenceexception in this method
         public static void partOneHot(Computer comp, string part){
             if (part == "GPU") { comp.GPUEnabled = true; }
             else if (part == "CPU") { comp.CPUEnabled = true; }

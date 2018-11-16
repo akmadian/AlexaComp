@@ -110,7 +110,7 @@ namespace CompatibilityTool {
                 surface.LoadDevices(NovationDeviceProvider.Instance);
                 surface.LoadDevices(DMXDeviceProvider.Instance);
 
-                // This method is broken at the minute
+                // Loading ASUS device is broken at the minute.
                 try {
                     // surface.LoadDevices(AsusDeviceProvider.Instance);
                 }
@@ -193,8 +193,7 @@ namespace CompatibilityTool {
                             plog("\t    Rank           - " + currentHardware.Sensors.Rank);
                             plog("\t    SyncRoot   OBJ - " + currentHardware.Sensors.SyncRoot);
                             plog("\tSENSORS");
-                            for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++) { // For sensor in hardware
-                                var sensor = computer.Hardware[k].Sensors[j];
+                            foreach (ISensor sensor in computer.Hardware[k].Sensors) {
                                 plog("\tSENSOR");
                                 plog("\t    Name            - " + sensor.Name);
                                 plog("\t    SensorType      - " + sensor.SensorType);

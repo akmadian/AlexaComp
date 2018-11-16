@@ -8,11 +8,13 @@ using Microsoft.Win32;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
+using AlexaComp.Controllers;
 
 using log4net;
 using log4net.Config;
 
-// TODO: Documentation
+// TODO : Documentation
+// TODO : Add region tags to files where appropriate.
 /** Documentation format
 * Description
 * @param <paramname> <description>
@@ -21,26 +23,7 @@ using log4net.Config;
 */
 
 namespace AlexaComp {
-    public class AlexaComp {
-
-        // Paths
-        public static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-        private static string[] splitExePath = exePath.Split('\\').ToArray();
-        public static string pathToDebug = string.Join("\\\\", splitExePath.Reverse().Skip(1).Reverse());
-        public static string pathToProject = string.Join("\\\\", splitExePath.Reverse().Skip(3).Reverse());
-
-        // Threads
-        public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow);
-        public static Thread ServerThread = new Thread(AlexaCompSERVER.startServer);
-        public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop);
-        private static Thread LoadingScreenThread = new Thread(LoadingScreenForm.startLoadingScreen);
-
-        // Misc
-        public static bool updateLogBoxFlag = false;
-        public static bool stopProgramFlag = false;
-        public static Dictionary<string, string> settingsDict = new Dictionary<string, string>();
-        public static readonly ILog _log = LogManager.GetLogger(typeof(AlexaComp));
-
+    class AlexaComp : AlexaCompCore{
 
         [STAThread]
         static void Main(string[] args) {
@@ -52,7 +35,7 @@ namespace AlexaComp {
                 if ("-LogSensors".Contains(arg)) {
                     Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
                     LogSensorsThread.Start(false);
-                } 
+                }
                 if ("-GetPrograms".Contains(arg)) {
 
                 }
@@ -71,20 +54,12 @@ namespace AlexaComp {
             getExternalIP();
 
             // Define Thread Names
-            ServerThread.Name = "ServerThread";
-            ServerLoopThread.Name = "ServerLoopThread";
+            // ServerThread.Name = "ServerThread";
+            // ServerLoopThread.Name = "ServerLoopThread";
             AppWindowThread.Name = "AppWindowThread";
+            LightingControlThread.Name = "LightingControlThread";
 
             LoadingScreenThread.Start();
-        }
-
-        public static void stopApplication() {
-            _log.Info("CLOSING PROGRAM");
-            stopProgramFlag = true;
-            AlexaCompSERVER.stopServer();
-            AlexaCompSERVER.delPortMap();
-            
-            Environment.Exit(1);
         }
 
         /*
@@ -125,14 +100,6 @@ namespace AlexaComp {
                     }
                 } 
             }
-        }
-        
-        /*
-        * Gets a specified config value
-        * @ param key - The name or key of the config value to get.
-        */
-        public static string GetConfigValue(string key) {
-            return ConfigurationManager.AppSettings[key];
         }
         
         /*
@@ -181,7 +148,7 @@ namespace AlexaComp {
         }
     }
 
-    public class Options {
+    class Options {
         public Request req;
         public System.Net.Sockets.NetworkStream nwStream;
 

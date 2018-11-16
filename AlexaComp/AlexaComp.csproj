@@ -87,7 +87,8 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>AlexaCompIcon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=3.0.0.209, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
@@ -168,11 +169,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlexaCompBase.cs" />
-    <Compile Include="AlexaCompGUI.cs">
+    <Compile Include="AlexaCompCore.cs" />
+    <Compile Include="Forms\AlexaCompGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AlexaCompGUI.Designer.cs">
+    <Compile Include="Forms\AlexaCompGUI.Designer.cs">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="AlexaComp.cs" />
@@ -181,18 +182,18 @@
     <Compile Include="AlexaCompHARDWARE.cs" />
     <Compile Include="Controllers\AudioController.cs" />
     <Compile Include="Controllers\LightingController.cs" />
-    <Compile Include="LoadingScreenForm.cs">
+    <Compile Include="Forms\LoadingScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoadingScreenForm.Designer.cs">
+    <Compile Include="Forms\LoadingScreenForm.Designer.cs">
       <DependentUpon>LoadingScreenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestFunctions.cs" />
-    <EmbeddedResource Include="AlexaCompGUI.resx">
+    <Compile Include="Tests\TestFunctions.cs" />
+    <EmbeddedResource Include="Forms\AlexaCompGUI.resx">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoadingScreenForm.resx">
+    <EmbeddedResource Include="Forms\LoadingScreenForm.resx">
       <DependentUpon>LoadingScreenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -238,7 +239,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AlexaCompIcon.ico" />
     <Content Include="pathDir.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -271,6 +271,7 @@
     <Error Condition="!Exists('packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets'))" />
     <Error Condition="!Exists('packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets'))" />
     <Error Condition="!Exists('packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets'))" />
+    <Error Condition="!Exists('packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets'))" />
   </Target>
   <Import Project="packages\RGB.NET.Resources.CoolerMaster.0.1.0\build\RGB.NET.Resources.CoolerMaster.targets" Condition="Exists('packages\RGB.NET.Resources.CoolerMaster.0.1.0\build\RGB.NET.Resources.CoolerMaster.targets')" />
   <Import Project="packages\RGB.NET.Resources.Corsair.0.1.0\build\RGB.NET.Resources.Corsair.targets" Condition="Exists('packages\RGB.NET.Resources.Corsair.0.1.0\build\RGB.NET.Resources.Corsair.targets')" />
@@ -281,4 +282,5 @@
   <Import Project="packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets" Condition="Exists('packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets')" />
   <Import Project="packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets" Condition="Exists('packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets')" />
   <Import Project="packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets" Condition="Exists('packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets')" />
+  <Import Project="packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets" Condition="Exists('packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets')" />
 </Project>
