@@ -40,6 +40,7 @@ AlexaComp/pathDir.xml
 AlexaComp/AlexaCompTESTS.cs
 AlexaComp/SavedMethods.cs
 *node_modules/
+AlexaComp/
 *config.json
 Docs/
 Setup1/
