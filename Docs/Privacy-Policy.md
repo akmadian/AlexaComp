@@ -16,3 +16,9 @@ AlexaComp collects only a very minimal amount of information about users and the
         - I Can Not Hear Anything You Say Before You Start an AlexaComp Request,
           I Can Not Hear Anything You Say After You Finish an AlexaComp Request.
 </pre>
+
+I will never sell any of your data. I don't really care about your data anyways.
+
+All traffic between AlexaComp services is encrypted with AES-256 bit encryption.
+
+No more infomation is collected than is needed for operation of the skill, and basic debugging.
