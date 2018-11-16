@@ -18,7 +18,7 @@ namespace AlexaComp {
         public static void processRequest(Request req) {
             switch (req.COMMAND) {
                 case "LAUNCH":         launchRequest(req);   break;
-                case "COMMAND":        commandRequest(req);  break;
+                case "COMPUTERCOMMAND":        commandRequest(req);  break;
                 case "GETCOMPSTAT":    compStatRequest(req); break;
                 case "AUDIOCOMMAND":   audioRequest(req);    break;
                 case "RGBCOMMAND":     RGBRequest(req);      break; // TODO : Implement RGBCommand
@@ -88,9 +88,12 @@ namespace AlexaComp {
         }
 
         static void commandRequest(Request req) {
+            clog("CommandResuest");
+            clog(req.PRIMARY);
             switch (req.PRIMARY) {
                 case "SHUTDOWN":  stopApplication(); Process.Start("shutdown", "/s /t .5");                         break; // To Test
-                case "LOCK":      Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation"); break; // Working
+                case "LOCK":
+                    Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation"); break; // Working
                 case "RESTART":   stopApplication(); Process.Start("shutdown", "/r /t .5");                         break; // To Test
                 case "SLEEP":     SetSuspendState(false, true, true);                                               break; // To Test
                 case "LOGOFF":    ExitWindowsEx(0, 0);                                                              break; // To Test
@@ -129,7 +132,7 @@ namespace AlexaComp {
         }
     }
 
-    [DebuggerDisplay("[AlexaComp Request Object -- {{Command: {COMMAND}, Primary: {PRIMARY}, Secondary: {SECONDARY}, Tertiary: {TERTIARY}}}]")]
+    [DebuggerDisplay("[AlexaComp Request Object -- {{COMMAND: {COMMAND}, PRIMARY: {PRIMARY}, SECONDARY: {SECONDARY}, TERTIARY: {TERTIARY}}}]")]
     class Request : AlexaCompCore{
         public string AUTH { get; set; }
         public string COMMAND { get; set; }
