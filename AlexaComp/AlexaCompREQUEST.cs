@@ -139,6 +139,7 @@ namespace AlexaComp {
         public string PRIMARY { get; set; }
         public string SECONDARY { get; set; }
         public string TERTIARY { get; set; }
+        public string SESSID { get; set; }
         public string[] OPTIONS { get; set; }
         public string[] OPTIONS2 { get; set; }
 

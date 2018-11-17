@@ -21,7 +21,7 @@ namespace AlexaComp{
 
         public static int PORT = int.Parse(GetConfigValue("PORT"));
         public static string AUTH = GetConfigValue("AUTH");
-        public static string HOST = GetConfigValue("HOST");
+        public static string HOST = "10.0.0.59";
 
         private static INatDevice device;
 
