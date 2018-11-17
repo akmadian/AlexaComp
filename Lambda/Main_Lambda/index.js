@@ -24,7 +24,7 @@ const responsesFailed = ['Sorry, that didn\'t work.', 'Something went wrong.', '
 function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
     const auth_key = require('./config.json').SOCKET.AUTH;
     return {"AUTH": auth_key, "COMMAND": COMMAND, "PRIMARY": PRIMARY,
-            "SECONDARY": SECONDARY, "TERTIARY": sessID};
+            "SECONDARY": SECONDARY, "TERTIARY": TERTIARY, "SESSID": sessID};
 }
 
 function makeSessionId() {
