@@ -172,8 +172,9 @@ namespace AlexaComp{
                 while (true){
                     Thread.Sleep(150);
                     if (newServerFlag) {
-                        Thread StartServerThread = new Thread(startServer);
-                        StartServerThread.Name = "startServerThread";
+                        Thread StartServerThread = new Thread(startServer) {
+                            Name = "startServerThread"
+                        };
                         StartServerThread.Start();
                         newServerFlag = false;
                     }

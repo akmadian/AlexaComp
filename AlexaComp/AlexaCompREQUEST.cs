@@ -14,7 +14,7 @@ namespace AlexaComp {
         [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
 
-        private static string failMessage = "There was an error, please check the Alexa Comp log file.";
+        private const string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static void processRequest(Request req) {
             switch (req.COMMAND) {
                 case "LAUNCH":         launchRequest(req);   break;
@@ -119,8 +119,7 @@ namespace AlexaComp {
             XmlDocument doc = new XmlDocument();
             doc.Load("pathDir.xml");
             clog("pathDIR loaded");
-            XmlElement elem = doc.SelectSingleNode("//path[@programName='" + program + "']") as XmlElement;
-            if (elem != null) {
+            if (doc.SelectSingleNode("//path[@programName='" + program + "']") is XmlElement elem) {
                 string path = elem.GetAttribute("programPath");
                 clog("Path - " + path);
                 return path;
@@ -172,6 +171,7 @@ namespace AlexaComp {
         }*/
     }
 
+    [DebuggerDisplay("[AlexaComp Response Object -- {{passorfail: {passorfail}, message: {message}, primary: {primary}, secondary: {secondary}}}]")]
     class Response : AlexaCompCore{
         public bool passorfail;
         public string message;

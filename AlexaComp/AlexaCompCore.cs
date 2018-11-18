@@ -26,21 +26,17 @@ namespace AlexaComp {
         public static string pathToProject = string.Join("\\\\", splitExePath.Reverse().Skip(3).Reverse());
 
         // Threads
-        public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow);
-        public static Thread ServerThread = new Thread(AlexaCompSERVER.startServer);
-        public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop);
-        public static Thread LoadingScreenThread = new Thread(LoadingScreenForm.startLoadingScreen);
-        public static Thread LightingControlThread = new Thread(LightingController.startLightingThread);
+        public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow) { Name = "AppWindowThread" };
+        public static Thread ServerThread = new Thread(AlexaCompSERVER.startServer) { Name = "ServerThread" };
+        public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop) { Name = "ServerLoopThread" };
+        public static Thread LoadingScreenThread = new Thread(LoadingScreenForm.startLoadingScreen) { Name = "LoadingScreenThread" };
+        public static Thread LightingControlThread = new Thread(LightingController.startLightingThread) { Name = "LightingControlThread" };
 
         // Misc
         public static bool updateLogBoxFlag = false;
         public static bool stopProgramFlag = false;
         public static Dictionary<string, string> settingsDict = new Dictionary<string, string>();
         public static readonly ILog _log = LogManager.GetLogger(typeof(AlexaComp));
-
-        // Controller Instances
-        public static LightingController RGBController = new LightingController();
-        public static AudioController SoundController = new AudioController();
 
         public static void clog(string tolog, string customLevel = "INFO") {
             switch (customLevel) {
@@ -56,9 +52,8 @@ namespace AlexaComp {
         public static void stopApplication() {
             clog("CLOSING PROGRAM");
             stopProgramFlag = true;
-            // AlexaCompSERVER.stopServer();
+            AlexaCompSERVER.stopServer();
             AlexaCompSERVER.delPortMap();
-            
             Environment.Exit(1);
         }
 

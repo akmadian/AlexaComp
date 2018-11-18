@@ -34,8 +34,9 @@ D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\bin\Debug\RG
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\bin\Debug\Sanford.Multimedia.Midi.pdb
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\bin\Debug\Sanford.Multimedia.Midi.xml
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\bin\Debug\System.ValueTuple.xml
-D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\obj\Debug\CompatibilityTool.csprojAssemblyReference.cache
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\obj\Debug\CompatibilityTool.csproj.CoreCompileInputs.cache
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\obj\Debug\CompatibilityTool.csproj.CopyComplete
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\obj\Debug\CompatibilityTool.exe
 D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\obj\Debug\CompatibilityTool.pdb
+D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\bin\Debug\CompatibilityTool.exe.CodeAnalysisLog.xml
+D:\Programming\1.GitHub_Repos\AlexaComp\AlexaComp\CompatibilityTool\bin\Debug\CompatibilityTool.exe.lastcodeanalysissucceeded
