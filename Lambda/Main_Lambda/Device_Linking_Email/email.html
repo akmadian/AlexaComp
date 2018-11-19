@@ -1,8 +1,8 @@
 <style>
 	@font-face {
-    	font-family: 'Programme';
-    	src: url(https://assets.genius.com/fonts/programme_normal.woff2?1540324479) format('woff2'),
-      		url(https://assets.genius.com/fonts/programme_normal.woff?1540324479) format('woff');
+    	font-family: &#34Programme&#34;
+    	src: url(https://assets.genius.com/fonts/programme_normal.woff2?1540324479) format(\"woff2\"),
+      		url(https://assets.genius.com/fonts/programme_normal.woff?1540324479) format(\"woff\");
     	font-style: normal;
     	font-weight: normal;
     }
@@ -12,10 +12,11 @@
 		font-family: Programme, sans-serif;
 		font-weight: normal;
 	}
+    
 	h1 {
 		text-align: center;
 	}
-	
+    
 	.fadedLink{
 		font-family: sans-serif;
 		color: #9a9a9a;
@@ -44,8 +45,9 @@
 	<h1>AlexaComp Device Linking</h1>
 	<p>This is an email from AlexaComp. If you did not start device linking, just ignore this link.<br/>
 		If you did start device linking, please click the link below.</p>
-	<a class="link-btn"href=\"https://e2tp7gic95.execute-api.us-west-2.amazonaws.com/default/AlexaCompDeviceLinking/?deviceId={{DEVICEIDHERE}}&x-api-key={{APIKEY}}\">Link Devices</a><br/>
-	<p class="fadedLink">AlexaComp is an open-source skill. You can find the GitHub =>
-		<a href=\"https://github.com/akmadian/AlexaComp\">here.</a>
+    <a class='link-btn' href=\"https://e2tp7gic95.execute-api.us-west-2.amazonaws.com/default/?deviceId={{DEVICEIDHERE}}&alexacomp-api-key={{ALEXACOMPKEY}}&x-api-key={{APIKEY}}\">Link Devices</a>
+    <br/>
+	<p class='fadedLink'>AlexaComp is an open-source skill. You can find the GitHub =>
+		<a href='https://github.com/akmadian/AlexaComp'>here.</a>
 	</p>
 <body>

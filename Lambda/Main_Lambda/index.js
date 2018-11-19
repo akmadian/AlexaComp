@@ -5,6 +5,7 @@
 console.log('--START--')
 const Alexa = require('alexa-sdk');
 const config = require('./config.json');
+const net = require('net');
 const Functions = require('./Functions.js');
 console.log('Required Modules Imported')
 
@@ -23,6 +24,35 @@ function makeJson(COMMAND, PRIMARY, SECONDARY = "null", TERTIARY = "null"){
             "SECONDARY": SECONDARY, "TERTIARY": TERTIARY};
 }
 
+function SendJson(ip, params){
+    var client = new net.Socket();
+    console.log('Socket Created')
+    var server = new net.Server();
+    console.log('Server Created')
+
+    const HOST = config.SOCKET.HOST;
+    const PORT = config.SOCKET.PORT;
+    const auth_key = config.SOCKET.AUTH;
+
+    client.connect("5406", "73.157.7.156", function() {
+        client.write(JSON.stringify({"AUTH": auth_key, "COMMAND": "COMMAND", "PRIMARY": "LOCK", "SECONDARY": "TST", "TERTIARY": "TST2"}));
+    });
+    client.on('data', function(data){
+        var response = JSON.parse(data);
+        console.log(response);
+        if (data.message == 'devicelinking'){
+            writeToS3(params.responseObj.event.context.System.device.deviceId, response.primary);
+        }
+        params['responseObj'].emit(':tell', response.message);
+    });
+    client.on('error', function(ex){
+        if (ex['code'] == 'ECONNREFUSED'){
+            params['responseObj'].emit(':tell', 'Couldn\'t connect to your computer, please be sure alexa comp is running.');
+        }
+        console.log('Exception Caught: ' + ex);
+    });
+}
+
 // Code
 const handlers = {
     'LaunchProgramIntent': function () {
@@ -36,7 +66,8 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, options);
+        // Get IP pair from MDB
+        // Send Req
     },
 
     'GetComputerStatIntent': function () {
@@ -44,7 +75,6 @@ const handlers = {
         var part = this.event.request.intent.slots.Part.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var stat = this.event.request.intent.slots.Stat.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
-        Functions.readFromS3(deviceID);
 
         var j = makeJson("GETCOMPSTAT", part, stat);
         if (stat.includes('CLOCK')){
@@ -56,14 +86,14 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, params);
+        // Get IP pair from MDB
+        // Send req
     },
 
     'ComputerCommandIntent': function(){
         console.log('Command Intent')
-        var command = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        var command = this.event.request.intent.slots.ComputerCommandConfirm.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
-        Functions.readFromS3(deviceID);
 
         var j = makeJson("COMPUTERCOMMAND", command);
         var params = {
@@ -72,7 +102,8 @@ const handlers = {
                 'js': j
             }
         }
-        Functions.readFromS3(deviceID, params);
+        // Get IP pair from MDB
+        // Send req
     },
 
     'DeviceLinkingIntent': function(){

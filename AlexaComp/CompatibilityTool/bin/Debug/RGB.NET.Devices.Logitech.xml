@@ -1,0 +1,257 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RGB.NET.Devices.Logitech</name>
+    </assembly>
+    <members>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechLedId">
+            <summary>
+            Contains list of all LEDs available for all logitech devices.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechLogicalKeyboardLayout">
+            <summary>
+            Contains list of available logical layouts for logitech keyboards.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechPhysicalKeyboardLayout">
+            <summary>
+            Contains list of available physical layouts for logitech keyboards.
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Logitech.LogitechPhysicalKeyboardLayout.US">
+            <summary>
+            US-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Logitech.LogitechPhysicalKeyboardLayout.UK">
+            <summary>
+            UK-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Logitech.LogitechPhysicalKeyboardLayout.BR">
+            <summary>
+            BR-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Logitech.LogitechPhysicalKeyboardLayout.JP">
+            <summary>
+            JP-Keyboard
+            </summary>
+        </member>
+        <member name="F:RGB.NET.Devices.Logitech.LogitechPhysicalKeyboardLayout.KR">
+            <summary>
+            KR-Keyboard
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.ILogitechRGBDevice">
+            <summary>
+            Represents a logitech RGB-device.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechRGBDevice`1">
+            <inheritdoc cref="T:RGB.NET.Core.AbstractRGBDevice`1" />
+            <inheritdoc cref="T:RGB.NET.Devices.Logitech.ILogitechRGBDevice" />
+            <summary>
+            Represents a generic Logitech-device. (keyboard, mouse, headset, mousepad).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDevice`1.DeviceInfo">
+            <inheritdoc />
+            <summary>
+            Gets information about the <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice" />.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechRGBDevice`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice`1"/> class.
+            </summary>
+            <param name="info">The generic information provided by Logitech for the device.</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechRGBDevice`1.Initialize(RGB.NET.Core.UpdateQueue)">
+            <summary>
+            Initializes the device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechRGBDevice`1.InitializeLayout">
+            <summary>
+            Initializes the <see cref="T:RGB.NET.Core.Led"/> and <see cref="T:RGB.NET.Core.Size"/> of the device.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo">
+            <inheritdoc />
+            <summary>
+            Represents a generic information for a Logitech-<see cref="T:RGB.NET.Core.IRGBDevice" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.DeviceType">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.Manufacturer">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.Model">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.Image">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.Lighting">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.SupportsSyncBack">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.DeviceCaps">
+            <summary>
+            Gets a flag that describes device capabilities. (<see cref="T:RGB.NET.Devices.Logitech.LogitechDeviceCaps" />)
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.ImageLayout">
+            <summary>
+            Gets the layout used to decide which images to load.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.LayoutPath">
+            <summary>
+            Gets the path/name of the layout-file.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo.#ctor(RGB.NET.Core.RGBDeviceType,System.String,RGB.NET.Devices.Logitech.LogitechDeviceCaps,System.String,System.String)">
+            <summary>
+            Internal constructor of managed <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo"/>.
+            </summary>
+            <param name="deviceType">The type of the <see cref="T:RGB.NET.Core.IRGBDevice"/>.</param>
+            <param name="model">The represented device model.</param>
+            <param name="deviceCaps">The lighting-capabilities of the device.</param>
+            <param name="imageBasePath">The base of the image path used to load device-images.</param>
+            <param name="imageLayout">The layout used to decide which images to load.</param>
+            <param name="layoutPath">The path/name of the layout-file.</param>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechDeviceProvider">
+            <inheritdoc />
+            <summary>
+            Represents a device provider responsible for logitech devices.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.Instance">
+            <summary>
+            Gets the singleton <see cref="T:RGB.NET.Devices.Logitech.LogitechDeviceProvider"/> instance.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.PossibleX86NativePaths">
+            <summary>
+            Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
+            The first match will be used.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.PossibleX64NativePaths">
+            <summary>
+            Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
+            The first match will be used.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.IsInitialized">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.LoadedArchitecture">
+            <summary>
+            Gets the loaded architecture (x64/x86).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.Devices">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.HasExclusiveAccess">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProvider.GetCulture">
+            <summary>
+            Gets or sets a function to get the culture for a specific device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechDeviceProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechDeviceProvider"/> class.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechDeviceProvider.Initialize(RGB.NET.Core.RGBDeviceType,System.Boolean,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechDeviceProvider.ResetDevices">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechDeviceProvider.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechDeviceProviderLoader">
+            <summary>
+            Represents a device provider loaded used to dynamically load logitech devices into an application.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.LogitechDeviceProviderLoader.RequiresInitialization">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechDeviceProviderLoader.GetDeviceProvider">
+            <inheritdoc />
+        </member>
+        <member name="P:RGB.NET.Devices.Logitech.Native._LogitechGSDK.LoadedArchitecture">
+            <summary>
+            Gets the loaded architecture (x64/x86).
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.Native._LogitechGSDK.Reload">
+            <summary>
+            Reloads the SDK.
+            </summary>
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a logitech per-device-lightable device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice.#ctor(RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by logitech for the per-device-lightable device</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice.InitializeLayout">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice.UpdateLeds(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerDeviceUpdateQueue.Update(System.Collections.Generic.Dictionary{System.Object,RGB.NET.Core.Color})">
+            <inheritdoc />
+        </member>
+        <member name="T:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice">
+            <inheritdoc />
+            <summary>
+            Represents a logitech per-key-lightable device.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice.#ctor(RGB.NET.Devices.Logitech.LogitechRGBDeviceInfo)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice" /> class.
+            </summary>
+            <param name="info">The specific information provided by logitech for the per-key-lightable device</param>
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice.CreateLedCustomData(RGB.NET.Core.LedId)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice.UpdateLeds(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Devices.Logitech.LogitechPerKeyUpdateQueue.Update(System.Collections.Generic.Dictionary{System.Object,RGB.NET.Core.Color})">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

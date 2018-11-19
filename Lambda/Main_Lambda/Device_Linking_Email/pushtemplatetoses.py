@@ -4,7 +4,7 @@ import time
 
 def pushToLambda():
     print('Pushing To Lambda')
-    p = subprocess.Popen("aws ses create-template --cli-input-json file://DeviceLinkingTemplatev6.json",
+    p = subprocess.Popen("aws ses create-template --cli-input-json file://DeviceLinkingTemplatev8.json",
                          stdout=subprocess.PIPE,
                          shell=True)
 
