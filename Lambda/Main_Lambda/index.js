@@ -104,6 +104,7 @@ const handlers = {
         console.log(this);
         var programName = this.event.request.intent.slots.ProgramName.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         var deviceID = this.event.context.System.device.deviceId;
+        console.log("Device ID - " + deviceID);
         var j = makeJson("LAUNCH", programName);
         try{
             SendJson(getIPFromConfig(deviceID), j, this);
@@ -137,6 +138,37 @@ const handlers = {
         var command = this.event.request.intent.slots.ComputerCommandConfirm.resolutions.resolutionsPerAuthority[0].values[0].value.id
         var deviceID = this.event.context.System.device.deviceId;
         var j = makeJson("COMPUTERCOMMAND", command);
+        try{
+            SendJson(getIPFromConfig(deviceID), j, this);
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
+    },
+
+    'RGBIntent' : function(){
+        var j;
+        var deviceID = this.event.context.System.device.deviceId;
+        var effect = this.event.request.intent.slots.RGBEffect.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        try{
+            var color = this.event.request.intent.slots.Color.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+            j = makeJson("RGBCOMMAND", effect, color);
+        } catch (err) {
+            console.log("Command does not include color.");
+            j = makeJson("RGBCOMMAND", effect);
+        }
+        try{
+            SendJson(getIPFromConfig(deviceID), j, this);
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
+    },
+
+    'AudioIntent' : function(){
+        var deviceID = this.event.context.System.device.deviceId;
+        var command = this.event.request.intent.slots.AudioCommand.resolutions.resolutionsPerAuthority[0].values[0].value.id;
+        var j = makeJson("AUDIOCOMMAND", command);
         try{
             SendJson(getIPFromConfig(deviceID), j, this);
         } catch (err) {
