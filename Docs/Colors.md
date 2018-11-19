@@ -10,7 +10,7 @@ This file shows all the color names you can use when setting RGB lighting effect
 ### Oranges
 - ![#fc6600](https://placehold.it/20/fc6600/000000?text=+) `Orange` 
 - ![#f9a602](https://placehold.it/20/f9a602/000000?text=+) `Gold` 
-- ![#f9812a](https://placehold.it/20/f9a602/000000?text=+) `Royal Orange` 
+- ![#f9812a](https://placehold.it/20/ff812a/000000?text=+) `Royal Orange` 
 
 
 ### Yellows
