@@ -188,6 +188,17 @@ const handlers = {
         }
     },
 
+    'OpenDevToolsIntent' : function(){
+        var deviceID = this.event.context.System.device.deviceId;
+        var j = makeJson("OPENDEVTOOLS");
+        try{
+            SendJson(getIPFromConfig(deviceID), j, this);
+        } catch (err) {
+            console.log(err);
+            this.emit(':tell', 'Oops! Something went wrong...');
+        }
+    }
+
     'LaunchRequest' : function(){
         this.emit(':tell', 'Please try again and specify a command')
     },
