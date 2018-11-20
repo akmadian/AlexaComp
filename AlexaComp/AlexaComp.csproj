@@ -169,6 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlexaCompCore.cs" />
+    <Compile Include="Forms\AdvancedSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdvancedSettingsForm.Designer.cs">
+      <DependentUpon>AdvancedSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AlexaCompGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\TestFunctions.cs" />
+    <EmbeddedResource Include="Forms\AdvancedSettingsForm.resx">
+      <DependentUpon>AdvancedSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AlexaCompGUI.resx">
       <DependentUpon>AlexaCompGUI.cs</DependentUpon>
     </EmbeddedResource>

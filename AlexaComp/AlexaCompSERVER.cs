@@ -28,14 +28,17 @@ namespace AlexaComp{
         public static void startServer() {
             try {
                 IPAddress host = IPAddress.Parse(HOST);
-
                 server = new TcpListener(host, PORT);
                 server.Start(); // Start Server
-                AlexaComp._log.Info("Listening...");
-                Console.WriteLine("Listening...");
+                clog("Server Started - Listening...");
                 if (stopProgramFlag == true) {
                     return;
                 }
+            } catch (SocketException ex) {
+                System.Windows.Forms.MessageBox.Show("AlexaComp Encountered a Fatal Error and Had To Stop.\n" +
+                    "Please Check The AlexaComp Log File For More Information.\n" + 
+                    "EXCEPTION: " + ex.ToString());
+                Environment.Exit(1);
             }
             catch (FormatException ex) {
                 AlexaComp._log.Debug(ex);

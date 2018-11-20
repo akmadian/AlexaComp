@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AlexaComp.Controllers;
 using System.Threading;
+using AlexaComp.Forms;
 
 namespace AlexaComp {
     class AlexaCompREQUEST : AlexaCompCore {
@@ -17,13 +18,21 @@ namespace AlexaComp {
         private const string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static void processRequest(Request req) {
             switch (req.COMMAND) {
-                case "LAUNCH":         launchRequest(req);   break;
-                case "COMPUTERCOMMAND":        commandRequest(req);  break;
-                case "GETCOMPSTAT":    compStatRequest(req); break;
-                case "AUDIOCOMMAND":   audioRequest(req);    break;
-                case "RGBCOMMAND":     RGBRequest(req);      break; // TODO : Implement RGBCommand
+                case "LAUNCH":          launchRequest(req);   break;
+                case "COMPUTERCOMMAND": commandRequest(req);  break;
+                case "GETCOMPSTAT":     compStatRequest(req); break;
+                case "AUDIOCOMMAND":    audioRequest(req);    break;
+                case "RGBCOMMAND":      RGBRequest(req);      break; // TODO : Implement RGBCommand
+                case "OPENDEVTOOLS":    devToolsIntent();     break;
             }
             req.logTimeElapsed();
+        }
+
+        public static void devToolsIntent() {
+            Thread AdvancedSettingsThread = new Thread(AdvancedSettingsForm.startAdvToolsThread) {
+                Name = "AdvancedSettingsThread"
+            };
+            AdvancedSettingsThread.Start();
         }
         
         
@@ -157,6 +166,15 @@ namespace AlexaComp {
             TERTIARY = TERTIARY_;
             OPTIONS = options;
             OPTIONS2 = options2;
+        }
+
+        public Request(string AUTH_, string COMMAND_, string PRIMARY_ = "", string SECONDARY_ = "", string TERTIARY_ = "") {
+            sw.Start();
+            AUTH = AUTH_;
+            COMMAND = COMMAND_;
+            PRIMARY = PRIMARY_;
+            SECONDARY = SECONDARY_;
+            TERTIARY = TERTIARY_;
         }
 
         public void logTimeElapsed() {

@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 using AlexaComp.Controllers;
+using AlexaComp.Forms;
 
 using log4net;
 using log4net.Config;
@@ -46,7 +47,6 @@ namespace AlexaComp {
                     }
                 }
             }
-
             // Log Paths
             _log.Info(exePath.ToString());
             _log.Info("PathToDebug - " + pathToDebug);
@@ -58,6 +58,11 @@ namespace AlexaComp {
                 throw exception;
             };
             clog("Exception Handler Registered");
+
+            Thread AdvancedSettingsThread = new Thread(AdvancedSettingsForm.startAdvToolsThread) {
+                Name = "AdvancedSettingsThread"
+            };
+            AdvancedSettingsThread.Start();
 
             getExternalIP();
 

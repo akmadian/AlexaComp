@@ -147,12 +147,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_82F851AC2F284F449F10A149D4B87144"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_84CB1FBA62C1ED253F33ED0FF3F63B81"
         "OwnerKey" = "8:_98708CF6AA75FD5372479061860CEDCA"
         "MsmSig" = "8:_UNDEFINED"
@@ -285,14 +279,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FF92EA6F320BB3CCDA74AC61FAE3A3F1"
-        "OwnerKey" = "8:_981265B269B74C688E5B8F5AAEF081C0"
+        "MsmKey" = "8:_F81A501D83F447EA86AC48703D9AF6EB"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2D491D8DD5D62CB1E0CF437BBC90A4A9"
+        "MsmKey" = "8:_FF92EA6F320BB3CCDA74AC61FAE3A3F1"
+        "OwnerKey" = "8:_981265B269B74C688E5B8F5AAEF081C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -419,6 +413,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3FD59357396C60CFEECBF37A2E368066"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2D491D8DD5D62CB1E0CF437BBC90A4A9"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -846,26 +846,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_82F851AC2F284F449F10A149D4B87144"
-            {
-            "SourcePath" = "8:..\\pathDir.xml"
-            "TargetName" = "8:pathDir.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_090C941F63CB468397D321E40B5FF8FC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_84CB1FBA62C1ED253F33ED0FF3F63B81"
             {
             "AssemblyRegister" = "3:1"
@@ -1196,6 +1176,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F81A501D83F447EA86AC48703D9AF6EB"
+            {
+            "SourcePath" = "8:..\\bin\\Debug\\pathDir.xml"
+            "TargetName" = "8:pathDir.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_090C941F63CB468397D321E40B5FF8FC"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FF92EA6F320BB3CCDA74AC61FAE3A3F1"
             {
             "AssemblyRegister" = "3:1"
@@ -1404,6 +1404,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4D5F1D04B04A44DAA980AA6495DB0B9A"
+            {
+            "Name" = "8:AlexaComp"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_981265B269B74C688E5B8F5AAEF081C0"
+            "Folder" = "8:_C61F749789FC4E2EB152261297EA8114"
+            "WorkingFolder" = "8:_090C941F63CB468397D321E40B5FF8FC"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FA3CB14500CA47EF8205C4F62D1270FB"
             {
             "Name" = "8:AlexaComp"
