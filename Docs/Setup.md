@@ -1,29 +1,29 @@
-<p align="center">
-  <h1 align="center">Setup</h1>
-</p>
+<h1 align="center">Setup</h1>
 
 This document outlines the process of setting up AlexaComp on your computer.
 
 The AlexaComp setup process has three parts:
+
  - Adding the skill to your Alexa device.
  - Installing the client software on your computer.
  - Linking your Alexa device(s) and your computer.
 
-<br/>
-
-<hr>
+___
 
 ### Adding The Skill to Your Device
+
 The skill model is currently not publicly available yet. Work is still needed in the Main Lambda server before the model is submitted for certification again.
 <br>If you want, you can help out by forking working on the main lambda and creating a pull request. You can find a To Do list for the main lambda [here.](https://github.com/akmadian/AlexaComp/projects/5)
 <hr>
 
 ### Installing The Client Software
+
 The client software installer is called `AlexaCompSetup.msi`, and can be found at the [AlexaComp releases page.](https://github.com/akmadian/AlexaComp/releases)
 <br>All you need to do is download and install the AlexaComp client, and run it! Be sure to complete device linking before making any requests.
 <hr>
 
 ### Linking Your Computer, and Alexa Device
+
 Device linking is a process meant to link your computer's IP address to your Alexa device's unique ID. This is necessary to determine what computer to send the commands to.
 <br>This means that if you want to be able to make requests to your computer from multiple devices, you will have to link each of those devices to your computer individually.
 
@@ -50,7 +50,5 @@ To start device linking, say to the Alexa device you would like to link to your 
     You can see the code behind device linking in the DeviceLinking intent in index.js of the main lambda <a href="https://github.com/akmadian/AlexaComp/blob/lambda-main/Lambda/Main_Lambda/index.js#L79">here.</a>
     As well as in the index.js file of the DeviceLinking lambda server <a href="https://github.com/akmadian/AlexaComp/blob/lambda-deviceLinking/Lambda/DeviceLinking_Lambda/index.js">here.</a>
 </pre>
-
-
 
 ###### Hardware monitoring code made by [openhardwaremonitor](https://github.com/openhardwaremonitor/openhardwaremonitor)
