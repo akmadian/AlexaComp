@@ -59,11 +59,6 @@ namespace AlexaComp {
             };
             clog("Exception Handler Registered");
 
-            Thread AdvancedSettingsThread = new Thread(AdvancedSettingsForm.startAdvToolsThread) {
-                Name = "AdvancedSettingsThread"
-            };
-            AdvancedSettingsThread.Start();
-
             getExternalIP();
 
             LoadingScreenThread.Start();
