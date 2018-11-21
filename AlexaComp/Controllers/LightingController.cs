@@ -183,7 +183,7 @@ namespace AlexaComp.Controllers {
                 clog(String.Format("RGB -- Setting Static Color -- Color: {0}, {1}, {2}", R, G, B));
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
-                    ledGroup.Brush = new LinearGradientBrush(new RainbowGradient());
+                    ledGroup.Brush = new  SolidColorBrush(new Color(R, G, B));
                 }
             }
 

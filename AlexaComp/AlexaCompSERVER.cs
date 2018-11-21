@@ -15,27 +15,30 @@ namespace AlexaComp{
         // TODO: Work on abstraction.
         public static bool newServerFlag = false;
 
-        private static TcpListener server;
-        private static TcpClient client;
+        public static TcpListener server;
+        public static TcpClient client;
         private static NetworkStream nwStream;
 
-        protected static int PORT = int.Parse(GetConfigValue("PORT"));
-        protected static string AUTH = GetConfigValue("AUTH");
-        protected static string HOST = GetConfigValue("HOST");
+        public static int PORT = int.Parse(GetConfigValue("PORT"));
+        public static string AUTH = GetConfigValue("AUTH");
+        public static string HOST = "10.0.0.59";
 
         private static INatDevice device;
 
         public static void startServer() {
             try {
                 IPAddress host = IPAddress.Parse(HOST);
-
                 server = new TcpListener(host, PORT);
                 server.Start(); // Start Server
-                AlexaComp._log.Info("Listening...");
-                Console.WriteLine("Listening...");
+                clog("Server Started - Listening...");
                 if (stopProgramFlag == true) {
                     return;
                 }
+            } catch (SocketException ex) {
+                System.Windows.Forms.MessageBox.Show("AlexaComp Encountered a Fatal Error and Had To Stop.\n" +
+                    "Please Check The AlexaComp Log File For More Information.\n" + 
+                    "EXCEPTION: " + ex.ToString());
+                Environment.Exit(1);
             }
             catch (FormatException ex) {
                 AlexaComp._log.Debug(ex);
@@ -53,7 +56,7 @@ namespace AlexaComp{
                     byte[] buffer = new byte[client.ReceiveBufferSize];
                     int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize); // Read Data
                     string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead); // Convert Data to String
-                    Console.WriteLine(dataReceived);
+                    clog(dataReceived);
                     deserializeRequest(dataReceived);
                 }
                 catch (NullReferenceException ex) { AlexaComp._log.Debug(ex); }
@@ -172,8 +175,9 @@ namespace AlexaComp{
                 while (true){
                     Thread.Sleep(150);
                     if (newServerFlag) {
-                        Thread StartServerThread = new Thread(startServer);
-                        StartServerThread.Name = "startServerThread";
+                        Thread StartServerThread = new Thread(startServer) {
+                            Name = "startServerThread"
+                        };
                         StartServerThread.Start();
                         newServerFlag = false;
                     }

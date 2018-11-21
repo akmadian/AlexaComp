@@ -6,9 +6,11 @@ using System.Linq;
 using System.Diagnostics;
 using Microsoft.Win32;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 using AlexaComp.Controllers;
+using AlexaComp.Forms;
 
 using log4net;
 using log4net.Config;
@@ -45,22 +47,19 @@ namespace AlexaComp {
                     }
                 }
             }
-
             // Log Paths
             _log.Info(exePath.ToString());
             _log.Info("PathToDebug - " + pathToDebug);
             _log.Info("PathToProject - " + pathToProject);
 
-            string[] opt1 = new string[] { "255", "255", "255" };
-            string[] opt2 = new string[] { "0", "0", "0" };
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => {
+                var exception = (Exception)e.ExceptionObject;
+                clog(exception.ToString(), "FATAL");
+                throw exception;
+            };
+            clog("Exception Handler Registered");
 
             getExternalIP();
-
-            // Define Thread Names
-            // ServerThread.Name = "ServerThread";
-            // ServerLoopThread.Name = "ServerLoopThread";
-            AppWindowThread.Name = "AppWindowThread";
-            LightingControlThread.Name = "LightingControlThread";
 
             LoadingScreenThread.Start();
             /*
@@ -73,6 +72,7 @@ namespace AlexaComp {
             Request requ_ = new Request("testAuth", "RGBCOMMAND", "ERROREFFECT", "", "", opt1, opt2);
             AlexaCompREQUEST.processRequest(requ_);*/
         }
+
 
         /*
         * Reads all user configured values into the settingsDict.
@@ -102,11 +102,10 @@ namespace AlexaComp {
         public static void verifyConfig() {
             foreach (KeyValuePair<string, string> pair in settingsDict){
                 // Console.WriteLine("pair: '" + pair.Key + "' - " + pair.Value);
-                if (pair.Value == "" || pair.Value == " " || pair.Value == "null"){
+                if (String.IsNullOrEmpty(pair.Value)){
                     _log.Fatal("Config Value" + pair.Key + " not configured correctly or are missing. AlexaComp will not work.");
                 } else if (pair.Key == "HOST"){ // Is Host IP formatted properly?
-                    System.Net.IPAddress ipAdd = null;
-                    bool isValidIp = System.Net.IPAddress.TryParse(pair.Value, out ipAdd);
+                    bool isValidIp = IPAddress.TryParse(pair.Value, out IPAddress ipAdd);
                     if (isValidIp != true){
                         _log.Fatal("Config value \"HOST\" exists, but is not configured or formatted properly.");
                     }

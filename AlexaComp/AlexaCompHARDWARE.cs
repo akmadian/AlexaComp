@@ -10,7 +10,7 @@ using log4net.Config;
 
 namespace AlexaComp{
     class AlexaCompHARDWARE : AlexaCompCore{
-        private static string failMessage = "There was an error, please check the Alexa Comp log file.";
+        private const string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static List<string> partNames = new List<string>() { "GPU", "CPU", "RAM", "MAINBOARD", "HDD", "FANCONTROLLER" };
         public static Dictionary<string, Dictionary<string, string>> partDict = new Dictionary<string, Dictionary<string, string>>() {
             { "GPU", new Dictionary<string, string> {{"TEMP", ""}, {"LOAD", ""}, {"CLOCK_CORE", ""}, {"CLOCK_RAM", ""}}},

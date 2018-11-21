@@ -55,8 +55,13 @@ setup.exe
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+.vscode/
 
 # Config
 AlexaComp/App.config
 *.pfx
 Lambda/Main_Lambda/Device_Linking_Email/config.py
+AlexaComp/testCommands.txt
+AlexaComp/CompatibilityTool/obj/Debug/CompatibilityTool.csprojAssemblyReference.cache
+AlexaComp/CompatibilityTool/obj/Debug/CompatibilityTool.csprojAssemblyReference.cache
+*.cache

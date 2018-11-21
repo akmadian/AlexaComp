@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AlexaComp.Controllers;
 using System.Threading;
+using AlexaComp.Forms;
 
 namespace AlexaComp {
     class AlexaCompREQUEST : AlexaCompCore {
@@ -14,16 +15,24 @@ namespace AlexaComp {
         [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
 
-        private static string failMessage = "There was an error, please check the Alexa Comp log file.";
+        private const string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static void processRequest(Request req) {
             switch (req.COMMAND) {
-                case "LAUNCH":         launchRequest(req);   break;
-                case "COMMAND":        commandRequest(req);  break;
-                case "GETCOMPSTAT":    compStatRequest(req); break;
-                case "AUDIOCOMMAND":   audioRequest(req);    break;
-                case "RGBCOMMAND":     RGBRequest(req);      break; // TODO : Implement RGBCommand
+                case "LAUNCH":          launchRequest(req);   break;
+                case "COMPUTERCOMMAND": commandRequest(req);  break;
+                case "GETCOMPSTAT":     compStatRequest(req); break;
+                case "AUDIOCOMMAND":    audioRequest(req);    break;
+                case "RGBCOMMAND":      RGBRequest(req);      break; // TODO : Implement RGBCommand
+                case "OPENDEVTOOLS":    devToolsIntent();     break;
             }
             req.logTimeElapsed();
+        }
+
+        public static void devToolsIntent() {
+            Thread AdvancedSettingsThread = new Thread(AdvancedSettingsForm.startAdvToolsThread) {
+                Name = "AdvancedSettingsThread"
+            };
+            AdvancedSettingsThread.Start();
         }
         
         
@@ -88,9 +97,12 @@ namespace AlexaComp {
         }
 
         static void commandRequest(Request req) {
+            clog("CommandResuest");
+            clog(req.PRIMARY);
             switch (req.PRIMARY) {
                 case "SHUTDOWN":  stopApplication(); Process.Start("shutdown", "/s /t .5");                         break; // To Test
-                case "LOCK":      Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation"); break; // Working
+                case "LOCK":
+                    Process.Start(@"C:\WINDOWS\system32\rundll32.exe", "user32.dll,LockWorkStation"); break; // Working
                 case "RESTART":   stopApplication(); Process.Start("shutdown", "/r /t .5");                         break; // To Test
                 case "SLEEP":     SetSuspendState(false, true, true);                                               break; // To Test
                 case "LOGOFF":    ExitWindowsEx(0, 0);                                                              break; // To Test
@@ -116,8 +128,7 @@ namespace AlexaComp {
             XmlDocument doc = new XmlDocument();
             doc.Load("pathDir.xml");
             clog("pathDIR loaded");
-            XmlElement elem = doc.SelectSingleNode("//path[@programName='" + program + "']") as XmlElement;
-            if (elem != null) {
+            if (doc.SelectSingleNode("//path[@programName='" + program + "']") is XmlElement elem) {
                 string path = elem.GetAttribute("programPath");
                 clog("Path - " + path);
                 return path;
@@ -129,13 +140,14 @@ namespace AlexaComp {
         }
     }
 
-    [DebuggerDisplay("[AlexaComp Request Object -- {{Command: {COMMAND}, Primary: {PRIMARY}, Secondary: {SECONDARY}, Tertiary: {TERTIARY}}}]")]
+    [DebuggerDisplay("[AlexaComp Request Object -- {{COMMAND: {COMMAND}, PRIMARY: {PRIMARY}, SECONDARY: {SECONDARY}, TERTIARY: {TERTIARY}}}]")]
     class Request : AlexaCompCore{
         public string AUTH { get; set; }
         public string COMMAND { get; set; }
         public string PRIMARY { get; set; }
         public string SECONDARY { get; set; }
         public string TERTIARY { get; set; }
+        public string SESSID { get; set; }
         public string[] OPTIONS { get; set; }
         public string[] OPTIONS2 { get; set; }
 
@@ -156,6 +168,15 @@ namespace AlexaComp {
             OPTIONS2 = options2;
         }
 
+        public Request(string AUTH_, string COMMAND_, string PRIMARY_ = "", string SECONDARY_ = "", string TERTIARY_ = "") {
+            sw.Start();
+            AUTH = AUTH_;
+            COMMAND = COMMAND_;
+            PRIMARY = PRIMARY_;
+            SECONDARY = SECONDARY_;
+            TERTIARY = TERTIARY_;
+        }
+
         public void logTimeElapsed() {
             sw.Stop();
             clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
@@ -168,6 +189,7 @@ namespace AlexaComp {
         }*/
     }
 
+    [DebuggerDisplay("[AlexaComp Response Object -- {{passorfail: {passorfail}, message: {message}, primary: {primary}, secondary: {secondary}}}]")]
     class Response : AlexaCompCore{
         public bool passorfail;
         public string message;
