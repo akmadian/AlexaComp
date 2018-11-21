@@ -197,7 +197,7 @@ const handlers = {
             console.log(err);
             this.emit(':tell', 'Oops! Something went wrong...');
         }
-    }
+    },
 
     'LaunchRequest' : function(){
         this.emit(':tell', 'Please try again and specify a command')
