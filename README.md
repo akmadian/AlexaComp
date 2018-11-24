@@ -16,7 +16,8 @@ and certain functionality may stop working at any time. If something stops worki
     <b>Account Linking</b>
     Q: Why do I need to link my Amazon account to use AlexaComp?
     A: Account linking is used only to get the user's email address. 
-         The email is only retreived and used when the user tells AlexaComp to start device linking.
+         The email is only retreived and used when the user tells 
+         AlexaComp to start device linking.
 </pre>
 
 ## Planned Features
