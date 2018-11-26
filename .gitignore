@@ -40,10 +40,10 @@ AlexaComp/pathDir.xml
 AlexaComp/AlexaCompTESTS.cs
 AlexaComp/SavedMethods.cs
 Deprecated/
-AlexaComp/CompatibilityTool/bin/Debug/Images
-AlexaComp/CompatibilityTool/bin/Debug/Layouts
-AlexaComp/CompatibilityTool/bin/Debug/x86
-AlexaComp/CompatibilityTool/bin/Debug/x64
+AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/Images
+AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/Layouts
+AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/x86
+AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/x64
 AlexaComp/HardwareDevice.cs
 AlexaComp/LightingController.cs
 *packages/
