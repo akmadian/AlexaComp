@@ -59,6 +59,8 @@ ___
 ###### Hardware monitoring package made by [openhardwaremonitor][3]
 ###### RGB Lighting package made by [RGB.NET][4]
 
+###### <> With &#9829; by Ari Madian
+
 [0]: https://github.com/akmadian/AlexaComp/blob/docs/Docs/Setup.md
 [1]: https://github.com/akmadian/AlexaComp/blob/docs/Docs/CompatibilityTool.md
 [2]: https://github.com/akmadian/AlexaComp/blob/docs/Docs/Privacy-Policy.md
