@@ -5,7 +5,7 @@ from sys import argv
 
 def build():
     print('Building...')
-    p = subprocess.Popen("dotnet build", stdout = subprocess.PIPE, shell = True)
+    p = subprocess.Popen("dotnet build AlexaComp.csproj", stdout = subprocess.PIPE, shell = True)
 
     (output, err) = p.communicate()
     p_status = p.wait()
