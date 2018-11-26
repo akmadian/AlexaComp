@@ -14,6 +14,8 @@ using RGB.NET.Devices.Logitech;
 using RGB.NET.Devices.Novation;
 using RGB.NET.Devices.Razer;
 
+using AlexaComp.Core;
+
 namespace AlexaComp.Controllers {
 
     // TODO : Method of assigning generic part names like "mouse" or "keyboard" to RGBDevice objects. 
@@ -327,7 +329,7 @@ namespace AlexaComp.Controllers {
             if (hexString.StartsWith("#")) { // Strip leading # if it exists
                 hexString = hexString.Substring(1);
             }
-            string[] splitHex = splitStringEveryN(hex, 2);
+            string[] splitHex = hex.splitEveryN(2);
             return new RGBColor(Convert.ToInt32(splitHex[0], 16), Convert.ToInt32(splitHex[1], 16), Convert.ToInt32(splitHex[2], 16));
         }
 
@@ -347,18 +349,6 @@ namespace AlexaComp.Controllers {
         public static string RGBToHex(RGBColor color) => color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 
         public static int[] RGBToArr(RGBColor color) => new int[] { color.R, color.G, color.B };
-    }
-
-    public static class Extensions {
-        public static int[] RGBAsIntArray(this Color thisColor, Color colorObj) => new int[3] {
-            Convert.ToInt32(colorObj.R),
-            Convert.ToInt32(colorObj.G),
-            Convert.ToInt32(colorObj.B)
-        };
-
-        public static void printObj(this Color thisColor) {
-            Console.WriteLine(String.Format("RGBColor Object -- R: {0}, G: {1}, B: {2}", thisColor.R, thisColor.G, thisColor.B));
-        }
     }
 
     class RGBColor {

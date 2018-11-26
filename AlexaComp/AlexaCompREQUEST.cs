@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AlexaComp.Controllers;
 using System.Threading;
+
 using AlexaComp.Forms;
+using AlexaComp.Core;
 
 namespace AlexaComp {
     class AlexaCompREQUEST : AlexaCompCore {
@@ -37,10 +39,10 @@ namespace AlexaComp {
         
         
         public static void RGBRequest(Request req) {
-            RGBColor priColor;
-            RGBColor secColor;
-            if (req.OPTIONS != null) { priColor = new RGBColor(req.OPTIONS); } else { priColor = null; };
-            if (req.OPTIONS2 != null) { secColor = new RGBColor(req.OPTIONS2); } else { secColor = null; };
+            RGBColor priColor = new RGBColor(255, 0, 0);
+            RGBColor secColor = new RGBColor(0, 0, 255);
+            // if (req.SECONDARY != null) { priColor = new RGBColor(req.SECONDARY); } else { priColor = null; };
+            // if (req.TERTIARY != null) { secColor = new RGBColor(req.TERTIARY); } else { secColor = null; };
             LightingController.lightingProcess(priColor, secColor, req.PRIMARY);
         }
 
@@ -139,82 +141,4 @@ namespace AlexaComp {
             }
         }
     }
-
-    [DebuggerDisplay("[AlexaComp Request Object -- {{COMMAND: {COMMAND}, PRIMARY: {PRIMARY}, SECONDARY: {SECONDARY}, TERTIARY: {TERTIARY}}}]")]
-    class Request : AlexaCompCore{
-        public string AUTH { get; set; }
-        public string COMMAND { get; set; }
-        public string PRIMARY { get; set; }
-        public string SECONDARY { get; set; }
-        public string TERTIARY { get; set; }
-        public string SESSID { get; set; }
-        public string[] OPTIONS { get; set; }
-        public string[] OPTIONS2 { get; set; }
-
-        public Stopwatch sw = new Stopwatch();
-
-        public Request() {
-            sw.Start();
-        }
-
-        public Request(string AUTH_, string COMMAND_, string PRIMARY_, string SECONDARY_, string TERTIARY_, string[] options, string[] options2) {
-            sw.Start();
-            AUTH = AUTH_;
-            COMMAND = COMMAND_;
-            PRIMARY = PRIMARY_;
-            SECONDARY = SECONDARY_;
-            TERTIARY = TERTIARY_;
-            OPTIONS = options;
-            OPTIONS2 = options2;
-        }
-
-        public Request(string AUTH_, string COMMAND_, string PRIMARY_ = "", string SECONDARY_ = "", string TERTIARY_ = "") {
-            sw.Start();
-            AUTH = AUTH_;
-            COMMAND = COMMAND_;
-            PRIMARY = PRIMARY_;
-            SECONDARY = SECONDARY_;
-            TERTIARY = TERTIARY_;
-        }
-
-        public void logTimeElapsed() {
-            sw.Stop();
-            clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
-        }
-
-        /*
-        public void printRequest() {
-            string str = string.Format("New Request - {{Command: {0}, Primary: {1}, Secondary: {2}, Tertiary: {3}}}", COMMAND, PRIMARY, SECONDARY, TERTIARY);
-            clog(str);
-        }*/
-    }
-
-    [DebuggerDisplay("[AlexaComp Response Object -- {{passorfail: {passorfail}, message: {message}, primary: {primary}, secondary: {secondary}}}]")]
-    class Response : AlexaCompCore{
-        public bool passorfail;
-        public string message;
-        public string primary;
-        public string secondary;
-
-        public string json;
-
-        public Response(bool passorfail_, string message_, string primary_ = "", string secondary_ = "") {
-            passorfail = passorfail_;
-            message = message_;
-            primary = primary_;
-            secondary = secondary_;
-
-            json = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-            Console.WriteLine(json);
-        }
-
-        public void sendResponse(System.Net.Sockets.NetworkStream customStream) {
-            if (customStream != null) {
-                AlexaCompSERVER.sendToLambda(json, customStream);
-            } else {
-                AlexaCompSERVER.sendToLambda(json, null);
-            }
-        }
-    }
 }
-

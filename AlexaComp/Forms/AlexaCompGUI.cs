@@ -2,7 +2,9 @@
 using System.Windows.Forms;
 using System.Threading;
 using System.Xml;
+
 using AlexaComp.Controllers;
+using AlexaComp.Core;
 
 namespace AlexaComp{
 
@@ -47,7 +49,7 @@ namespace AlexaComp{
         private void RGBSubmitButton_Click(object sender, EventArgs e) {
             string[] opt1 = new string[] { "255", "255", "255" };
             string[] opt2 = new string[] { "0", "0", "0" };
-            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT", "", "", opt1, opt2);
+            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT");
             AlexaCompREQUEST.processRequest(requ);
         }
 

@@ -9,10 +9,13 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using Mono.Nat;
 
+using AlexaComp.Core;
+
 namespace AlexaComp{
 
     class AlexaCompSERVER : AlexaCompCore {
         // TODO: Work on abstraction.
+        #region Properties
         public static bool newServerFlag = false;
 
         public static TcpListener server;
@@ -24,7 +27,9 @@ namespace AlexaComp{
         public static string HOST = "10.0.0.59";
 
         private static INatDevice device;
+        #endregion
 
+        #region Methods
         public static void startServer() {
             try {
                 IPAddress host = IPAddress.Parse(HOST);
@@ -184,5 +189,7 @@ namespace AlexaComp{
                 }
             }
         }
+
+        #endregion
     }
 }
