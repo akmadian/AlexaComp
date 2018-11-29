@@ -41,9 +41,10 @@ namespace AlexaComp{
         * Logs all discoverable hardware sensors and opens the resulting log.
         */
         private void LogAllSensorsButton_Click(object sender, EventArgs e) {
-            Thread logSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
-            logSensorsThread.Name = "logSensorsThread";
-            logSensorsThread.Start(true);
+            MessageBox.Show("This feature has been temporarily disabled.");
+            // Thread logSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
+            // logSensorsThread.Name = "logSensorsThread";
+            // logSensorsThread.Start(true);
         }
 
         private void RGBSubmitButton_Click(object sender, EventArgs e) {

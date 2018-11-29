@@ -28,8 +28,8 @@ namespace AlexaComp.Controllers {
         /// Loads and logs all devices.
         /// </summary>
         public static void startLightingThread() {
-            clog("RGB Devices Loaded, Printing...");
             loadDevices();
+            clog("RGB Devices Loaded, Printing...");
             foreach (var device in surface.Devices) {
                 clog(String.Format("RGB Device Found - {0} {1} - Type: {2}",
                         device.DeviceInfo.Manufacturer,

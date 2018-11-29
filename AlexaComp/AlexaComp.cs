@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
-using System.Linq;
-using System.Diagnostics;
-using Microsoft.Win32;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.XPath;
-using AlexaComp.Controllers;
-using AlexaComp.Forms;
-using AlexaComp.Core;
-using System.Management;
 
 using log4net;
 using log4net.Config;
@@ -32,6 +22,13 @@ namespace AlexaComp {
         [STAThread]
         static void Main(string[] args) {
             XmlConfigurator.Configure();
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => {
+                var exception = (Exception)e.ExceptionObject;
+                clog(exception.ToString(), "FATAL");
+                throw exception;
+            };
+            clog("Exception Handler Registered");
+
             _log.Info("Start Program");
 
             // Parse cli args
@@ -50,32 +47,31 @@ namespace AlexaComp {
                 }
             }
 
-            // Log Paths
-            _log.Info(exePath.ToString());
-            _log.Info("PathToDebug - " + pathToDebug);
-            _log.Info("PathToProject - " + pathToProject);
-
-            AppDomain.CurrentDomain.UnhandledException += (s, e) => {
-                var exception = (Exception)e.ExceptionObject;
-                clog(exception.ToString(), "FATAL");
-                throw exception;
-            };
-            clog("Exception Handler Registered");
-
+            // Log Assembly and Environment Information
+            System.Reflection.Assembly Assembly = System.Reflection.Assembly.GetEntryAssembly();
+            clog("Assembly.GetName()");
+            clog("    GetName - " + Assembly.GetName().ToString());
+            clog("    Name - " + Assembly.GetName().Name);
+            clog("    Version - " + Assembly.GetName().Version);
+            clog("    VersionCompatibility - " + Assembly.GetName().VersionCompatibility);
+            clog("    FullName - " + Assembly.FullName);
+            clog("    HostContext - " + Assembly.HostContext.ToString());
+            clog("    IsFullyTrusted - " + Assembly.IsFullyTrusted.ToString());
+            clog("System.Environment");
+            clog("    OSVersion - " + Environment.OSVersion);
+            clog("    Version - " + Environment.Version);
+            clog("    CurrentManagedThreadID - " + Environment.CurrentManagedThreadId.ToString());
+            clog("    Is64BitOS - " + Environment.Is64BitOperatingSystem.ToString());
+            clog("    Is64BitProcess - " + Environment.Is64BitProcess.ToString());
+            clog("    WorkingSet - " + Environment.WorkingSet.ToString());
+            clog("Target Framework - " + AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName);
+            clog("Executable Path - " + exePath.ToString());
+            clog("PathToDebug - " + pathToDebug);
+            clog("PathToProject - " + pathToProject);
+            
             getExternalIP();
-            Console.ReadLine();
-            // testThing();
 
-            // LoadingScreenThread.Start();
-            /*
-            LightingControlThread.Start();
-            Console.WriteLine("Waiting Before Effect Start");
-            Thread.Sleep(1000);
-            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT", "", "", opt1, opt2);
-            AlexaCompREQUEST.processRequest(requ);
-            Thread.Sleep(5000);
-            Request requ_ = new Request("testAuth", "RGBCOMMAND", "ERROREFFECT", "", "", opt1, opt2);
-            AlexaCompREQUEST.processRequest(requ_);*/
+            LoadingScreenThread.Start();
         }
 
 

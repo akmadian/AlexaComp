@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlexaComp", "AlexaComp.csproj", "{B8379353-325F-4858-9E4A-0E9FD4357872}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AlexaCompSetup", "Setup\AlexaCompSetup\AlexaCompSetup.vdproj", "{7BD01D1C-D03F-4AA0-B6B5-E17D26FAF20F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{B8379353-325F-4858-9E4A-0E9FD4357872}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8379353-325F-4858-9E4A-0E9FD4357872}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8379353-325F-4858-9E4A-0E9FD4357872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BD01D1C-D03F-4AA0-B6B5-E17D26FAF20F}.Debug|Any CPU.ActiveCfg = Debug
+		{7BD01D1C-D03F-4AA0-B6B5-E17D26FAF20F}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

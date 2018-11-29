@@ -35,7 +35,8 @@ namespace AlexaComp{
                 IPAddress host = IPAddress.Parse(HOST);
                 server = new TcpListener(host, PORT);
                 server.Start(); // Start Server
-                clog("Server Started - Listening...");
+                clog("Server Started");
+                clog("Listening...");
                 if (stopProgramFlag == true) {
                     return;
                 }
