@@ -20,6 +20,7 @@ namespace AlexaComp {
 
     class AlexaCompCore {
 
+        #region Properties
         public static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
         private static string[] splitExePath = exePath.Split('\\').ToArray();
         public static string pathToDebug = string.Join("\\\\", splitExePath.Reverse().Skip(1).Reverse());
@@ -38,6 +39,10 @@ namespace AlexaComp {
         public static Dictionary<string, string> settingsDict = new Dictionary<string, string>();
         public static readonly ILog _log = LogManager.GetLogger(typeof(AlexaComp));
 
+        #endregion
+
+
+        #region Methods
         public static void clog(string tolog, string customLevel = "INFO") {
             switch (customLevel) {
                 case "ERROR": _log.Error(tolog); break;
@@ -55,14 +60,6 @@ namespace AlexaComp {
             AlexaCompSERVER.stopServer();
             AlexaCompSERVER.delPortMap();
             Environment.Exit(1);
-        }
-
-        public static string[] splitStringEveryN(string toSplit, int n) {
-            List<string> returnArr = new List<string>();
-            for (int i = 0; i < toSplit.Length; i += n) {
-                returnArr.Add(toSplit.Substring(i, Math.Min(n, toSplit.Length - i)));
-            }
-            return returnArr.ToArray();
         }
 
         public static bool validateRGB(RGBColor color) {
@@ -88,5 +85,7 @@ namespace AlexaComp {
         public static string GetConfigValue(string key) {
             return ConfigurationManager.AppSettings[key];
         }
+
+        #endregion
     }
 }

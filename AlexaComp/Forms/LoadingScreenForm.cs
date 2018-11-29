@@ -32,9 +32,6 @@ namespace AlexaComp {
             updateProgress("Reading Config File");
             AlexaComp.readConfig();
 
-            updateProgress("Verifying Config File");
-            AlexaComp.verifyConfig();
-
             updateProgress("Creating Port Map", 400);
             AlexaCompSERVER.forwardPort();
 
@@ -45,7 +42,7 @@ namespace AlexaComp {
             AlexaCompHARDWARE.assignSensors();
 
             updateProgress("Getting Installed Programs");
-            AlexaComp.inventoryPrograms();
+            //AlexaComp.inventoryPrograms();
 
             updateProgress("Starting Server");
             AlexaCompCore.ServerThread.Start();

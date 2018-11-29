@@ -8,8 +8,12 @@ using OpenHardwareMonitor.Hardware;
 using log4net;
 using log4net.Config;
 
+using AlexaComp.Core;
+
 namespace AlexaComp{
     class AlexaCompHARDWARE : AlexaCompCore{
+
+        #region Properties
         private const string failMessage = "There was an error, please check the Alexa Comp log file.";
         public static List<string> partNames = new List<string>() { "GPU", "CPU", "RAM", "MAINBOARD", "HDD", "FANCONTROLLER" };
         public static Dictionary<string, Dictionary<string, string>> partDict = new Dictionary<string, Dictionary<string, string>>() {
@@ -18,7 +22,9 @@ namespace AlexaComp{
             { "RAM", new Dictionary<string, string> {{"USED", "Used Memory"}, {"AVAILABLE", "Available Memory"}}},
             { "MAINBOARD", new Dictionary<string, string> {}}
         };
+        #endregion
 
+        #region Methods
         public static string partStat(string part, string stat, string tertiary){
             UpdateVisitor updateVisitor = new UpdateVisitor();
             Computer computer = new Computer();
@@ -148,6 +154,7 @@ namespace AlexaComp{
 
         public static int loadFormat(float? loadFloat) { return (int)loadFloat; }
         public static int tempFormat(float? tempFloat) { return (int)tempFloat; }
+        #endregion
     }
 
     public class UpdateVisitor : IVisitor{
@@ -160,21 +167,5 @@ namespace AlexaComp{
         }
         public void VisitSensor(ISensor sensor) { }
         public void VisitParameter(IParameter parameter) { }
-    }
-
-    class SensorObject {
-        public string part;
-        public string stat;
-        public string type;
-
-      
-
-        public SensorObject(string part, string stat, string type) {
-            this.part = part;
-            this.stat = stat;
-            this.type = type;
-        }
-
-
     }
 }

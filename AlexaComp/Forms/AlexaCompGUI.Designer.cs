@@ -40,8 +40,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.Overview = new System.Windows.Forms.TabPage();
             this.Settings = new System.Windows.Forms.TabPage();
-            this.RGBSystemLabel = new System.Windows.Forms.Label();
-            this.RBGDropdown = new System.Windows.Forms.ComboBox();
             this.ProgramList = new System.Windows.Forms.TabPage();
             this.errorLabel = new System.Windows.Forms.Label();
             this.dataListView = new System.Windows.Forms.ListView();
@@ -51,17 +49,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.programNameTextBox = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.RGBSubmitButton = new System.Windows.Forms.Button();
-            this.RBox = new System.Windows.Forms.TextBox();
-            this.GBox = new System.Windows.Forms.TextBox();
-            this.BBox = new System.Windows.Forms.TextBox();
-            this.SpeedBox = new System.Windows.Forms.TextBox();
-            this.GranularityBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.Overview.SuspendLayout();
             this.Settings.SuspendLayout();
@@ -162,21 +149,8 @@
             // 
             // Settings
             // 
-            this.Settings.Controls.Add(this.label8);
-            this.Settings.Controls.Add(this.label7);
-            this.Settings.Controls.Add(this.label6);
-            this.Settings.Controls.Add(this.label5);
-            this.Settings.Controls.Add(this.label4);
-            this.Settings.Controls.Add(this.GranularityBox);
-            this.Settings.Controls.Add(this.SpeedBox);
-            this.Settings.Controls.Add(this.BBox);
-            this.Settings.Controls.Add(this.GBox);
-            this.Settings.Controls.Add(this.RBox);
-            this.Settings.Controls.Add(this.RGBSubmitButton);
-            this.Settings.Controls.Add(this.RGBSystemLabel);
             this.Settings.Controls.Add(this.openLogFileButton);
             this.Settings.Controls.Add(this.LogAllSensorsButton);
-            this.Settings.Controls.Add(this.RBGDropdown);
             this.Settings.Controls.Add(this.runOnStartupCheck);
             this.Settings.Location = new System.Drawing.Point(4, 22);
             this.Settings.Name = "Settings";
@@ -185,31 +159,6 @@
             this.Settings.TabIndex = 1;
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
-            // 
-            // RGBSystemLabel
-            // 
-            this.RGBSystemLabel.AutoSize = true;
-            this.RGBSystemLabel.Location = new System.Drawing.Point(18, 66);
-            this.RGBSystemLabel.Name = "RGBSystemLabel";
-            this.RGBSystemLabel.Size = new System.Drawing.Size(85, 13);
-            this.RGBSystemLabel.TabIndex = 17;
-            this.RGBSystemLabel.Text = "Test RGB Effect";
-            this.RGBSystemLabel.Click += new System.EventHandler(this.RGBSystemLabel_Click);
-            // 
-            // RBGDropdown
-            // 
-            this.RBGDropdown.FormattingEnabled = true;
-            this.RBGDropdown.Items.AddRange(new object[] {
-            "Rainbow Fading",
-            "Static Color",
-            "Alternating",
-            "Error Effect",
-            "Pulsing Effect",
-            "Breathing Color"});
-            this.RBGDropdown.Location = new System.Drawing.Point(18, 85);
-            this.RBGDropdown.Name = "RBGDropdown";
-            this.RBGDropdown.Size = new System.Drawing.Size(121, 21);
-            this.RBGDropdown.TabIndex = 16;
             // 
             // ProgramList
             // 
@@ -290,97 +239,6 @@
             this.programNameTextBox.Size = new System.Drawing.Size(493, 20);
             this.programNameTextBox.TabIndex = 6;
             // 
-            // RGBSubmitButton
-            // 
-            this.RGBSubmitButton.Location = new System.Drawing.Point(86, 246);
-            this.RGBSubmitButton.Name = "RGBSubmitButton";
-            this.RGBSubmitButton.Size = new System.Drawing.Size(75, 23);
-            this.RGBSubmitButton.TabIndex = 18;
-            this.RGBSubmitButton.Text = "Submit";
-            this.RGBSubmitButton.UseVisualStyleBackColor = true;
-            this.RGBSubmitButton.Click += new System.EventHandler(this.RGBSubmitButton_Click);
-            // 
-            // RBox
-            // 
-            this.RBox.Location = new System.Drawing.Point(61, 112);
-            this.RBox.Name = "RBox";
-            this.RBox.Size = new System.Drawing.Size(100, 20);
-            this.RBox.TabIndex = 19;
-            // 
-            // GBox
-            // 
-            this.GBox.Location = new System.Drawing.Point(61, 139);
-            this.GBox.Name = "GBox";
-            this.GBox.Size = new System.Drawing.Size(100, 20);
-            this.GBox.TabIndex = 20;
-            // 
-            // BBox
-            // 
-            this.BBox.Location = new System.Drawing.Point(61, 166);
-            this.BBox.Name = "BBox";
-            this.BBox.Size = new System.Drawing.Size(100, 20);
-            this.BBox.TabIndex = 21;
-            // 
-            // SpeedBox
-            // 
-            this.SpeedBox.Location = new System.Drawing.Point(61, 193);
-            this.SpeedBox.Name = "SpeedBox";
-            this.SpeedBox.Size = new System.Drawing.Size(100, 20);
-            this.SpeedBox.TabIndex = 22;
-            // 
-            // GranularityBox
-            // 
-            this.GranularityBox.Location = new System.Drawing.Point(81, 219);
-            this.GranularityBox.Name = "GranularityBox";
-            this.GranularityBox.Size = new System.Drawing.Size(100, 20);
-            this.GranularityBox.TabIndex = 23;
-            this.GranularityBox.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 113);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(15, 13);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "R";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 145);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(15, 13);
-            this.label5.TabIndex = 25;
-            this.label5.Text = "G";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 172);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(14, 13);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "B";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 199);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 13);
-            this.label7.TabIndex = 27;
-            this.label7.Text = "Speed";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 226);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 13);
-            this.label8.TabIndex = 28;
-            this.label8.Text = "Granularity";
-            // 
             // AlexaCompGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -416,8 +274,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage Overview;
         private System.Windows.Forms.TabPage Settings;
-        private System.Windows.Forms.Label RGBSystemLabel;
-        private System.Windows.Forms.ComboBox RBGDropdown;
         private System.Windows.Forms.TabPage ProgramList;
         private System.Windows.Forms.ListView dataListView;
         private System.Windows.Forms.TextBox programNameTextBox;
@@ -427,17 +283,6 @@
         private System.Windows.Forms.Button addToListButton;
         private System.Windows.Forms.Label errorLabel;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox GranularityBox;
-        private System.Windows.Forms.TextBox SpeedBox;
-        private System.Windows.Forms.TextBox BBox;
-        private System.Windows.Forms.TextBox GBox;
-        private System.Windows.Forms.TextBox RBox;
-        private System.Windows.Forms.Button RGBSubmitButton;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
     }
 }
 
