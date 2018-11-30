@@ -172,12 +172,12 @@
     <Compile Include="AlexaCompCore.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Request.cs" />
-    <Compile Include="Core\Requests\AudioCommand.cs" />
-    <Compile Include="Core\Requests\CompStat.cs" />
-    <Compile Include="Core\Requests\Launch.cs" />
-    <Compile Include="Core\Requests\OpenDevTools.cs" />
-    <Compile Include="Core\Requests\RGBCommand.cs" />
-    <Compile Include="Core\Requests\SystemCommand.cs" />
+    <Compile Include="Core\RequestTypes\AudioCommand.cs" />
+    <Compile Include="Core\RequestTypes\CompStat.cs" />
+    <Compile Include="Core\RequestTypes\Launch.cs" />
+    <Compile Include="Core\RequestTypes\OpenDevTools.cs" />
+    <Compile Include="Core\RequestTypes\RGBCommand.cs" />
+    <Compile Include="Core\RequestTypes\SystemCommand.cs" />
     <Compile Include="Core\Response.cs" />
     <Compile Include="Forms\AdvancedSettingsForm.cs">
       <SubType>Form</SubType>

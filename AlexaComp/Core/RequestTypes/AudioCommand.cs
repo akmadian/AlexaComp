@@ -52,7 +52,8 @@ namespace AlexaComp.Core.Requests {
                     break;
 
                 case "TOGGLEMUTE": 
-                    break; // TODO: Implement Mute Functionality
+                    AudioController.toggleMute();
+                    break;
             }
             Response res = new Response(true, "Done!");
         }

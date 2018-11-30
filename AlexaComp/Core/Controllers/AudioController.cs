@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using AudioSwitcher.AudioApi.CoreAudio;
 
 namespace AlexaComp {
-    class AudioController {
+    class AudioController : AlexaCompCore {
 
         private static CoreAudioDevice defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
 
@@ -16,6 +16,10 @@ namespace AlexaComp {
         private const int NEXT_TRACK = 0xB0;
         private const int PLAY_PAUSE = 0xB3;
         private const int PREV_TRACK = 0xB1;
+
+        public static void initController(){
+            defaultPlaybackDevice.Mute(true);
+        }
 
         public static void togglePlayPause() {
             keybd_event(PLAY_PAUSE, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
@@ -42,7 +46,11 @@ namespace AlexaComp {
         }
 
         public static void toggleMute() {
-            // To Implement
+           if (defaultPlaybackDevice.IsMuted) {
+               defaultPlaybackDevice.Mute(false); // Unmute
+           } else {
+               defaultPlaybackDevice.Mute(true); // Mute
+           }
         }
     }
 }
