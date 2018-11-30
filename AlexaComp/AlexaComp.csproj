@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B8379353-325F-4858-9E4A-0E9FD4357872}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>AlexaComp</RootNamespace>
     <AssemblyName>AlexaComp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -172,6 +172,12 @@
     <Compile Include="AlexaCompCore.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Request.cs" />
+    <Compile Include="Core\Requests\AudioCommand.cs" />
+    <Compile Include="Core\Requests\CompStat.cs" />
+    <Compile Include="Core\Requests\Launch.cs" />
+    <Compile Include="Core\Requests\OpenDevTools.cs" />
+    <Compile Include="Core\Requests\RGBCommand.cs" />
+    <Compile Include="Core\Requests\SystemCommand.cs" />
     <Compile Include="Core\Response.cs" />
     <Compile Include="Forms\AdvancedSettingsForm.cs">
       <SubType>Form</SubType>
@@ -187,7 +193,6 @@
     </Compile>
     <Compile Include="AlexaComp.cs" />
     <Compile Include="AlexaCompSERVER.cs" />
-    <Compile Include="AlexaCompREQUEST.cs" />
     <Compile Include="AlexaCompHARDWARE.cs" />
     <Compile Include="Core\Controllers\AudioController.cs" />
     <Compile Include="Core\Controllers\LightingController.cs" />
@@ -269,9 +274,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SubProjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\RGB.NET.Resources.Asus.0.1.0\build\RGB.NET.Resources.Asus.targets" Condition="Exists('packages\RGB.NET.Resources.Asus.0.1.0\build\RGB.NET.Resources.Asus.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

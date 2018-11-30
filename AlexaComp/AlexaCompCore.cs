@@ -18,7 +18,7 @@ namespace AlexaComp {
     // TODO : Implement input validation on all functions.
     // TODO : Create format validation functions.
 
-    class AlexaCompCore {
+    public class AlexaCompCore {
 
         #region Properties
         public static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
@@ -62,6 +62,7 @@ namespace AlexaComp {
             Environment.Exit(1);
         }
 
+        /*
         public static bool validateRGB(RGBColor color) {
             int[] rgbArr = colorMethods.RGBToArr(color);
             foreach (var value in rgbArr) {
@@ -71,7 +72,7 @@ namespace AlexaComp {
                 }
             }
             return true;
-        }
+        }*/
 
         /// <summary>
         /// Encryption Methods From: https://odan.github.io/2017/08/10/aes-256-encryption-and-decryption-in-php-and-csharp.html

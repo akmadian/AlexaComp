@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using log4net;
 using log4net.Config;
 
+using AlexaComp.Controllers;
+
 // TODO : Documentation
 // TODO : Add region tags to files where appropriate.
 /** Documentation format
