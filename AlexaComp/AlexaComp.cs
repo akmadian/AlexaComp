@@ -8,6 +8,7 @@ using log4net;
 using log4net.Config;
 
 using AlexaComp.Controllers;
+using AlexaComp.Core;
 
 // TODO : Documentation
 // TODO : Add region tags to files where appropriate.
@@ -48,6 +49,19 @@ namespace AlexaComp {
                     }
                 }
             }
+
+            //Hardware.createConn("Processor");
+            //Hardware.createConn("Fan");
+            //Hardware.createConn("SoundDevice");
+            //Hardware.createConn("MemoryDevice");
+            //Hardware.createConn("BaseBoard");
+            //Hardware.createConn("Keyboard");
+            //Hardware.createConn("NetworkAdapter");
+            //Hardware.createConn("PhysicalMemory");
+            //Hardware.createConn("VideoController");
+            //Hardware.createConn("VoltageProbe");
+            AlexaCompHARDWARE.assignSensors();
+            Console.ReadLine();
 
             // Log Assembly and Environment Information
             System.Reflection.Assembly Assembly = System.Reflection.Assembly.GetEntryAssembly();

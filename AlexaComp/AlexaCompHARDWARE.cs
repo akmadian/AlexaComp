@@ -11,7 +11,7 @@ using log4net.Config;
 using AlexaComp.Core;
 
 namespace AlexaComp{
-    class AlexaCompHARDWARE : AlexaCompCore{
+    class AlexaCompHARDWARE : AlexaCompCore {
 
         #region Properties
         private const string failMessage = "There was an error, please check the Alexa Comp log file.";
@@ -69,44 +69,28 @@ namespace AlexaComp{
                 computer.Accept(updateVisitor);
                 for (int i = 0; i < computer.Hardware.Length; i++) {
                     for (int k = 0; k < computer.Hardware.Length; k++) {
+                        var currentHardware = computer.Hardware[k];
+                        
+                        Hardware nHardware = new Hardware(currentHardware.HardwareType.ToString());
+                        nHardware.Name = currentHardware.Name;
+
                         for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++) {
                             var currentSensor = computer.Hardware[k].Sensors[j];
-                            if (currentSensor.SensorType == SensorType.Temperature) { // If sensor is a temp sensor
-                                try {
-                                    partDict[part]["TEMP"] = currentSensor.Name;
-                                } catch (KeyNotFoundException) {}
-                            }
-
-                            // TODO: Implement switch case
-                            if (currentSensor.SensorType == SensorType.Clock) {
-                                Console.WriteLine("Clock Sensor");
-                                if (currentSensor.Name.Contains("Core")) {
-                                    Console.WriteLine("Core Clock Sensor");
-                                    partDict[part]["CLOCK_CORE"] = currentSensor.Name;
-                                } else if (currentSensor.Name.Contains("Memory")) {
-                                    Console.WriteLine("Ram Clock Sensor");
-                                    partDict[part]["CLOCK_RAM"] = currentSensor.Name;
-                                }
-                            }
-
-                            if (currentSensor.SensorType == SensorType.Load) { // If sensor is a load sensor
-                                try {
-                                    partDict[part]["LOAD"] = currentSensor.Name;
-                                }
-                                catch (KeyNotFoundException) {}
-                            } else if (currentSensor.SensorType == SensorType.Load && // Else if the hardware is a CPU get total load, not core loads.
-                                part == "CPU" && "Total".Contains(currentSensor.Name)) {
-                                    partDict[part]["LOAD"] = currentSensor.Name;
-                            }
+                            Console.WriteLine("    nSensor -- " + currentSensor.Name + " - " + currentSensor.SensorType.ToString() + " - " + currentSensor.Value.ToString());
+                            Sensor_ nSensor = new Sensor_(currentSensor.Name, currentSensor.SensorType.ToString(), currentSensor);
+                            nSensor.Value = (float)currentSensor.Value;
+                            nHardware.Sensors[currentSensor.Name] =  nSensor;
                         }
+
+                        Devices[currentHardware.HardwareType.ToString()] = nHardware;
                     }
                     computer.Close();
                 }
             }
-            foreach(KeyValuePair<string, Dictionary<string, string>> pair in partDict) {
-                Console.WriteLine("Part - " + pair.Key);
-                foreach (KeyValuePair<string, string> pair2 in pair.Value) {
-                    Console.WriteLine("    " + pair2.Key + " - " + pair2.Value);
+            foreach(KeyValuePair<string, Hardware> pair in Devices) {
+                Console.WriteLine("Device -- " + pair.Value.Name + " - " + pair.Value.Sensors.Count);
+                foreach (KeyValuePair<string, Sensor_> pair_ in pair.Value.Sensors) {
+                    Console.WriteLine("    Sensor -- " + pair_.Value.Name + " - " + pair_.Value.Value);
                 }
             }
         }

@@ -12,6 +12,8 @@ using System.Security.Cryptography;
 using log4net;
 using log4net.Config;
 
+using AlexaComp.Core;
+
 namespace AlexaComp {
     
     // MAIN TODO LIST
@@ -41,6 +43,7 @@ namespace AlexaComp {
 
         #endregion
 
+        public static Dictionary<string, Hardware> Devices = new Dictionary<string, Hardware>();
 
         #region Methods
         public static void clog(string tolog, string customLevel = "INFO") {

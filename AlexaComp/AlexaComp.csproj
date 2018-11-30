@@ -97,6 +97,15 @@
     <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=3.0.0.209, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
       <HintPath>packages\AudioSwitcher.AudioApi.CoreAudio.3.0.0.1\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
     </Reference>
+    <Reference Include="HardwareProviders.Board.Standard, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\HardwareProviders.Board.Standard.2.0.1\lib\netstandard2.0\HardwareProviders.Board.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="HardwareProviders.CPU.Standard, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\HardwareProviders.CPU.Standard.2.0.1\lib\netstandard2.0\HardwareProviders.CPU.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="HardwareProviders.Standard, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\HardwareProviders.Standard.2.0.1\lib\netstandard2.0\HardwareProviders.Standard.dll</HintPath>
+    </Reference>
     <Reference Include="HidSharp, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
     </Reference>
@@ -167,10 +176,14 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WmiLight, Version=2.1.17172.10, Culture=neutral, PublicKeyToken=bc5bb12819f4cf3c, processorArchitecture=MSIL">
+      <HintPath>packages\WmiLight.2.1.17172.10\lib\net40\WmiLight.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlexaCompCore.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\Hardware.cs" />
     <Compile Include="Core\Request.cs" />
     <Compile Include="Core\RequestTypes\AudioCommand.cs" />
     <Compile Include="Core\RequestTypes\CompStat.cs" />
@@ -179,6 +192,7 @@
     <Compile Include="Core\RequestTypes\RGBCommand.cs" />
     <Compile Include="Core\RequestTypes\SystemCommand.cs" />
     <Compile Include="Core\Response.cs" />
+    <Compile Include="Core\Sensor_.cs" />
     <Compile Include="Forms\AdvancedSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
