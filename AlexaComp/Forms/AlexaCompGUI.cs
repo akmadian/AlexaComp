@@ -47,13 +47,6 @@ namespace AlexaComp{
             // logSensorsThread.Start(true);
         }
 
-        private void RGBSubmitButton_Click(object sender, EventArgs e) {
-            string[] opt1 = new string[] { "255", "255", "255" };
-            string[] opt2 = new string[] { "0", "0", "0" };
-            Request requ = new Request("testAuth", "RGBCOMMAND", "RAINBOWFADEEFFECT");
-            AlexaCompREQUEST.processRequest(requ);
-        }
-
         /*
         * Opens the AlexaComp log file.
         */

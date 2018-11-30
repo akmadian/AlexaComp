@@ -179,9 +179,6 @@ namespace AlexaComp.Controllers {
             /// Sets all leds to a static color
             /// </summary>
             public static void staticColor(int R = 255, int G = 255, int B = 255) {
-                if (R < 0) { R = 255; }
-                if (G < 0) { G = 255; }
-                if (B < 0) { B = 255; }
                 clog(String.Format("RGB -- Setting Static Color -- Color: {0}, {1}, {2}", R, G, B));
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
@@ -214,15 +211,6 @@ namespace AlexaComp.Controllers {
                 }
             }
 
-            /// <summary>
-            /// Turns all leds off
-            /// </summary>
-            public static void allLedOff() {
-                clog("Setting All LED Off Effect");
-                ILedGroup ledGroup = new ListLedGroup(surface.Leds);
-                ledGroup.Brush = new SolidColorBrush(new Color(0, 0, 0));
-            }
-
             public static void errorEffect(int speed = 1) {
                 if (speed < 0) { speed = 1; }
                 clog("RGB Error Effect Started.");
@@ -237,6 +225,15 @@ namespace AlexaComp.Controllers {
                         Thread.Sleep(speed);
                     }
                 }
+            }
+
+            /// <summary>
+            /// Turns all leds off
+            /// </summary>
+            public static void allLedOff() {
+                clog("Setting All LED Off Effect");
+                ILedGroup ledGroup = new ListLedGroup(surface.Leds);
+                ledGroup.Brush = new SolidColorBrush(new Color(0, 0, 0));
             }
         }
     }
