@@ -4,7 +4,6 @@ using System.Threading;
 using System.Net;
 using System.Text.RegularExpressions;
 
-using log4net;
 using log4net.Config;
 
 using AlexaComp.Controllers;
@@ -20,7 +19,7 @@ using AlexaComp.Core;
 */
 
 namespace AlexaComp {
-    class AlexaComp : AlexaCompCore{
+    class AlexaComp : AlexaCompCore {
 
         [STAThread]
         static void Main(string[] args) {
@@ -33,35 +32,6 @@ namespace AlexaComp {
             clog("Exception Handler Registered");
 
             _log.Info("Start Program");
-
-            // Parse cli args
-            foreach (string arg in args) {
-                if ("-LogSensors".Contains(arg)) {
-                    Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
-                    LogSensorsThread.Start(false);
-                }
-                if ("-GetPrograms".Contains(arg)) {
-
-                }
-                if ("-AddProgram".Contains(arg)) {
-                    if ("--AddProgramLiteral".Contains(arg)) {
-
-                    }
-                }
-            }
-
-            //Hardware.createConn("Processor");
-            //Hardware.createConn("Fan");
-            //Hardware.createConn("SoundDevice");
-            //Hardware.createConn("MemoryDevice");
-            //Hardware.createConn("BaseBoard");
-            //Hardware.createConn("Keyboard");
-            //Hardware.createConn("NetworkAdapter");
-            //Hardware.createConn("PhysicalMemory");
-            //Hardware.createConn("VideoController");
-            //Hardware.createConn("VoltageProbe");
-            AlexaCompHARDWARE.assignSensors();
-            Console.ReadLine();
 
             // Log Assembly and Environment Information
             System.Reflection.Assembly Assembly = System.Reflection.Assembly.GetEntryAssembly();
@@ -86,6 +56,10 @@ namespace AlexaComp {
             clog("PathToProject - " + pathToProject);
             
             getExternalIP();
+
+            clog("Initializing Hardware Sensors");
+            
+
 
             LoadingScreenThread.Start();
         }

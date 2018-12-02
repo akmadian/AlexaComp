@@ -16,7 +16,6 @@ namespace AlexaComp.Core.Requests {
             process();
         }
 
-
         public void process() {
             // TODO : Fix Compstat System
             // TODO : Implement switch case
@@ -26,8 +25,10 @@ namespace AlexaComp.Core.Requests {
             else if (this.part == "GPU") {
                 Response res = new Response(true, "38 degrees celcius");
             } else {
-                Console.WriteLine(AlexaCompHARDWARE.partStat(this.part, this.stat, this.TERTIARY));
-                Response res = new Response(true, AlexaCompHARDWARE.partStat(this.part, this.stat, this.TERTIARY));
+                Devices[part].RefreshSensors();
+                string result = Devices[part].Sensors[stat].Value.ToString();
+                Console.WriteLine(result);
+                Response res = new Response(true, result);
             }
         }
     }

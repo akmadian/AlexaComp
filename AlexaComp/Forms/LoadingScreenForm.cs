@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 
+using AlexaComp.Core.Controllers;
+
 namespace AlexaComp {
     public partial class LoadingScreenForm : Form {
         public LoadingScreenForm() {
@@ -39,7 +41,7 @@ namespace AlexaComp {
             AlexaComp.LightingControlThread.Start();
 
             updateProgress("Assigning Sensors");
-            // AlexaCompHARDWARE.assignSensors();
+            HardwareController.InitSensors();
 
             updateProgress("Getting Installed Programs");
             //AlexaComp.inventoryPrograms();
@@ -58,6 +60,7 @@ namespace AlexaComp {
 
         private void updateProgress(string message, int wait = 300) {
             try {
+                AlexaCompCore.clog(message);
                 progressLabel.Invoke(new MethodInvoker(delegate { progressLabel.Text = message; }));
             } catch (InvalidOperationException) {
 

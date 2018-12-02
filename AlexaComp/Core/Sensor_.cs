@@ -11,6 +11,7 @@ using OpenHardwareMonitor.Hardware;
 namespace AlexaComp.Core {
     public class Sensor_ {
 
+        #region Properties
         static readonly Dictionary<SensorType, string> Units = new Dictionary<SensorType, string> {
             {SensorType.Voltage, "V"},
             {SensorType.Clock, "MHz"},
@@ -26,28 +27,37 @@ namespace AlexaComp.Core {
         };
 
         public string Name;
-
         public float Value;
-
         public string SensorPath;
-
         public string Type;
-
         public ISensor OriginSensor;
+        #endregion
 
-        public Sensor_(string Name_, string type_) {
-            Name = Name_;
-            Type = type_;
+        #region Constructors
+        public Sensor_(string Name, string Type) {
+            this.Name = Name;
+            this.Type = Type;
         }
 
-        public Sensor_(string Name_, string type_, ISensor Origin) {
-            Name = Name_;
-            Type = type_;
+        public Sensor_(string Name, string Type, ISensor Origin) {
+            this.Name = Name;
+            this.Type = Type;
             OriginSensor = Origin;
         }
+        #endregion
 
-        public string getUnit(Sensor_ sens) {
-            return Units[sens.OriginSensor.SensorType];
+        #region Methods
+        public string getUnit() {
+            return Units[OriginSensor.SensorType];
         }
+
+        public static string GetSensorType(ISensor sensor) {
+            return sensor.SensorType.ToString();
+        }
+
+        public override string ToString() {
+            return string.Format("Sensor Object -- Name: {0}, Type: {1}, Value: {2}", Name, Type, Value.ToString());
+        }
+        #endregion
     }
 }
