@@ -170,7 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlexaCompCore.cs" />
+    <Compile Include="Core\Controllers\HardwareController.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\Hardware.cs" />
     <Compile Include="Core\Request.cs" />
     <Compile Include="Core\RequestTypes\AudioCommand.cs" />
     <Compile Include="Core\RequestTypes\CompStat.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="Core\RequestTypes\RGBCommand.cs" />
     <Compile Include="Core\RequestTypes\SystemCommand.cs" />
     <Compile Include="Core\Response.cs" />
+    <Compile Include="Core\Sensor_.cs" />
     <Compile Include="Forms\AdvancedSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,7 +196,6 @@
     </Compile>
     <Compile Include="AlexaComp.cs" />
     <Compile Include="AlexaCompSERVER.cs" />
-    <Compile Include="AlexaCompHARDWARE.cs" />
     <Compile Include="Core\Controllers\AudioController.cs" />
     <Compile Include="Core\Controllers\LightingController.cs" />
     <Compile Include="Forms\LoadingScreenForm.cs">

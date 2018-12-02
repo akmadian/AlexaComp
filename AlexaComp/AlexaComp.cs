@@ -4,10 +4,10 @@ using System.Threading;
 using System.Net;
 using System.Text.RegularExpressions;
 
-using log4net;
 using log4net.Config;
 
 using AlexaComp.Controllers;
+using AlexaComp.Core;
 
 // TODO : Documentation
 // TODO : Add region tags to files where appropriate.
@@ -19,7 +19,7 @@ using AlexaComp.Controllers;
 */
 
 namespace AlexaComp {
-    class AlexaComp : AlexaCompCore{
+    class AlexaComp : AlexaCompCore {
 
         [STAThread]
         static void Main(string[] args) {
@@ -32,22 +32,6 @@ namespace AlexaComp {
             clog("Exception Handler Registered");
 
             _log.Info("Start Program");
-
-            // Parse cli args
-            foreach (string arg in args) {
-                if ("-LogSensors".Contains(arg)) {
-                    Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
-                    LogSensorsThread.Start(false);
-                }
-                if ("-GetPrograms".Contains(arg)) {
-
-                }
-                if ("-AddProgram".Contains(arg)) {
-                    if ("--AddProgramLiteral".Contains(arg)) {
-
-                    }
-                }
-            }
 
             // Log Assembly and Environment Information
             System.Reflection.Assembly Assembly = System.Reflection.Assembly.GetEntryAssembly();
@@ -72,6 +56,10 @@ namespace AlexaComp {
             clog("PathToProject - " + pathToProject);
             
             getExternalIP();
+
+            clog("Initializing Hardware Sensors");
+            
+
 
             LoadingScreenThread.Start();
         }
