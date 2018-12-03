@@ -11,7 +11,7 @@ namespace AlexaComp.Core.Requests {
         public string color2;
 
         public RGBCommand(string effect_, string color1_, string color2_ = null) {
-            clog("RGBCommand Constructed");
+            Clog("RGBCommand Constructed");
             effect = effect_;
             color1 = color1_;
             color2 = color2_;
@@ -19,7 +19,7 @@ namespace AlexaComp.Core.Requests {
         }
         
         public void process() {
-            clog("Processing...");
+            Clog("Processing...");
             RGBColor priColor = new RGBColor(255, 255, 255);
             RGBColor secColor = new RGBColor(0, 0, 255);
             // if (req.SECONDARY != null) { priColor = new RGBColor(req.SECONDARY); } else { priColor = null; };

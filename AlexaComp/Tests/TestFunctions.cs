@@ -21,15 +21,15 @@ namespace AlexaComp {
         }
 
         public static void testRGBEffects() {
-            clog("Testing Error Effect");
+            Clog("Testing Error Effect");
             LightingController.LightingEffects.errorEffect();
         }
 
         public static void testColorConversions() {
-            clog("Testing Color Value Conversion Methods...");
+            Clog("Testing Color Value Conversion Methods...");
             // RGB to Hex
             if (colorMethods.RGBToHex(new RGBColor(255, 0, 255)) == "FF00FF") {
-                clog("    RGB To Hex Conversion Passed");
+                Clog("    RGB To Hex Conversion Passed");
             } else {
                 addFailedTest("RGB To Hex Conversion");
             }
@@ -37,21 +37,21 @@ namespace AlexaComp {
             // Integer Array to RGB Object
             int[] intArr = new int[] {255, 0, 255};
             if (colorMethods.ArrToRGB(intArr).Equals(new RGBColor(255, 0, 255))) {
-                clog("    Integer Array to RGB Object Conversion Passed");
+                Clog("    Integer Array to RGB Object Conversion Passed");
             } else {
                 addFailedTest("Int Array to RGB");
             }
 
             // Hex String to RGB Object without #
             if (colorMethods.HexToRGB("FF00FF").Equals(new RGBColor(255, 0, 255))) {
-                clog("    Hex to RGB Object ( w/o # ) Conversion Passed");
+                Clog("    Hex to RGB Object ( w/o # ) Conversion Passed");
             } else {
                 addFailedTest("Hex to RGB Object ( w/o # )");
             }
 
             // Hex String to RGB Object with #
             if (colorMethods.HexToRGB("#FF00FF").Equals(new RGBColor(255, 0, 255))) {
-                clog("    Hex to RGB Object ( w/ # ) Conversion Passed");
+                Clog("    Hex to RGB Object ( w/ # ) Conversion Passed");
             }
             else {
                 addFailedTest("Hex to RGB Object ( w/ # )");

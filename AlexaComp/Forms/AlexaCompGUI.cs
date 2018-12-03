@@ -12,10 +12,10 @@ namespace AlexaComp{
         
         public static void StartAppWindow() {
             Application.Run(new AlexaCompGUI());
-            AlexaCompCore.clog("StartAppWinodw Thread Started");
+            AlexaCompCore.Clog("StartAppWinodw Thread Started");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            AlexaCompCore.clog("StartAppWindow Task Completed");
+            AlexaCompCore.Clog("StartAppWindow Task Completed");
         }
 
         public AlexaCompGUI() {
@@ -51,7 +51,7 @@ namespace AlexaComp{
         * Opens the AlexaComp log file.
         */
         private void openLogFileButton_Click(object sender, EventArgs e) {
-            AlexaCompCore.clog("OpenLogFileButtonClicked");
+            AlexaCompCore.Clog("OpenLogFileButtonClicked");
             System.Diagnostics.Process.Start(AlexaComp.pathToDebug + "\\AlexaCompLOG.log");
         }
 
@@ -95,7 +95,7 @@ namespace AlexaComp{
 
                 // Console.WriteLine("Name - " + programName + " -- " + programPath);
             }
-            AlexaCompCore.clog("Data List Reloaded");
+            AlexaCompCore.Clog("Data List Reloaded");
             // Reset column width
             foreach (ColumnHeader column in dataListView.Columns) { column.Width = -1; }
         }
@@ -126,17 +126,17 @@ namespace AlexaComp{
                 programName = programName.Replace(" ", string.Empty).ToUpper(); // Format string
 
                 string log = "{Name: " + programName + ", Path: " + programPath + "}";
-                AlexaCompCore.clog("Add Program - " + log);
+                AlexaCompCore.Clog("Add Program - " + log);
 
                 XmlDocumentFragment frag = doc.CreateDocumentFragment();
                 frag.InnerXml = "<path programName=\"" + programName +
                                 "\" programPath=\"" + programPath + "\"/>";
 
-                AlexaCompCore.clog("Add new program - " + frag.InnerXml);
+                AlexaCompCore.Clog("Add new program - " + frag.InnerXml);
                 doc.DocumentElement.AppendChild(frag);
                 doc.Save(AlexaCompCore.pathToDebug + "\\pathDir.xml");
                 doc.Save(AlexaCompCore.pathToProject + "\\pathDir.xml");
-                AlexaCompCore.clog("pathDir appended");
+                AlexaCompCore.Clog("pathDir appended");
 
                 dataListView_Load(); // Reset program list
 
@@ -168,10 +168,10 @@ namespace AlexaComp{
             if (e != null) {
                 base.OnFormClosing(e);
             }
-            AlexaCompCore.clog("CLOSING PROGRAM");
+            AlexaCompCore.Clog("CLOSING PROGRAM");
             AlexaCompCore.stopProgramFlag = true;
-            AlexaCompSERVER.stopServer();
-            AlexaCompSERVER.delPortMap();
+            AlexaCompSERVER.StopServer();
+            AlexaCompSERVER.DelPortMap();
 
             Environment.Exit(1);
         }
@@ -182,7 +182,7 @@ namespace AlexaComp{
         protected override void OnResize(EventArgs e) {
             base.OnResize(e);
             if (this.WindowState == FormWindowState.Minimized) {
-                AlexaCompCore.clog("Minimized to system tray");
+                AlexaCompCore.Clog("Minimized to system tray");
                 Hide();
                 notifyIcon.Visible = true;
                 this.ShowInTaskbar = false;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using OpenHardwareMonitor;
 using OpenHardwareMonitor.Hardware;
@@ -20,8 +21,12 @@ namespace AlexaComp.Core.Controllers {
         };
 
         public static void InitSensors() {
+            Stopwatch loop = new Stopwatch();
+            Stopwatch method = new Stopwatch();
+            method.Start();
             Devices.Clear();
             foreach (string part in partNames) {
+                loop.Start();
                 UpdateVisitor updateVisitor = new UpdateVisitor();
                 Computer computer = new Computer();
                 computer.Open();
@@ -31,22 +36,30 @@ namespace AlexaComp.Core.Controllers {
                     for (int k = 0; k < computer.Hardware.Length; k++) {
                         var currentHardware = computer.Hardware[k];
 
-                        Hardware nHardware = new Hardware(currentHardware.HardwareType.ToString(), part);
-                        nHardware.Name = currentHardware.Name;
+                        Hardware nHardware = new Hardware(currentHardware.HardwareType.ToString(), part) {
+                            Name = currentHardware.Name
+                        };
 
                         for (int j = 0; j < computer.Hardware[k].Sensors.Length; j++) {
                             var currentSensor = computer.Hardware[k].Sensors[j];
                             // Console.WriteLine("    nSensor -- " + currentSensor.Name + " - " + currentSensor.SensorType.ToString() + " - " + currentSensor.Value.ToString());
-                            Sensor_ nSensor = new Sensor_(currentSensor.Name, currentSensor.SensorType.ToString(), currentSensor);
-                            nSensor.Value = (float)currentSensor.Value;
+                            Sensor_ nSensor = new Sensor_(currentSensor.Name, currentSensor.SensorType.ToString(), currentSensor) {
+                                Value = (float)currentSensor.Value
+                            };
                             nHardware.Sensors[currentSensor.Name] = nSensor;
                         }
 
-                        Devices[genKey(currentHardware.HardwareType.ToString())] = nHardware;
+                        Devices[GenKey(currentHardware.HardwareType.ToString())] = nHardware;
+                        loop.Stop();
+                        Clog(String.Format("HW Initialization -- {0} initialized in {1} ms. {2} Sensors found.", part, loop.ElapsedMilliseconds, nHardware.SensorsLength()));
+                        loop.Reset();
                     }
                     computer.Close();
                 }
             }
+            method.Stop();
+            Clog(String.Format("Hardware Initialized in {0} ms.", method.ElapsedMilliseconds));
+            LogHardware();
         }
 
         public static void RefreshHardware(Hardware obj) {
@@ -62,8 +75,9 @@ namespace AlexaComp.Core.Controllers {
 
                     for (int j = 0; j < currentHardware.Sensors.Length; j++) {
                         var currentSensor = currentHardware.Sensors[j];
-                        Sensor_ nSensor = new Sensor_(currentSensor.Name, currentSensor.SensorType.ToString(), currentSensor);
-                        nSensor.Value = (float)currentSensor.Value;
+                        Sensor_ nSensor = new Sensor_(currentSensor.Name, currentSensor.SensorType.ToString(), currentSensor) {
+                            Value = (float)currentSensor.Value
+                        };
                         obj.Sensors[currentSensor.Name] = nSensor;
                     }
                 }
@@ -71,15 +85,14 @@ namespace AlexaComp.Core.Controllers {
             }
         }
 
-        public static string genKey(string hwType) {
+        public static string GenKey(string hwType) {
             int outKey = 0;
-            bool exit = false;
-            while (!exit) {
+            while (true) {
                 if (Devices.ContainsKey(hwType + outKey.ToString())) {
                     outKey++;
                 }
                 else {
-                    exit = true;
+                    break;
                 }
             }
             return hwType + outKey.ToString();
@@ -92,6 +105,19 @@ namespace AlexaComp.Core.Controllers {
             else if (part == "MAINBOARD") { comp.MainboardEnabled = true; }
             else if (part == "HDD") { comp.HDDEnabled = true; }
             else if (part == "FANCONTROLLER") { comp.FanControllerEnabled = true; }
+        }
+
+        public static void LogHardware() {
+            foreach (KeyValuePair<string, Hardware> pair in Devices) {
+                Clog(pair.Value.ToString());
+                string[] sensorLines = pair.Value.SensorsToString("    ").Split(
+                    new[] { "\r\n", "\r", "\n" },
+                    StringSplitOptions.None
+                );
+                foreach (string sensor in sensorLines) {
+                    Clog(sensor);
+                }
+            }
         }
 
         public static int loadFormat(float? loadFloat) { return (int)loadFloat; }

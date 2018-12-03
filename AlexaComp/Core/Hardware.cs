@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -39,12 +41,15 @@ namespace AlexaComp.Core {
             return sensor.Value.ToString();
         }
 
-        public string SensorsToString() {
+        public string SensorsToString(string prefix = "") {
             StringBuilder sb = new StringBuilder();
             foreach(KeyValuePair<string, Sensor_> pair in Sensors) {
+                sb.Append(prefix);
                 sb.Append(pair.Value.ToString() + "\n");
             }
-            sb.Length--; // Remove last \n
+            try {
+                sb.Length--; // Remove last \n
+            } catch (ArgumentOutOfRangeException) { }
             return sb.ToString();
         }
 

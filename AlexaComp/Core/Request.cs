@@ -27,7 +27,6 @@ namespace AlexaComp.Core {
         }*/
 
         public Request(string AUTH_, string COMMAND_, string PRIMARY_ = "", string SECONDARY_ = "", string TERTIARY_ = "") {
-            sw.Start();
             AUTH = AUTH_;
             COMMAND = COMMAND_;
             PRIMARY = PRIMARY_;
@@ -40,7 +39,7 @@ namespace AlexaComp.Core {
         #region Methods
         public void logTimeElapsed() {
             sw.Stop();
-            clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
+            Clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
         }
 
         public void processRequest(Request req) {

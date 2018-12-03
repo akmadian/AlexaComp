@@ -30,9 +30,9 @@ namespace AlexaComp {
 
         // Threads
         public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow) { Name = "AppWindowThread" };
-        public static Thread ServerThread = new Thread(AlexaCompSERVER.startServer) { Name = "ServerThread" };
+        public static Thread ServerThread = new Thread(AlexaCompSERVER.StartServer) { Name = "ServerThread" };
         public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop) { Name = "ServerLoopThread" };
-        public static Thread LoadingScreenThread = new Thread(LoadingScreenForm.startLoadingScreen) { Name = "LoadingScreenThread" };
+        public static Thread loadingScreenThread = new Thread(new ParameterizedThreadStart(LoadingScreenForm.startLoadingScreen));
         public static Thread LightingControlThread = new Thread(LightingController.startLightingThread) { Name = "LightingControlThread" };
 
         // Misc
@@ -46,7 +46,7 @@ namespace AlexaComp {
         public static Dictionary<string, Hardware> Devices = new Dictionary<string, Hardware>();
 
         #region Methods
-        public static void clog(string tolog, string customLevel = "INFO") {
+        public static void Clog(string tolog, string customLevel = "INFO") {
             switch (customLevel) {
                 case "ERROR": _log.Error(tolog); break;
                 case "INFO" : _log.Info(tolog);  break;
@@ -57,25 +57,13 @@ namespace AlexaComp {
             Console.WriteLine(tolog);
         }
 
-        public static void stopApplication() {
-            clog("CLOSING PROGRAM");
+        public static void StopApplication() {
+            Clog("CLOSING PROGRAM");
             stopProgramFlag = true;
-            AlexaCompSERVER.stopServer();
-            AlexaCompSERVER.delPortMap();
+            AlexaCompSERVER.StopServer();
+            AlexaCompSERVER.DelPortMap();
             Environment.Exit(1);
         }
-
-        /*
-        public static bool validateRGB(RGBColor color) {
-            int[] rgbArr = colorMethods.RGBToArr(color);
-            foreach (var value in rgbArr) {
-                if (255 < value || value < 0) {
-                    clog("Invalid RGB - Value Greater Than 255, or Less Than 0.");
-                    return false;
-                }
-            }
-            return true;
-        }*/
 
         /// <summary>
         /// Encryption Methods From: https://odan.github.io/2017/08/10/aes-256-encryption-and-decryption-in-php-and-csharp.html

@@ -16,48 +16,48 @@ namespace AlexaComp.Core.Requests {
 
         public void process() {
             if (programName == "SHUTDOWN") {
-                AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.StopServer();
                 Process.Start("shutdown", "/s /t .5");
             } 
 
             // For starting a
             try {
                 string programPath = GetProgramPath(programName);
-                clog("ProgramPath - " + programPath);
-                clog("req Program - " + programName);
+                Clog("ProgramPath - " + programPath);
+                Clog("req Program - " + programName);
                 Process.Start(GetProgramPath(programName));
-                clog("Program Launched");
+                Clog("Program Launched");
                 Response res = new Response(true, "Program Launched!", "", "");
-                AlexaCompSERVER.stopServer(); // Restart Server to Handle Next Request
+                AlexaCompSERVER.StopServer(); // Restart Server to Handle Next Request
             }
             catch (NullReferenceException) {
-                clog("NullReferenceException caught during attempt to launch program, " +
+                Clog("NullReferenceException caught during attempt to launch program, " +
                     "null most likely returned from GetProgramPath.");
                 Response res = new Response(false, "");
-                AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.StopServer();
             }
             catch (System.ComponentModel.Win32Exception e) {
-                clog("Win32Exception Caught during attempt to launch program " + e.Message);
+                Clog("Win32Exception Caught during attempt to launch program " + e.Message);
                 Response res = new Response(false, "");
-                AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.StopServer();
             }catch (InvalidOperationException e) {
-                clog("InvalidOperationException Caught during attempt to launch program " + e.Message);
+                Clog("InvalidOperationException Caught during attempt to launch program " + e.Message);
                 Response res = new Response(false, "");
-                AlexaCompSERVER.stopServer();
+                AlexaCompSERVER.StopServer();
             }
         }
 
         static string GetProgramPath(string program) {
             XmlDocument doc = new XmlDocument();
             doc.Load("pathDir.xml");
-            clog("pathDIR loaded");
+            Clog("pathDIR loaded");
             if (doc.SelectSingleNode("//path[@programName='" + program + "']") is XmlElement elem) {
                 string path = elem.GetAttribute("programPath");
-                clog("Path - " + path);
+                Clog("Path - " + path);
                 return path;
             }
             else {
-                clog("null returned");
+                Clog("null returned");
                 return null;
             }
         }

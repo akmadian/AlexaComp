@@ -18,7 +18,7 @@ namespace AlexaComp.Core.Requests {
             try{
                 process();
             } catch (Exception e) {
-                clog(e.ToString());
+                Clog(e.ToString());
                 Response res = new Response(false, "Oops! Something went wrong...");
             }
         }

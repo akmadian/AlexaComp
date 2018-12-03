@@ -29,9 +29,9 @@ namespace AlexaComp.Controllers {
         /// </summary>
         public static void startLightingThread() {
             loadDevices();
-            clog("RGB Devices Loaded, Printing...");
+            Clog("RGB Devices Loaded, Printing...");
             foreach (var device in surface.Devices) {
-                clog(String.Format("RGB Device Found - {0} {1} - Type: {2}",
+                Clog(String.Format("RGB Device Found - {0} {1} - Type: {2}",
                         device.DeviceInfo.Manufacturer,
                         device.DeviceInfo.Model,
                         device.DeviceInfo.DeviceType));
@@ -44,7 +44,7 @@ namespace AlexaComp.Controllers {
         /// </summary>
         public static void loadDevices() {
             surface.Exception += args => AlexaComp._log.Info(args.Exception.Message);
-            clog("Loading RGB Devices");
+            Clog("Loading RGB Devices");
 
             //surface.LoadDevices(AsusDeviceProvider.Instance);
             surface.LoadDevices(LogitechDeviceProvider.Instance);
@@ -70,6 +70,7 @@ namespace AlexaComp.Controllers {
                 // case "BLINKINGEFFECT": lightingThread = new Thread(unused => LightingEffects.blinkingEffect(color: color1, speed: speed_)); break;
                 /* WORKING */case "ALLLEDOFF":         lightingThread = new Thread(unused => LightingEffects.allLedOff()); break;
             }
+            lightingThread.Name = "LightingEffectThread";
             lightingThread.Start();
         }
 
@@ -103,7 +104,7 @@ namespace AlexaComp.Controllers {
                 if (B < 0) { B = 1; }
                 if (speed < 0) { speed = 20; }
                 if (brightnessStep < 0) { brightnessStep = 0.01; }
-                clog(String.Format("RGB -- Breathing Animation Set -- Color: {0}, {1}, {2} - Speed: {3} - Brightness Step: {4}",
+                Clog(String.Format("RGB -- Breathing Animation Set -- Color: {0}, {1}, {2} - Speed: {3} - Brightness Step: {4}",
                     R, G, B, speed, brightnessStep));
                 while (true) {
                     ILedGroup ledGroup = new ListLedGroup(surface.Leds);
@@ -179,7 +180,7 @@ namespace AlexaComp.Controllers {
             /// Sets all leds to a static color
             /// </summary>
             public static void staticColor(int R = 255, int G = 255, int B = 255) {
-                clog(String.Format("RGB -- Setting Static Color -- Color: {0}, {1}, {2}", R, G, B));
+                Clog(String.Format("RGB -- Setting Static Color -- Color: {0}, {1}, {2}", R, G, B));
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
                     ledGroup.Brush = new  SolidColorBrush(new Color(R, G, B));
@@ -200,7 +201,7 @@ namespace AlexaComp.Controllers {
             /// </summary>
             /// <param name="speed"></param>
             public static void fadingEffect(int speed = 50, double hueStep = 0.01) {
-                clog(String.Format("Setting Rainbow Fade Effect -- Speed: {0} - Hue Step: {1}", speed, hueStep));
+                Clog(String.Format("Setting Rainbow Fade Effect -- Speed: {0} - Hue Step: {1}", speed, hueStep));
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
                     for (double j = 0; j < 1; j += hueStep) {
@@ -213,7 +214,7 @@ namespace AlexaComp.Controllers {
 
             public static void errorEffect(int speed = 1) {
                 if (speed < 0) { speed = 1; }
-                clog("RGB Error Effect Started.");
+                Clog("RGB Error Effect Started.");
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 for (int j = 0; j <= 2; j++) {
                     for (int i = 0; i <= 255; i++) {
@@ -231,7 +232,7 @@ namespace AlexaComp.Controllers {
             /// Turns all leds off
             /// </summary>
             public static void allLedOff() {
-                clog("Setting All LED Off Effect");
+                Clog("Setting All LED Off Effect");
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 ledGroup.Brush = new SolidColorBrush(new Color(0, 0, 0));
             }
@@ -310,7 +311,7 @@ namespace AlexaComp.Controllers {
                 return new RGBColor(Convert.ToByte(r * 255), Convert.ToByte(g * 255.0f), Convert.ToByte(b * 255.0f));
             }
             catch (OverflowException) {
-                clog("Overflow Exception caught during attempt to return RGB object from HSLToRGB.");
+                Clog("Overflow Exception caught during attempt to return RGB object from HSLToRGB.");
                 return null;
             }
         }

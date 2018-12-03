@@ -28,10 +28,10 @@ namespace AlexaComp.Core {
         #region Methods
         public void sendResponse(System.Net.Sockets.NetworkStream customStream) {
             if (customStream != null) {
-                AlexaCompSERVER.sendToLambda(json, customStream);
+                AlexaCompSERVER.SendToLambda(json, customStream);
             }
             else {
-                AlexaCompSERVER.sendToLambda(json, null);
+                AlexaCompSERVER.SendToLambda(json, null);
             }
         }
         #endregion

@@ -28,11 +28,11 @@ namespace AlexaComp.Core.Requests {
         #endregion
 
         public void process() {
-            clog("CommandResuest");
-            clog(this.command);
+            Clog("CommandResuest");
+            Clog(this.command);
             switch (this.command) {
                 case "SHUTDOWN": 
-                    stopApplication(); Process.Start("shutdown", "/s /t .5");                         
+                    StopApplication(); Process.Start("shutdown", "/s /t .5");                         
                     break; // To Test
 
                 case "LOCK":
@@ -40,7 +40,7 @@ namespace AlexaComp.Core.Requests {
                     break; // Working
 
                 case "RESTART":   
-                    stopApplication(); Process.Start("shutdown", "/r /t .5");                         
+                    StopApplication(); Process.Start("shutdown", "/r /t .5");                         
                     break; // To Test
 
                 case "SLEEP":     

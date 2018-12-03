@@ -8,34 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Diagnostics;
 
+using AlexaComp.Core;
 using AlexaComp.Core.Controllers;
 
 namespace AlexaComp {
     public partial class LoadingScreenForm : Form {
-        public LoadingScreenForm() {
+        public LoadingScreenForm(Stopwatch timer) {
             InitializeComponent();
 
             Thread.Sleep(300);
-            Thread loadingThread = new Thread(startLoading);
+            Thread loadingThread = new Thread(unused => startLoading(timer));
             loadingThread.Start();
         }
 
-        public static void startLoadingScreen() {
+        public static void startLoadingScreen(object timer) {
             try {
-                Application.Run(new LoadingScreenForm());
+                Application.Run(new LoadingScreenForm((Stopwatch)timer));
             } catch (ObjectDisposedException) {
                 Console.WriteLine("Caught object disposed exception");
             }
-            
         }
 
-        private void startLoading() {
+        private void startLoading(Stopwatch timer) {
             updateProgress("Reading Config File");
-            AlexaComp.readConfig();
+            AlexaComp.ReadConfig();
 
             updateProgress("Creating Port Map", 400);
-            AlexaCompSERVER.forwardPort();
+            AlexaCompSERVER.ForwardPort();
 
             updateProgress("Scanning for RGB Devices");
             AlexaComp.LightingControlThread.Start();
@@ -44,7 +45,7 @@ namespace AlexaComp {
             HardwareController.InitSensors();
 
             updateProgress("Getting Installed Programs");
-            //AlexaComp.inventoryPrograms();
+            ProgramInventory.scanDir();
 
             updateProgress("Starting Server");
             AlexaCompCore.ServerThread.Start();
@@ -56,11 +57,13 @@ namespace AlexaComp {
             closeSplashScreen();
 
             AlexaComp.AppWindowThread.Start();
+            timer.Stop();
+            AlexaCompCore.Clog(String.Format("Application Window started in {0} ms.", timer.ElapsedMilliseconds));
         }
 
         private void updateProgress(string message, int wait = 300) {
             try {
-                AlexaCompCore.clog(message);
+                AlexaCompCore.Clog(message);
                 progressLabel.Invoke(new MethodInvoker(delegate { progressLabel.Text = message; }));
             } catch (InvalidOperationException) {
 
