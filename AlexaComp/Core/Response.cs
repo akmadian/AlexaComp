@@ -26,7 +26,7 @@ namespace AlexaComp.Core {
         #endregion
 
         #region Methods
-        public void sendResponse(System.Net.Sockets.NetworkStream customStream) {
+        public void SendResponse(System.Net.Sockets.NetworkStream customStream) {
             if (customStream != null) {
                 AlexaCompSERVER.SendToLambda(json, customStream);
             }

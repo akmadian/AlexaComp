@@ -32,8 +32,8 @@ namespace AlexaComp {
         public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow) { Name = "AppWindowThread" };
         public static Thread ServerThread = new Thread(AlexaCompSERVER.StartServer) { Name = "ServerThread" };
         public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop) { Name = "ServerLoopThread" };
-        public static Thread loadingScreenThread = new Thread(new ParameterizedThreadStart(LoadingScreenForm.startLoadingScreen));
-        public static Thread LightingControlThread = new Thread(LightingController.startLightingThread) { Name = "LightingControlThread" };
+        public static Thread loadingScreenThread = new Thread(new ParameterizedThreadStart(LoadingScreenForm.StartLoadingScreen));
+        public static Thread LightingControlThread = new Thread(LightingController.StartLightingThread) { Name = "LightingControlThread" };
 
         // Misc
         public static bool updateLogBoxFlag = false;

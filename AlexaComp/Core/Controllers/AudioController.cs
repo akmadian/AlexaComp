@@ -9,7 +9,7 @@ namespace AlexaComp {
 
         // Play/ Pause, Next and previous track.
         [DllImport("user32.dll")]
-        public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
+        public static extern void Keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
         private const int KEYEVENTF_EXTENTEDKEY = 1;
         private const int KEYEVENTF_KEYUP = 0;
@@ -21,31 +21,31 @@ namespace AlexaComp {
             defaultPlaybackDevice.Mute(true);
         }
 
-        public static void togglePlayPause() {
-            keybd_event(PLAY_PAUSE, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
+        public static void TogglePlayPause() {
+            Keybd_event(PLAY_PAUSE, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
         }
 
-        public static void prevTrack() {
-            keybd_event(PREV_TRACK, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
+        public static void PrevTrack() {
+            Keybd_event(PREV_TRACK, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
         }
 
-        public static void nextTrack() {
-            keybd_event(NEXT_TRACK, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
+        public static void NextTrack() {
+            Keybd_event(NEXT_TRACK, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
         }
 
-        public static void setVolume(int percent) {
+        public static void SetVolume(int percent) {
             defaultPlaybackDevice.Volume = percent;
         }
 
-        public static void volDown() {
+        public static void VolDown() {
             defaultPlaybackDevice.Volume -= 5;
         }
 
-        public static void volUp() {
+        public static void VolUp() {
             defaultPlaybackDevice.Volume += 5;
         }
 
-        public static void toggleMute() {
+        public static void ToggleMute() {
            if (defaultPlaybackDevice.IsMuted) {
                defaultPlaybackDevice.Mute(false); // Unmute
            } else {

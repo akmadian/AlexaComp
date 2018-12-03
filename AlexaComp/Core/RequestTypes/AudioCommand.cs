@@ -28,31 +28,31 @@ namespace AlexaComp.Core.Requests {
         public void process() {
             switch (this.command) {
                 case "PLAYPAUSE":  
-                    AudioController.togglePlayPause();                         
+                    AudioController.TogglePlayPause();                         
                     break;
 
                 case "NEXTTRACK":  
-                    AudioController.nextTrack();                               
+                    AudioController.NextTrack();                               
                     break;
 
                 case "PREVTRACK":  
-                    AudioController.prevTrack();                               
+                    AudioController.PrevTrack();                               
                     break;
 
                 case "SETVOLUME":  
-                    AudioController.setVolume(this.setVolAmt); 
+                    AudioController.SetVolume(this.setVolAmt); 
                     break;
 
                 case "VOLUMEUP":   
-                    AudioController.volUp();                                   
+                    AudioController.VolUp();                                   
                     break;
 
                 case "VOLUMEDOWN": 
-                    AudioController.volDown();                                 
+                    AudioController.VolDown();                                 
                     break;
 
                 case "TOGGLEMUTE": 
-                    AudioController.toggleMute();
+                    AudioController.ToggleMute();
                     break;
             }
             Response res = new Response(true, "Done!");

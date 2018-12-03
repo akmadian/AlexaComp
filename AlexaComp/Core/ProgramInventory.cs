@@ -16,7 +16,7 @@ namespace AlexaComp.Core {
         private static readonly string rootPath = @"C:\Program Files (x86)";
         private static int numMatches = 0;
 
-        public static void scanDir(string dir = @"C:\Program Files (x86)") {
+        public static void ScanDir(string dir = @"C:\Program Files (x86)") {
             Stopwatch timer = new Stopwatch();
             timer.Start();
             Clog("Scanning for .exes in - " + dir);
@@ -24,13 +24,13 @@ namespace AlexaComp.Core {
             Console.WriteLine("Files Length - " + allfiles.Length.ToString());
             foreach (string subdir in allfiles) {
                 // Console.WriteLine("Running Scan - Depth: 1");
-                checkForMatches(subdir);
+                CheckForMatches(subdir);
 
                 // Console.WriteLine("Running Scan - Depth: 2");
                 string[] files = Directory.GetDirectories(subdir);
                 foreach (string subsubdir in files) {
                     // Console.WriteLine("Checking For Matches In - " + subsubdir);
-                    checkForMatches(subsubdir);
+                    CheckForMatches(subsubdir);
                 }
             }
             timer.Stop();
@@ -38,7 +38,7 @@ namespace AlexaComp.Core {
             numMatches = 0;
         }
 
-        public static void checkForMatches(string path) {
+        public static void CheckForMatches(string path) {
             string[] exes = Directory.GetFileSystemEntries(Path.Combine(rootPath, path), "*.exe", SearchOption.TopDirectoryOnly);
 
             // If there is only one .exe in the directory

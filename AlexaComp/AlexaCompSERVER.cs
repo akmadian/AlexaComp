@@ -91,7 +91,7 @@ namespace AlexaComp{
             }
             else {
                 Clog("Auth Valid.");
-                req.processRequest(req);
+                req.ProcessRequest(req);
                 StopServer();
             }
         }

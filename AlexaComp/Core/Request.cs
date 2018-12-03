@@ -32,17 +32,17 @@ namespace AlexaComp.Core {
             PRIMARY = PRIMARY_;
             SECONDARY = SECONDARY_;
             TERTIARY = TERTIARY_;
-            processRequest(this);
+            ProcessRequest(this);
         }
         #endregion
 
         #region Methods
-        public void logTimeElapsed() {
+        public void LogTimeElapsed() {
             sw.Stop();
             Clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
         }
 
-        public void processRequest(Request req) {
+        public void ProcessRequest(Request req) {
             switch (req.COMMAND) {
                 case "LAUNCH":
                     Launch unused = new Launch(req.PRIMARY);
@@ -63,7 +63,7 @@ namespace AlexaComp.Core {
                     OpenDevTools unused6 = new OpenDevTools();
                     break;
             }
-            req.logTimeElapsed();
+            req.LogTimeElapsed();
         }
 
         /*

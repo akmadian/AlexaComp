@@ -36,7 +36,7 @@ namespace AlexaComp.Core {
             HardwareController.RefreshHardware(this);
         }
 
-        public string getSensorValue(string sensorName) {
+        public string GetSensorValue(string sensorName) {
             Sensor_ sensor = Sensors[sensorName];
             return sensor.Value.ToString();
         }

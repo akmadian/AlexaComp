@@ -67,3 +67,4 @@ AlexaComp/testCommands.txt
 AlexaComp/CompatibilityTool/obj/Debug/CompatibilityTool.csprojAssemblyReference.cache
 AlexaComp/CompatibilityTool/obj/Debug/CompatibilityTool.csprojAssemblyReference.cache
 *.cache
+AlexaComp/GlobalSuppressions.cs

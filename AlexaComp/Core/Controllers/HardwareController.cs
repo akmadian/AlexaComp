@@ -30,7 +30,7 @@ namespace AlexaComp.Core.Controllers {
                 UpdateVisitor updateVisitor = new UpdateVisitor();
                 Computer computer = new Computer();
                 computer.Open();
-                partOneHot(computer, part);
+                PartOneHot(computer, part);
                 computer.Accept(updateVisitor);
                 for (int i = 0; i < computer.Hardware.Length; i++) {
                     for (int k = 0; k < computer.Hardware.Length; k++) {
@@ -67,7 +67,7 @@ namespace AlexaComp.Core.Controllers {
             UpdateVisitor updateVisitor = new UpdateVisitor();
             Computer computer = new Computer();
             computer.Open();
-            partOneHot(computer, obj.GenericName);
+            PartOneHot(computer, obj.GenericName);
             computer.Accept(updateVisitor);
             for (int i = 0; i < computer.Hardware.Length; i++) {
                 for (int k = 0; k < computer.Hardware.Length; k++) {
@@ -98,7 +98,7 @@ namespace AlexaComp.Core.Controllers {
             return hwType + outKey.ToString();
         }
 
-        public static void partOneHot(Computer comp, string part) {
+        public static void PartOneHot(Computer comp, string part) {
             if (part == "GPU") { comp.GPUEnabled = true; }
             else if (part == "CPU") { comp.CPUEnabled = true; }
             else if (part == "RAM") { comp.RAMEnabled = true; }
@@ -120,8 +120,8 @@ namespace AlexaComp.Core.Controllers {
             }
         }
 
-        public static int loadFormat(float? loadFloat) { return (int)loadFloat; }
-        public static int tempFormat(float? tempFloat) { return (int)tempFloat; }
+        public static int LoadFormat(float? loadFloat) { return (int)loadFloat; }
+        public static int TempFormat(float? tempFloat) { return (int)tempFloat; }
 
         /*
         public static string partStat(string part, string stat, string tertiary) {

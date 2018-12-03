@@ -24,8 +24,8 @@ namespace AlexaComp.Core.Requests {
             RGBColor secColor = new RGBColor(0, 0, 255);
             // if (req.SECONDARY != null) { priColor = new RGBColor(req.SECONDARY); } else { priColor = null; };
             // if (req.TERTIARY != null) { secColor = new RGBColor(req.TERTIARY); } else { secColor = null; };
-            LightingController.startLightingThread();
-            LightingController.lightingProcess(priColor, secColor, effect);
+            LightingController.StartLightingThread();
+            LightingController.LightingProcess(priColor, secColor, effect);
         }
     }
 }

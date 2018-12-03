@@ -49,7 +49,7 @@ namespace AlexaComp.Forms {
                                                       PRIMARY.ToString(), 
                                                       SECONDARY.ToString(), 
                                                       TERTIARY.ToString());
-            custReq.processRequest(custReq);
+            custReq.ProcessRequest(custReq);
         }
 
 

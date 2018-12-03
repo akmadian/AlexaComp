@@ -22,13 +22,13 @@ namespace AlexaComp {
 
         public static void testRGBEffects() {
             Clog("Testing Error Effect");
-            LightingController.LightingEffects.errorEffect();
+            LightingController.LightingEffects.ErrorEffect();
         }
 
         public static void testColorConversions() {
             Clog("Testing Color Value Conversion Methods...");
             // RGB to Hex
-            if (colorMethods.RGBToHex(new RGBColor(255, 0, 255)) == "FF00FF") {
+            if (ColorMethods.RGBToHex(new RGBColor(255, 0, 255)) == "FF00FF") {
                 Clog("    RGB To Hex Conversion Passed");
             } else {
                 addFailedTest("RGB To Hex Conversion");
@@ -36,21 +36,21 @@ namespace AlexaComp {
 
             // Integer Array to RGB Object
             int[] intArr = new int[] {255, 0, 255};
-            if (colorMethods.ArrToRGB(intArr).Equals(new RGBColor(255, 0, 255))) {
+            if (ColorMethods.ArrToRGB(intArr).Equals(new RGBColor(255, 0, 255))) {
                 Clog("    Integer Array to RGB Object Conversion Passed");
             } else {
                 addFailedTest("Int Array to RGB");
             }
 
             // Hex String to RGB Object without #
-            if (colorMethods.HexToRGB("FF00FF").Equals(new RGBColor(255, 0, 255))) {
+            if (ColorMethods.HexToRGB("FF00FF").Equals(new RGBColor(255, 0, 255))) {
                 Clog("    Hex to RGB Object ( w/o # ) Conversion Passed");
             } else {
                 addFailedTest("Hex to RGB Object ( w/o # )");
             }
 
             // Hex String to RGB Object with #
-            if (colorMethods.HexToRGB("#FF00FF").Equals(new RGBColor(255, 0, 255))) {
+            if (ColorMethods.HexToRGB("#FF00FF").Equals(new RGBColor(255, 0, 255))) {
                 Clog("    Hex to RGB Object ( w/ # ) Conversion Passed");
             }
             else {
@@ -68,46 +68,46 @@ namespace AlexaComp {
 
             Console.WriteLine("Testing togglePlayPause");
             Console.WriteLine("    Pausing");
-            AudioController.togglePlayPause();
+            AudioController.TogglePlayPause();
             Thread.Sleep(1300);
             Console.WriteLine("    Playing");
-            AudioController.togglePlayPause(); // Restart Music
+            AudioController.TogglePlayPause(); // Restart Music
             
             Console.WriteLine("Testing prevTrack");
-            AudioController.prevTrack();
+            AudioController.PrevTrack();
             Thread.Sleep(1300);
 
             Console.WriteLine("Testing nextTrack");
-            AudioController.nextTrack();
+            AudioController.NextTrack();
             Thread.Sleep(1300);
 
             Console.WriteLine("Testing volDown");
-            AudioController.volDown();
+            AudioController.VolDown();
             Thread.Sleep(1300);
 
             Console.WriteLine("Testing volUp");
-            AudioController.volUp();
+            AudioController.VolUp();
             Thread.Sleep(1300);
 
             Console.WriteLine("Testing setVolume");
             Console.WriteLine("    Stepping Up");
             for (int vol = 0; vol <= 100; vol += 10) { // Step Up
                 Console.WriteLine("        Step Up - " + vol.ToString());
-                AudioController.setVolume(vol);
+                AudioController.SetVolume(vol);
                 Thread.Sleep(500);
             }
 
             Console.WriteLine("    Stepping Down");
             for (int vol = 100; vol >= 50; vol -= 10) { // Step Down
                 Console.WriteLine("        Step Down - " + vol.ToString());
-                AudioController.setVolume(vol);
+                AudioController.SetVolume(vol);
                 Thread.Sleep(500);
             }
 
             Console.WriteLine("Testing toggleMute");
-            AudioController.toggleMute(); // Mute
+            AudioController.ToggleMute(); // Mute
             Thread.Sleep(1300);
-            AudioController.toggleMute(); // Unmute
+            AudioController.ToggleMute(); // Unmute
         }
 
         public static void testCommandFunctions() {
