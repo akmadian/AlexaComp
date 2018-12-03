@@ -42,6 +42,7 @@ function responseString(message, err){
 function pushToMDB(deviceID, userIP){
     return new Promise(function(resolve, reject){
         console.time('MDB-Write');
+        console.time('MDB-Connect');
         console.log('In MDB Write');
         MongoClient.connect(URI_CONN_STRING, {useNewUrlParser: true}, function(err, client) {
             console.log('In MDB Connect.');
@@ -50,6 +51,7 @@ function pushToMDB(deviceID, userIP){
             } else {
                 console.log('No error during connection to MongoDB.')
             }
+            console.timeEnd('MDB-Connect');
             const collection = client.db('IPTable').collection("IPTable");
             var document = {deviceID:deviceID, userIP:userIP, sessionID:sessID};
             collection.insert(document, {w: 1}, function(err, records){
