@@ -20,7 +20,9 @@ namespace AlexaComp {
     // TODO : Implement input validation on all functions.
     // TODO : Create format validation functions.
 
+    #pragma warning disable CA1052 // Static holder types should be Static or NotInheritable
     public class AlexaCompCore {
+    #pragma warning restore CA1052 // Static holder types should be Static or NotInheritable
 
         #region Properties
         public static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;

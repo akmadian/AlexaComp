@@ -41,7 +41,7 @@ namespace AlexaComp.Core {
             sw.Stop();
             Clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
         }
-
+        
         public void ProcessRequest(Request req) {
             switch (req.COMMAND) {
                 case "LAUNCH":

@@ -17,10 +17,6 @@ namespace AlexaComp {
         private const int PLAY_PAUSE = 0xB3;
         private const int PREV_TRACK = 0xB1;
 
-        public static void initController(){
-            defaultPlaybackDevice.Mute(true);
-        }
-
         public static void TogglePlayPause() {
             Keybd_event(PLAY_PAUSE, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
         }
