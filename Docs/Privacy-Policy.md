@@ -19,6 +19,6 @@ AlexaComp collects only a very minimal amount of information about users and the
 
 I will never sell any of your data.
 
-All traffic between AlexaComp services is (or will be very soon) encrypted with AES-256 bit encryption.
+All personal and non-anonymous traffic between AlexaComp services is encrypted with AES-256 bit encryption.
 
 No more infomation is collected than is needed for operation of the skill, and basic debugging.
