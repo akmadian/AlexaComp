@@ -51,6 +51,8 @@ A great way to contribute without spending much time or writing any code is to h
 
 You can also help out by trying to fix [issues marked as `help wanted`.][7]
 
+If you are going to submit an issue, please include any and all relevant log files either as uploads, or links to a service like pastebin. Log files can be found by default in `C:\Program Files(x86)\AlexaComp\Logs`
+
 ## Privacy
 AlexaComp **_does_** collect some information about users. However, it only collects enough to make the skill work.
 The data that is gathered is anonymized, and never sold. See the [AlexaComp privacy policy][2] for more information.
