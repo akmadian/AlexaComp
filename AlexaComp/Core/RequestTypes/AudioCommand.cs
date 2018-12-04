@@ -6,27 +6,26 @@ namespace AlexaComp.Core.Requests {
         
         #region Properties
         private string command;
-
         private int setVolAmt;
+
         #endregion
 
         #region Constructors
-        public AudioCommand(string command_, string setVolAmt_ = "0") {
-            command = command_;
-            setVolAmt = Convert.ToInt32(setVolAmt_);
+        public AudioCommand(string command, string setVolAmt = "0") {
+            this.command = command;
+            this.setVolAmt = Convert.ToInt32(setVolAmt);
 
             try{
                 process();
             } catch (Exception e) {
                 Clog(e.ToString());
-                Response res = new Response(false, "Oops! Something went wrong...");
             }
         }
         #endregion
 
         #region Methods
         public void process() {
-            switch (this.command) {
+            switch (command) {
                 case "PLAYPAUSE":  
                     AudioController.TogglePlayPause();                         
                     break;
@@ -55,7 +54,6 @@ namespace AlexaComp.Core.Requests {
                     AudioController.ToggleMute();
                     break;
             }
-            Response res = new Response(true, "Done!");
         }
         #endregion
     }

@@ -4,9 +4,7 @@ namespace AlexaComp.Core.Requests {
     public class CompStat : AlexaCompCore {
         
         private string part;
-
         private string stat;
-
         private string TERTIARY;
 
         public CompStat(string part_, string stat_, string TERTIARY_) {

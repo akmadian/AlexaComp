@@ -26,23 +26,26 @@ namespace AlexaComp.Core {
             processRequest(this);
         }*/
 
-        public Request(string AUTH_, string COMMAND_, string PRIMARY_ = "", string SECONDARY_ = "", string TERTIARY_ = "") {
-            AUTH = AUTH_;
-            COMMAND = COMMAND_;
-            PRIMARY = PRIMARY_;
-            SECONDARY = SECONDARY_;
-            TERTIARY = TERTIARY_;
-            ProcessRequest(this);
+        public Request(string AUTH, string COMMAND, string PRIMARY = "", string SECONDARY = "", string TERTIARY = "") {
+            this.AUTH = AUTH;
+            this.COMMAND = COMMAND;
+            this.PRIMARY = PRIMARY;
+            this.SECONDARY = SECONDARY;
+            this.TERTIARY = TERTIARY;
         }
         #endregion
 
         #region Methods
         public void LogTimeElapsed() {
+            Clog("Request Constructed");
             sw.Stop();
             Clog("Request Completed, Time Elapsed(ms) - " + sw.ElapsedMilliseconds.ToString());
         }
         
         public void ProcessRequest(Request req) {
+            if (AUTH != "testAuth") {
+                AlexaCompSERVER.StopServer();
+            } else { Clog("IS Test Request"); }
             switch (req.COMMAND) {
                 case "LAUNCH":
                     Launch unused = new Launch(req.PRIMARY);

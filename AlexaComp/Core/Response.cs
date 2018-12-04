@@ -14,12 +14,11 @@ namespace AlexaComp.Core {
         #endregion
 
         #region Constructors
-        public Response(bool passorfail_, string message_, string primary_ = "", string secondary_ = "") {
-            passorfail = passorfail_;
-            message = message_;
-            primary = primary_;
-            secondary = secondary_;
-
+        public Response(bool passorfail, string message, string primary = "", string secondary = "") {
+            this.passorfail = passorfail;
+            this.message = message;
+            this.primary = primary;
+            this.secondary = secondary;
             json = Newtonsoft.Json.JsonConvert.SerializeObject(this);
             Console.WriteLine(json);
         }
@@ -31,7 +30,7 @@ namespace AlexaComp.Core {
                 AlexaCompSERVER.SendToLambda(json, customStream);
             }
             else {
-                AlexaCompSERVER.SendToLambda(json, null);
+                AlexaCompSERVER.SendToLambda(json);
             }
         }
         #endregion

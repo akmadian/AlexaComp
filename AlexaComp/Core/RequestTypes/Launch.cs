@@ -10,17 +10,12 @@ namespace AlexaComp.Core.Requests {
         private string programName;
 
         public Launch(string programName_) {
+            Clog("LaunchCommand Constructed");
             programName = programName_;
             process();
         }
 
         public void process() {
-            if (programName == "SHUTDOWN") {
-                AlexaCompSERVER.StopServer();
-                Process.Start("shutdown", "/s /t .5");
-            } 
-
-            // For starting a
             try {
                 string programPath = GetProgramPath(programName);
                 Clog("ProgramPath - " + programPath);
@@ -28,22 +23,18 @@ namespace AlexaComp.Core.Requests {
                 Process.Start(GetProgramPath(programName));
                 Clog("Program Launched");
                 Response res = new Response(true, "Program Launched!", "", "");
-                AlexaCompSERVER.StopServer(); // Restart Server to Handle Next Request
             }
             catch (NullReferenceException) {
                 Clog("NullReferenceException caught during attempt to launch program, " +
                     "null most likely returned from GetProgramPath.");
                 Response res = new Response(false, "");
-                AlexaCompSERVER.StopServer();
             }
             catch (System.ComponentModel.Win32Exception e) {
                 Clog("Win32Exception Caught during attempt to launch program " + e.Message);
                 Response res = new Response(false, "");
-                AlexaCompSERVER.StopServer();
             }catch (InvalidOperationException e) {
                 Clog("InvalidOperationException Caught during attempt to launch program " + e.Message);
                 Response res = new Response(false, "");
-                AlexaCompSERVER.StopServer();
             }
         }
 

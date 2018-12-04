@@ -4,9 +4,10 @@ using AlexaComp.Forms;
 
 namespace AlexaComp.Core.Requests {
 
-    public class OpenDevTools {
+    public class OpenDevTools : AlexaCompCore {
         
         public OpenDevTools(){
+            Clog("OpenDevTools Constructed");
             process();
         }
 
@@ -14,7 +15,9 @@ namespace AlexaComp.Core.Requests {
             Thread AdvancedSettingsThread = new Thread(AdvancedSettingsForm.startAdvToolsThread) {
                 Name = "AdvancedSettingsThread"
             };
+            Clog("Starting Window...");
             AdvancedSettingsThread.Start();
+            Clog("Window Started");
         }
     }
 }

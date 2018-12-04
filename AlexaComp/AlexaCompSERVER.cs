@@ -92,7 +92,7 @@ namespace AlexaComp{
             else {
                 Clog("Auth Valid.");
                 req.ProcessRequest(req);
-                StopServer();
+                //StopServer();
             }
         }
 
@@ -119,7 +119,7 @@ namespace AlexaComp{
         * @param json - The json string to send back to the lambda instance, usually sent from a request object.
         * @param customStream - If defined, sends the response over a provided network stream instead of the most current stream.
         */
-        public static void SendToLambda(string json, NetworkStream customStream) {
+        public static void SendToLambda(string json, NetworkStream customStream = null) {
             Clog("Sending Back To Lambda - " + json);
             byte[] message = Encoding.UTF8.GetBytes(json);
             int messageLength = Encoding.UTF8.GetBytes(json).Length;
