@@ -22,21 +22,21 @@ namespace AlexaComp{
         public static TcpClient client;
         private static NetworkStream nwStream;
 
-        public static int PORT = int.Parse(GetConfigValue("PORT"));
-        public static string AUTH = GetConfigValue("AUTH");
-        public static string HOST = "10.0.0.59";
+        public static int PORT = ServerConfig.PORT;
+        public static string AUTH = ServerConfig.LambdaAuth;
+        public static string HOST = ServerConfig.HOST;
 
         private static INatDevice device;
         #endregion
 
         #region Methods
-        public static void startServer() {
+        public static void StartServer() {
             try {
                 IPAddress host = IPAddress.Parse(HOST);
                 server = new TcpListener(host, PORT);
                 server.Start(); // Start Server
-                clog("Server Started");
-                clog("Listening...");
+                Clog("Server Started");
+                Clog("Listening...");
                 if (stopProgramFlag == true) {
                     return;
                 }
@@ -50,56 +50,59 @@ namespace AlexaComp{
                 AlexaComp._log.Debug(ex);
             }
 
-            acceptClient();
+            AcceptClient();
         }
 
-        public static void acceptClient() {
+        public static void AcceptClient() {
             try {
                 client = server.AcceptTcpClient(); // Accept Client Connection
+                Stopwatch reqTimer = new Stopwatch();
+                reqTimer.Start();
 
                 try {
                     nwStream = client.GetStream(); // Get Incoming Data
                     byte[] buffer = new byte[client.ReceiveBufferSize];
                     int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize); // Read Data
                     string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead); // Convert Data to String
-                    clog(dataReceived);
-                    deserializeRequest(dataReceived);
+                    Clog(dataReceived);
+                    DeserializeRequest(dataReceived, reqTimer);
                 }
                 catch (NullReferenceException ex) { AlexaComp._log.Debug(ex); }
                 catch (ObjectDisposedException ex) { AlexaComp._log.Debug(ex); }
             }
-            catch (SocketException) { clog("SocketException Caught when accepting client"); }
-            catch (NullReferenceException) { clog("NullReferenceException Caught when accepting client"); }
+            catch (SocketException) { Clog("SocketException Caught when accepting client"); }
+            catch (NullReferenceException) { Clog("NullReferenceException Caught when accepting client"); }
             catch (InvalidOperationException) {
-                clog("InvalidOperationException Caught when trying to accept tcp Client, most likely server not listening.");
-                startServer();
+                Clog("InvalidOperationException Caught when trying to accept tcp Client, most likely server not listening.");
+                StartServer();
             }
         }
 
-        public static void deserializeRequest(string data) {
+        public static void DeserializeRequest(string data, Stopwatch timer) {
             Request req = JsonConvert.DeserializeObject<Request>(data);
+            req.sw = timer;
             string reqString = String.Format("New Request - [Command: {0}, Primary: {1}, Secondary: {2}, Tertiary: {3}]", req.COMMAND, req.PRIMARY, req.SECONDARY, req.TERTIARY);
-            clog(reqString);
+            Clog(reqString);
 
             if (req.AUTH != AUTH) {
-                clog("Auth Invalid");
+                Clog("Auth Invalid");
                 newServerFlag = true;
-                clog("destoryServerFlag set to true");
+                Clog("destoryServerFlag set to true");
             }
             else {
-                clog("Auth Valid.");
-                AlexaCompREQUEST.processRequest(req);
-                stopServer();
+                Clog("Auth Valid.");
+                req.ProcessRequest(req);
+                //StopServer();
             }
         }
 
-        public static void stopServer() {
-            clog("Stopping Server");
+        public static void StopServer() {
+            Clog("Stopping Server");
             try {
                 client.Close();
-                clog("Client closed");
+                Clog("Client closed");
                 server.Stop();
-                clog("Server Stopped");
+                Clog("Server Stopped");
             }
             catch (NullReferenceException ex) {
                 AlexaComp._log.Debug(ex);
@@ -107,7 +110,7 @@ namespace AlexaComp{
 
             if (stopProgramFlag == false) {
                 newServerFlag = true;
-                clog("newServerFlag Raised");
+                Clog("newServerFlag Raised");
             }
         }
 
@@ -116,8 +119,8 @@ namespace AlexaComp{
         * @param json - The json string to send back to the lambda instance, usually sent from a request object.
         * @param customStream - If defined, sends the response over a provided network stream instead of the most current stream.
         */
-        public static void sendToLambda(string json, NetworkStream customStream) {
-            clog("Sending Back To Lambda - " + json);
+        public static void SendToLambda(string json, NetworkStream customStream = null) {
+            Clog("Sending Back To Lambda - " + json);
             byte[] message = Encoding.UTF8.GetBytes(json);
             int messageLength = Encoding.UTF8.GetBytes(json).Length;
             if (customStream != null) {
@@ -132,39 +135,39 @@ namespace AlexaComp{
         /*
         * Start the device discovery process
         */
-        public static void forwardPort() {
-            NatUtility.DeviceFound += new EventHandler<DeviceEventArgs>(onDeviceFound);
-            NatUtility.DeviceLost += new EventHandler<DeviceEventArgs>(onDeviceLost);
-            clog("Starting Port Forwarding Device Discovery");
+        public static void ForwardPort() {
+            NatUtility.DeviceFound += new EventHandler<DeviceEventArgs>(OnDeviceFound);
+            NatUtility.DeviceLost += new EventHandler<DeviceEventArgs>(OnDeviceLost);
+            Clog("Starting Port Forwarding Device Discovery");
             NatUtility.StartDiscovery();
         }
 
         /*
         * When device is found, forward the port set up in App.config.
         */
-        public static void onDeviceFound(object sender, DeviceEventArgs args) {
+        public static void OnDeviceFound(object sender, DeviceEventArgs args) {
             Console.WriteLine("Port Forwarding Device Found");
             device = args.Device;
             device.CreatePortMap(new Mapping(Protocol.Tcp, PORT, PORT)); // Forward Port
-            clog("Port - " + PORT.ToString() + " - Forwarded Successfully");
+            Clog("Port - " + PORT.ToString() + " - Forwarded Successfully");
 
             foreach (Mapping portMap in device.GetAllMappings()) { // Log all portmaps
-                clog("Port Map - " + portMap.ToString());
+                Clog("Port Map - " + portMap.ToString());
             }
         }
 
         /*
         * Do when device is lost.
         */
-        public static void onDeviceLost(object sender, DeviceEventArgs args) {
+        public static void OnDeviceLost(object sender, DeviceEventArgs args) {
             device = args.Device;
-            clog("Forwarding Device Lost");
+            Clog("Forwarding Device Lost");
         }
 
         /*
         * Deletes all port maps.
         */
-        public static void delPortMap() {
+        public static void DelPortMap() {
             try {
                 device.DeletePortMap(new Mapping(Protocol.Tcp, PORT, PORT));
             } catch (MappingException ex) {
@@ -181,8 +184,8 @@ namespace AlexaComp{
                 while (true){
                     Thread.Sleep(150);
                     if (newServerFlag) {
-                        Thread StartServerThread = new Thread(startServer) {
-                            Name = "startServerThread"
+                        Thread StartServerThread = new Thread(StartServer) {
+                            Name = "ServerThread"
                         };
                         StartServerThread.Start();
                         newServerFlag = false;

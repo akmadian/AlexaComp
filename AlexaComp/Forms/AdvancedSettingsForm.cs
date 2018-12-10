@@ -43,13 +43,13 @@ namespace AlexaComp.Forms {
             if (PRIMARY == null) { PRIMARY = ""; }
             if (SECONDARY == null) { SECONDARY = ""; }
             if (TERTIARY == null) { TERTIARY = ""; }
-            AlexaCompCore.clog(String.Format("Custom Request Submitted - COMMAND: {0}, PRIMARY: {1}, SECONDARY: {2}, TERTIARY: {3}", 
+            AlexaCompCore.Clog(String.Format("Custom Request Submitted - COMMAND: {0}, PRIMARY: {1}, SECONDARY: {2}, TERTIARY: {3}", 
                 COMMAND, PRIMARY, SECONDARY, TERTIARY));
             Request custReq = new Request("testAuth", COMMAND.ToString(), 
                                                       PRIMARY.ToString(), 
                                                       SECONDARY.ToString(), 
                                                       TERTIARY.ToString());
-            AlexaCompREQUEST.processRequest(custReq);
+            custReq.ProcessRequest(custReq);
         }
 
 

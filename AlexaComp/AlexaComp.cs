@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Configuration;
-using System.Threading;
-using System.Net;
-using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.Windows.Forms;
 
-using log4net;
 using log4net.Config;
 
-// TODO : Documentation
-// TODO : Add region tags to files where appropriate.
+using AlexaComp.Core;
+using AlexaComp.Forms;
+using AlexaComp.Core.Requests;
+using AlexaComp.Core.Controllers;
+
 /** Documentation format
 * Description
 * @param <paramname> <description>
@@ -17,85 +17,73 @@ using log4net.Config;
 */
 
 namespace AlexaComp {
-    class AlexaComp : AlexaCompCore{
+    class AlexaComp : AlexaCompCore {
 
         [STAThread]
         static void Main(string[] args) {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
             XmlConfigurator.Configure();
             AppDomain.CurrentDomain.UnhandledException += (s, e) => {
                 var exception = (Exception)e.ExceptionObject;
-                clog(exception.ToString(), "FATAL");
+                Clog(exception.ToString(), "FATAL");
                 throw exception;
             };
-            clog("Exception Handler Registered");
+            
+            Clog("Exception Handler Registered");
 
             _log.Info("Start Program");
 
-            // Parse cli args
-            foreach (string arg in args) {
-                if ("-LogSensors".Contains(arg)) {
-                    Thread LogSensorsThread = new Thread(new ParameterizedThreadStart(AlexaCompHARDWARE.getAllSensors));
-                    LogSensorsThread.Start(false);
-                }
-                if ("-GetPrograms".Contains(arg)) {
-
-                }
-                if ("-AddProgram".Contains(arg)) {
-                    if ("--AddProgramLiteral".Contains(arg)) {
-
-                    }
-                }
-            }
-
             // Log Assembly and Environment Information
             System.Reflection.Assembly Assembly = System.Reflection.Assembly.GetEntryAssembly();
-            clog("Assembly.GetName()");
-            clog("    GetName - " + Assembly.GetName().ToString());
-            clog("    Name - " + Assembly.GetName().Name);
-            clog("    Version - " + Assembly.GetName().Version);
-            clog("    VersionCompatibility - " + Assembly.GetName().VersionCompatibility);
-            clog("    FullName - " + Assembly.FullName);
-            clog("    HostContext - " + Assembly.HostContext.ToString());
-            clog("    IsFullyTrusted - " + Assembly.IsFullyTrusted.ToString());
-            clog("System.Environment");
-            clog("    OSVersion - " + Environment.OSVersion);
-            clog("    Version - " + Environment.Version);
-            clog("    CurrentManagedThreadID - " + Environment.CurrentManagedThreadId.ToString());
-            clog("    Is64BitOS - " + Environment.Is64BitOperatingSystem.ToString());
-            clog("    Is64BitProcess - " + Environment.Is64BitProcess.ToString());
-            clog("    WorkingSet - " + Environment.WorkingSet.ToString());
-            clog("Target Framework - " + AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName);
-            clog("Executable Path - " + exePath.ToString());
-            clog("PathToDebug - " + pathToDebug);
-            clog("PathToProject - " + pathToProject);
+            Clog("Assembly.GetName()");
+            Clog("    GetName - " + Assembly.GetName().ToString());
+            Clog("    Name - " + Assembly.GetName().Name);
+            Clog("    Version - " + Assembly.GetName().Version);
+            Clog("    VersionCompatibility - " + Assembly.GetName().VersionCompatibility);
+            Clog("    FullName - " + Assembly.FullName);
+            Clog("    HostContext - " + Assembly.HostContext.ToString());
+            Clog("    IsFullyTrusted - " + Assembly.IsFullyTrusted.ToString());
+            Clog("System.Environment");
+            Clog("    OSVersion - " + Environment.OSVersion);
+            Clog("    Version - " + Environment.Version);
+            Clog("    CurrentManagedThreadID - " + Environment.CurrentManagedThreadId.ToString());
+            Clog("    Is64BitOS - " + Environment.Is64BitOperatingSystem.ToString());
+            Clog("    Is64BitProcess - " + Environment.Is64BitProcess.ToString());
+            Clog("    WorkingSet - " + Environment.WorkingSet.ToString());
+            Clog("Target Framework - " + AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName);
+            Clog("Executable Path - " + exePath.ToString());
+            Clog("PathToDebug - " + pathToDebug);
+            Clog("PathToProject - " + pathToProject);
             
-            getExternalIP();
-
-            LoadingScreenThread.Start();
-        }
-
-
-        /*
-        * Reads all user configured values into the settingsDict.
-        */
-        public static void readConfig(){
-            foreach (string key in ConfigurationManager.AppSettings.AllKeys){
-                settingsDict[key] = GetConfigValue(key);
+            if (!IsConnectedToInternet()) {
+                Clog("No Internet Connection Detected... Quitting...", "FATAL");
+                MessageBox.Show("No Internet Connection Detected, Stopping AlexaComp...", 
+                    "AlexaComp",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                StopApplication();
             }
-        }
 
-        /*
-        * Gets the user's public IP address.
-        */
-        public static void getExternalIP() {
-            string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
-            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
-            if (match.Success) {
-                clog("Public IP - " + match);
-            } else {
-                clog("IP Regex Match Unsuccessful.", "ERROR");
+            // Set Internal IP for port mapping and server
+            try {
+                string host = GetInternalIP();
+                Clog("Internal IP Found - " + host);
+                ServerConfig.HOST = host;
+            } catch (Exception) {
+                Clog("No Network Adapters With IPv4 Addresses Detected, Cannot Start Server... Quitting...", "FATAL");
+                MessageBox.Show("No Network Adapters With IPv4 Addresses Detected, Cannot Start Server. Stopping AlexaComp...",
+                    "AlexaComp",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                StopApplication();
             }
+
+            GetExternalIP();
+
+            Clog("Initializing Hardware Sensors");
+            
+            loadingScreenThread.Start(timer);
         }
     }
 }
-

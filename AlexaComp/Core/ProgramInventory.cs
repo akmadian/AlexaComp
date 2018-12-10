@@ -6,32 +6,39 @@ using System.Xml.Linq;
 using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 
 namespace AlexaComp.Core {
     
-    class ProgramInventory {
+    class ProgramInventory : AlexaCompCore {
 
-        private static string rootPath = @"C:\Program Files (x86)";
+        private static readonly string rootPath = @"C:\Program Files (x86)";
+        private static int numMatches = 0;
 
-        public static void scanDir(string dir = @"C:\Program Files (x86)") {
+        public static void ScanDir(string dir = @"C:\Program Files (x86)") {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            Clog("Scanning for .exes in - " + dir);
             string[] allfiles = Directory.GetDirectories(dir);
             Console.WriteLine("Files Length - " + allfiles.Length.ToString());
-            Console.ReadLine();
             foreach (string subdir in allfiles) {
                 // Console.WriteLine("Running Scan - Depth: 1");
-                checkForMatches(subdir);
+                CheckForMatches(subdir);
 
                 // Console.WriteLine("Running Scan - Depth: 2");
                 string[] files = Directory.GetDirectories(subdir);
                 foreach (string subsubdir in files) {
                     // Console.WriteLine("Checking For Matches In - " + subsubdir);
-                    checkForMatches(subsubdir);
+                    CheckForMatches(subsubdir);
                 }
             }
+            timer.Stop();
+            Clog(String.Format("Scanned dir in {0} ms. Found {1} matches.", timer.ElapsedMilliseconds, numMatches));
+            numMatches = 0;
         }
 
-        public static void checkForMatches(string path) {
+        public static void CheckForMatches(string path) {
             string[] exes = Directory.GetFileSystemEntries(Path.Combine(rootPath, path), "*.exe", SearchOption.TopDirectoryOnly);
 
             // If there is only one .exe in the directory
@@ -40,6 +47,7 @@ namespace AlexaComp.Core {
                     FileInfo info = new FileInfo(file);
                     string[] splitExePath = path.Split('\\').ToArray();
                     Console.WriteLine("EXE MATCH FOUND: " + splitExePath[splitExePath.Length - 1] + " -- " + info.Name);
+                    numMatches++;
                 }
             }
 
@@ -49,22 +57,9 @@ namespace AlexaComp.Core {
                 string[] splitExePath = path.Split('\\').ToArray();
                 if (splitExePath[splitExePath.Length - 1].Replace(" ", "").ToLower() == Path.GetFileNameWithoutExtension(info.Name).ToLower()) {
                     Console.WriteLine("EXE MATCH FOUND: " + splitExePath[splitExePath.Length - 1] + " -- " + info.Name);
+                    numMatches++;
                 }
             }
-        }
-
-        public static string TryGetElementValue(XElement parentEl, string key) {
-            var foundEl = parentEl.Element(key);
-
-            if (foundEl != null) {
-                return foundEl.Value;
-            }
-
-            return null;
-        }
-
-        public static string multStr(int n) {
-            return "";
         }
     }
 }

@@ -37,22 +37,13 @@
 AlexaComp/bin
 AlexaComp/obj
 AlexaComp/pathDir.xml
-AlexaComp/AlexaCompTESTS.cs
-AlexaComp/SavedMethods.cs
-Deprecated/
-AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/Images
-AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/Layouts
-AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/x86
-AlexaComp/_SubProjects/CompatibilityTool/bin/Debug/x64
-AlexaComp/HardwareDevice.cs
-AlexaComp/LightingController.cs
 AlexaComp/Setup
 *packages/
 *node_modules/
-*config.json
-Setup1/
+config.json
 setup.exe
 *package.zip
+*Config.cs
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -60,10 +51,10 @@ setup.exe
 *.code-workspace
 
 # Config
-AlexaComp/App.config
 *.pfx
 Lambda/Main_Lambda/Device_Linking_Email/config.py
 AlexaComp/testCommands.txt
 AlexaComp/CompatibilityTool/obj/Debug/CompatibilityTool.csprojAssemblyReference.cache
 AlexaComp/CompatibilityTool/obj/Debug/CompatibilityTool.csprojAssemblyReference.cache
 *.cache
+AlexaComp/GlobalSuppressions.cs

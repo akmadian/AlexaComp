@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Configuration;
 using AlexaComp.Controllers;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
+using System.Net;
 using System.Threading;
-using System.IO;
-using System.Security.Cryptography;
 
 using log4net;
-using log4net.Config;
+
+using AlexaComp.Core;
+using System.Net.Sockets;
 
 namespace AlexaComp {
     
@@ -18,7 +18,9 @@ namespace AlexaComp {
     // TODO : Implement input validation on all functions.
     // TODO : Create format validation functions.
 
-    class AlexaCompCore {
+    #pragma warning disable CA1052 // Static holder types should be Static or NotInheritable
+    public class AlexaCompCore {
+    #pragma warning restore CA1052 // Static holder types should be Static or NotInheritable
 
         #region Properties
         public static string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
@@ -28,10 +30,10 @@ namespace AlexaComp {
 
         // Threads
         public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow) { Name = "AppWindowThread" };
-        public static Thread ServerThread = new Thread(AlexaCompSERVER.startServer) { Name = "ServerThread" };
+        public static Thread ServerThread = new Thread(AlexaCompSERVER.StartServer) { Name = "ServerThread" };
         public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop) { Name = "ServerLoopThread" };
-        public static Thread LoadingScreenThread = new Thread(LoadingScreenForm.startLoadingScreen) { Name = "LoadingScreenThread" };
-        public static Thread LightingControlThread = new Thread(LightingController.startLightingThread) { Name = "LightingControlThread" };
+        public static Thread loadingScreenThread = new Thread(new ParameterizedThreadStart(LoadingScreenForm.StartLoadingScreen));
+        public static Thread LightingControlThread = new Thread(LightingController.StartLightingThread) { Name = "LightingControlThread" };
 
         // Misc
         public static bool updateLogBoxFlag = false;
@@ -41,9 +43,10 @@ namespace AlexaComp {
 
         #endregion
 
+        public static Dictionary<string, Hardware> Devices = new Dictionary<string, Hardware>();
 
         #region Methods
-        public static void clog(string tolog, string customLevel = "INFO") {
+        public static void Clog(string tolog, string customLevel = "INFO") {
             switch (customLevel) {
                 case "ERROR": _log.Error(tolog); break;
                 case "INFO" : _log.Info(tolog);  break;
@@ -54,23 +57,41 @@ namespace AlexaComp {
             Console.WriteLine(tolog);
         }
 
-        public static void stopApplication() {
-            clog("CLOSING PROGRAM");
+        public static void StopApplication() {
+            Clog("CLOSING PROGRAM");
             stopProgramFlag = true;
-            AlexaCompSERVER.stopServer();
-            AlexaCompSERVER.delPortMap();
+            try {
+                AlexaCompSERVER.StopServer();
+            } catch (NullReferenceException) {
+                Clog("NullReferenceException Caught When Stopping Server");
+            } catch (Exception e) {
+                Clog("Exception Caught When Stopping Server \n" + e);
+            }
+
+            try {
+                AlexaCompSERVER.DelPortMap();
+            } catch (NullReferenceException) {
+                Clog("NullReferenceException Caught When Deleting Port Maps");
+            } catch (Exception e) {
+                Clog("Exception Caught When Deleting Port Maps\n" + e);
+            }
+            Clog("Exiting...");
             Environment.Exit(1);
         }
 
-        public static bool validateRGB(RGBColor color) {
-            int[] rgbArr = colorMethods.RGBToArr(color);
-            foreach (var value in rgbArr) {
-                if (255 < value || value < 0) {
-                    clog("Invalid RGB - Value Greater Than 255, or Less Than 0.");
-                    return false;
+        public static bool IsConnectedToInternet(bool log = true) {
+            Clog("Checking For Internet Connection...");
+            try {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://clients3.google.com/generate_204")) {
+                    if (log) { Clog("Internet Connection DOES exist."); }
+                    return true;
                 }
             }
-            return true;
+            catch {
+                if (log) { Clog("Internet Connection DOES NOT exist."); }
+                return false;
+            }
         }
 
         /// <summary>
@@ -84,6 +105,40 @@ namespace AlexaComp {
         */
         public static string GetConfigValue(string key) {
             return ConfigurationManager.AppSettings[key];
+        }
+
+
+        /*
+        * Gets the user's public IP address.
+        */
+        public static void GetExternalIP() {
+            string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
+            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
+            if (match.Success) {
+                Clog("Public IP - " + match);
+            }
+            else {
+                Clog("IP Regex Match Unsuccessful.", "ERROR");
+            }
+        }
+
+        public static string GetInternalIP() {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList) {
+                if (ip.AddressFamily == AddressFamily.InterNetwork) {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception();
+        }
+
+        /*
+        * Reads all user configured values into the settingsDict.
+        */
+        public static void ReadConfig() {
+            foreach (string key in ConfigurationManager.AppSettings.AllKeys) {
+                settingsDict[key] = GetConfigValue(key);
+            }
         }
 
         #endregion

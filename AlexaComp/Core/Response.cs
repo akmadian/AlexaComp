@@ -14,24 +14,23 @@ namespace AlexaComp.Core {
         #endregion
 
         #region Constructors
-        public Response(bool passorfail_, string message_, string primary_ = "", string secondary_ = "") {
-            passorfail = passorfail_;
-            message = message_;
-            primary = primary_;
-            secondary = secondary_;
-
+        public Response(bool passorfail, string message, string primary = "", string secondary = "") {
+            this.passorfail = passorfail;
+            this.message = message;
+            this.primary = primary;
+            this.secondary = secondary;
             json = Newtonsoft.Json.JsonConvert.SerializeObject(this);
             Console.WriteLine(json);
         }
         #endregion
 
         #region Methods
-        public void sendResponse(System.Net.Sockets.NetworkStream customStream) {
+        public void SendResponse(System.Net.Sockets.NetworkStream customStream) {
             if (customStream != null) {
-                AlexaCompSERVER.sendToLambda(json, customStream);
+                AlexaCompSERVER.SendToLambda(json, customStream);
             }
             else {
-                AlexaCompSERVER.sendToLambda(json, null);
+                AlexaCompSERVER.SendToLambda(json);
             }
         }
         #endregion

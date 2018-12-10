@@ -8,56 +8,62 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Diagnostics;
+
+using AlexaComp.Core;
+using AlexaComp.Core.Controllers;
 
 namespace AlexaComp {
     public partial class LoadingScreenForm : Form {
-        public LoadingScreenForm() {
+        public LoadingScreenForm(Stopwatch timer) {
             InitializeComponent();
 
             Thread.Sleep(300);
-            Thread loadingThread = new Thread(startLoading);
+            Thread loadingThread = new Thread(unused => StartLoading(timer));
             loadingThread.Start();
         }
 
-        public static void startLoadingScreen() {
+        public static void StartLoadingScreen(object timer) {
             try {
-                Application.Run(new LoadingScreenForm());
+                Application.Run(new LoadingScreenForm((Stopwatch)timer));
             } catch (ObjectDisposedException) {
                 Console.WriteLine("Caught object disposed exception");
             }
-            
         }
 
-        private void startLoading() {
-            updateProgress("Reading Config File");
-            AlexaComp.readConfig();
+        private void StartLoading(Stopwatch timer) {
+            UpdateProgress("Reading Config File");
+            AlexaComp.ReadConfig();
 
-            updateProgress("Creating Port Map", 400);
-            AlexaCompSERVER.forwardPort();
+            UpdateProgress("Creating Port Map", 400);
+            AlexaCompSERVER.ForwardPort();
 
-            updateProgress("Scanning for RGB Devices");
+            UpdateProgress("Scanning for RGB Devices");
             AlexaComp.LightingControlThread.Start();
 
-            updateProgress("Assigning Sensors");
-            AlexaCompHARDWARE.assignSensors();
+            UpdateProgress("Assigning Sensors");
+            HardwareController.InitSensors();
 
-            updateProgress("Getting Installed Programs");
-            //AlexaComp.inventoryPrograms();
+            UpdateProgress("Getting Installed Programs");
+            ProgramInventory.ScanDir();
 
-            updateProgress("Starting Server");
+            UpdateProgress("Starting Server");
             AlexaCompCore.ServerThread.Start();
 
-            updateProgress("Starting Server Loop");
+            UpdateProgress("Starting Server Loop");
             AlexaCompCore.ServerLoopThread.Start();
 
-            updateProgress("Starting AleComp", 400);
-            closeSplashScreen();
+            UpdateProgress("Starting AlexaComp", 400);
+            CloseSplashScreen();
 
             AlexaComp.AppWindowThread.Start();
+            timer.Stop();
+            AlexaCompCore.Clog(String.Format("Application Window started in {0} ms.", timer.ElapsedMilliseconds));
         }
 
-        private void updateProgress(string message, int wait = 300) {
+        private void UpdateProgress(string message, int wait = 300) {
             try {
+                AlexaCompCore.Clog(message);
                 progressLabel.Invoke(new MethodInvoker(delegate { progressLabel.Text = message; }));
             } catch (InvalidOperationException) {
 
@@ -65,7 +71,7 @@ namespace AlexaComp {
             // Thread.Sleep(wait);
         }
 
-        private void closeSplashScreen() {
+        private void CloseSplashScreen() {
             this.Invoke(new MethodInvoker(delegate { this.Close(); }));
         }
 
