@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Configuration;
 using AlexaComp.Controllers;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
+using System.Net;
 using System.Threading;
-using System.IO;
-using System.Security.Cryptography;
 
 using log4net;
-using log4net.Config;
 
 using AlexaComp.Core;
+using System.Net.Sockets;
 
 namespace AlexaComp {
     
@@ -62,9 +60,38 @@ namespace AlexaComp {
         public static void StopApplication() {
             Clog("CLOSING PROGRAM");
             stopProgramFlag = true;
-            AlexaCompSERVER.StopServer();
-            AlexaCompSERVER.DelPortMap();
+            try {
+                AlexaCompSERVER.StopServer();
+            } catch (NullReferenceException) {
+                Clog("NullReferenceException Caught When Stopping Server");
+            } catch (Exception e) {
+                Clog("Exception Caught When Stopping Server \n" + e);
+            }
+
+            try {
+                AlexaCompSERVER.DelPortMap();
+            } catch (NullReferenceException) {
+                Clog("NullReferenceException Caught When Deleting Port Maps");
+            } catch (Exception e) {
+                Clog("Exception Caught When Deleting Port Maps\n" + e);
+            }
+            Clog("Exiting...");
             Environment.Exit(1);
+        }
+
+        public static bool IsConnectedToInternet(bool log = true) {
+            Clog("Checking For Internet Connection...");
+            try {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://clients3.google.com/generate_204")) {
+                    if (log) { Clog("Internet Connection DOES exist."); }
+                    return true;
+                }
+            }
+            catch {
+                if (log) { Clog("Internet Connection DOES NOT exist."); }
+                return false;
+            }
         }
 
         /// <summary>
@@ -78,6 +105,40 @@ namespace AlexaComp {
         */
         public static string GetConfigValue(string key) {
             return ConfigurationManager.AppSettings[key];
+        }
+
+
+        /*
+        * Gets the user's public IP address.
+        */
+        public static void GetExternalIP() {
+            string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
+            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
+            if (match.Success) {
+                Clog("Public IP - " + match);
+            }
+            else {
+                Clog("IP Regex Match Unsuccessful.", "ERROR");
+            }
+        }
+
+        public static string GetInternalIP() {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList) {
+                if (ip.AddressFamily == AddressFamily.InterNetwork) {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception();
+        }
+
+        /*
+        * Reads all user configured values into the settingsDict.
+        */
+        public static void ReadConfig() {
+            foreach (string key in ConfigurationManager.AppSettings.AllKeys) {
+                settingsDict[key] = GetConfigValue(key);
+            }
         }
 
         #endregion

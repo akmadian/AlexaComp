@@ -22,9 +22,9 @@ namespace AlexaComp{
         public static TcpClient client;
         private static NetworkStream nwStream;
 
-        public static int PORT = int.Parse(GetConfigValue("PORT"));
-        public static string AUTH = GetConfigValue("AUTH");
-        public static string HOST = "10.0.0.59";
+        public static int PORT = ServerConfig.PORT;
+        public static string AUTH = ServerConfig.LambdaAuth;
+        public static string HOST = ServerConfig.HOST;
 
         private static INatDevice device;
         #endregion

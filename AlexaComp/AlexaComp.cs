@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Configuration;
-using System.Threading;
-using System.Net;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 using log4net.Config;
 
@@ -12,8 +9,6 @@ using AlexaComp.Forms;
 using AlexaComp.Core.Requests;
 using AlexaComp.Core.Controllers;
 
-// TODO : Documentation
-// TODO : Add region tags to files where appropriate.
 /** Documentation format
 * Description
 * @param <paramname> <description>
@@ -34,6 +29,7 @@ namespace AlexaComp {
                 Clog(exception.ToString(), "FATAL");
                 throw exception;
             };
+            
             Clog("Exception Handler Registered");
 
             _log.Info("Start Program");
@@ -60,34 +56,34 @@ namespace AlexaComp {
             Clog("PathToDebug - " + pathToDebug);
             Clog("PathToProject - " + pathToProject);
             
+            if (!IsConnectedToInternet()) {
+                Clog("No Internet Connection Detected... Quitting...", "FATAL");
+                MessageBox.Show("No Internet Connection Detected, Stopping AlexaComp...", 
+                    "AlexaComp",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                StopApplication();
+            }
+
+            // Set Internal IP for port mapping and server
+            try {
+                string host = GetInternalIP();
+                Clog("Internal IP Found - " + host);
+                ServerConfig.HOST = host;
+            } catch (Exception) {
+                Clog("No Network Adapters With IPv4 Addresses Detected, Cannot Start Server... Quitting...", "FATAL");
+                MessageBox.Show("No Network Adapters With IPv4 Addresses Detected, Cannot Start Server. Stopping AlexaComp...",
+                    "AlexaComp",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                StopApplication();
+            }
+
             GetExternalIP();
 
             Clog("Initializing Hardware Sensors");
             
             loadingScreenThread.Start(timer);
-        }
-
-
-        /*
-        * Reads all user configured values into the settingsDict.
-        */
-        public static void ReadConfig(){
-            foreach (string key in ConfigurationManager.AppSettings.AllKeys){
-                settingsDict[key] = GetConfigValue(key);
-            }
-        }
-
-        /*
-        * Gets the user's public IP address.
-        */
-        public static void GetExternalIP() {
-            string data = new WebClient().DownloadString("http://checkip.dyndns.org/");
-            Match match = Regex.Match(data, @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"); // Regex match for IP
-            if (match.Success) {
-                Clog("Public IP - " + match);
-            } else {
-                Clog("IP Regex Match Unsuccessful.", "ERROR");
-            }
         }
     }
 }

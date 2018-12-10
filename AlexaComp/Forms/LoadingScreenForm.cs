@@ -53,7 +53,7 @@ namespace AlexaComp {
             UpdateProgress("Starting Server Loop");
             AlexaCompCore.ServerLoopThread.Start();
 
-            UpdateProgress("Starting AleComp", 400);
+            UpdateProgress("Starting AlexaComp", 400);
             CloseSplashScreen();
 
             AlexaComp.AppWindowThread.Start();
