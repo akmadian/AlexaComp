@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
 using AlexaComp.Core.Requests;
+using AlexaComp.Core.Controllers;
 
 namespace AlexaComp.Core {
 
@@ -44,7 +45,7 @@ namespace AlexaComp.Core {
         
         public void ProcessRequest(Request req) {
             if (AUTH != "testAuth") {
-                AlexaCompSERVER.StopServer();
+                ServerController.StopServer();
             } else { Clog("IS Test Request"); }
             switch (req.COMMAND) {
                 case "LAUNCH":

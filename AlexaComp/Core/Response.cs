@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 
+using AlexaComp.Core.Controllers;
+
 namespace AlexaComp.Core {
     [DebuggerDisplay("[AlexaComp Response Object -- {{passorfail: {passorfail}, message: {message}, primary: {primary}, secondary: {secondary}}}]")]
     class Response : AlexaCompCore {
@@ -27,10 +29,10 @@ namespace AlexaComp.Core {
         #region Methods
         public void SendResponse(System.Net.Sockets.NetworkStream customStream) {
             if (customStream != null) {
-                AlexaCompSERVER.SendToLambda(json, customStream);
+                ServerController.SendToLambda(json, customStream);
             }
             else {
-                AlexaCompSERVER.SendToLambda(json);
+                ServerController.SendToLambda(json);
             }
         }
         #endregion
