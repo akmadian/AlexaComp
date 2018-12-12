@@ -41,10 +41,22 @@ namespace AlexaComp{
                     return;
                 }
             } catch (SocketException ex) {
-                System.Windows.Forms.MessageBox.Show("AlexaComp Encountered a Fatal Error and Had To Stop.\n" +
-                    "Please Check The AlexaComp Log File For More Information.\n" + 
-                    "EXCEPTION: " + ex.ToString());
-                Environment.Exit(1);
+                if (ex.Message.Contains("Only one usage of each socket")) {
+                    Clog("Caught SocketException when creating port map. Most likely that AlexaComp is already running. " + ex, "FATAL");
+                    System.Windows.Forms.MessageBox.Show("Port 24157 is already occupied! \nBe sure that no other instances of AlexaComp are running.",
+                        "AlexaComp",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Warning);
+                    StopApplication();
+                }
+                else {
+                    System.Windows.Forms.MessageBox.Show("AlexaComp Encountered a Fatal Error and Had To Stop.\n" +
+                        "Please Check The AlexaComp Log File For More Information.",
+                        "AlexaComp",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Warning);
+                    StopApplication();
+                }
             }
             catch (FormatException ex) {
                 AlexaComp._log.Debug(ex);
