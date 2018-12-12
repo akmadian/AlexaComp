@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Xml;
 
-using AlexaComp.Controllers;
+using AlexaComp.Core.Controllers;
 using AlexaComp.Core;
 
 namespace AlexaComp{
@@ -170,8 +170,8 @@ namespace AlexaComp{
             }
             AlexaCompCore.Clog("CLOSING PROGRAM");
             AlexaCompCore.stopProgramFlag = true;
-            AlexaCompSERVER.StopServer();
-            AlexaCompSERVER.DelPortMap();
+            ServerController.StopServer();
+            ServerController.DelPortMap();
 
             Environment.Exit(1);
         }

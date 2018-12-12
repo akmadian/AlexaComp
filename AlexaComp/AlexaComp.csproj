@@ -173,6 +173,7 @@
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\Controllers\HardwareController.cs" />
     <Compile Include="Core\Controllers\MDBController.cs" />
+    <Compile Include="Core\Controllers\ServerController.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Hardware.cs" />
     <Compile Include="Core\Request.cs" />

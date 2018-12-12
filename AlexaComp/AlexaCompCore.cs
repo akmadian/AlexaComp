@@ -10,6 +10,7 @@ using System.Threading;
 using log4net;
 
 using AlexaComp.Core;
+using AlexaComp.Core.Controllers;
 using System.Net.Sockets;
 
 namespace AlexaComp {
@@ -30,8 +31,8 @@ namespace AlexaComp {
 
         // Threads
         public static Thread AppWindowThread = new Thread(AlexaCompGUI.StartAppWindow) { Name = "AppWindowThread" };
-        public static Thread ServerThread = new Thread(AlexaCompSERVER.StartServer) { Name = "ServerThread" };
-        public static Thread ServerLoopThread = new Thread(AlexaCompSERVER.ServerLoop) { Name = "ServerLoopThread" };
+        public static Thread ServerThread = new Thread(ServerController.StartServer) { Name = "ServerThread" };
+        public static Thread ServerLoopThread = new Thread(ServerController.ServerLoop) { Name = "ServerLoopThread" };
         public static Thread loadingScreenThread = new Thread(new ParameterizedThreadStart(LoadingScreenForm.StartLoadingScreen));
         public static Thread LightingControlThread = new Thread(LightingController.StartLightingThread) { Name = "LightingControlThread" };
 
@@ -61,7 +62,7 @@ namespace AlexaComp {
             Clog("CLOSING PROGRAM");
             stopProgramFlag = true;
             try {
-                AlexaCompSERVER.StopServer();
+                ServerController.StopServer();
             } catch (NullReferenceException) {
                 Clog("NullReferenceException Caught When Stopping Server");
             } catch (Exception e) {
@@ -69,7 +70,7 @@ namespace AlexaComp {
             }
 
             try {
-                AlexaCompSERVER.DelPortMap();
+                ServerController.DelPortMap();
             } catch (NullReferenceException) {
                 Clog("NullReferenceException Caught When Deleting Port Maps");
             } catch (Exception e) {

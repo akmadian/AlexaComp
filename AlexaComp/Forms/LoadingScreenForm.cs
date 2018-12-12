@@ -36,7 +36,7 @@ namespace AlexaComp {
             AlexaComp.ReadConfig();
 
             UpdateProgress("Creating Port Map", 400);
-            AlexaCompSERVER.ForwardPort();
+            ServerController.ForwardPort();
 
             UpdateProgress("Scanning for RGB Devices");
             AlexaComp.LightingControlThread.Start();
