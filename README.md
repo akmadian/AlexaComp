@@ -3,6 +3,8 @@
 
 AlexaComp is an open source Alexa skill that allows you to interact with your computer using your Alexa device!
 
+For a comprehensive list of all the commands you can give to AlexaComp, take a look at [Commands.md][8].
+
 ## Installation
 Installation and setup instructions can be found in the [Setup.md][0] file.
 
@@ -71,3 +73,4 @@ ___
 [5]: https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=Beta%20Access%20Request&to=akmadian@gmail.com
 [6]: https://github.com/akmadian/AlexaComp/issues/new
 [7]: https://github.com/akmadian/AlexaComp/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
+[8]: https://github.com/AlexaComp/AlexaComp/blob/docs/Docs/Commands.md
