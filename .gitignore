@@ -61,3 +61,7 @@ setup.exe
 AlexaComp/App.config
 *.pfx
 Lambda/Main_Lambda/Device_Linking_Email/config.py
+AlexaComp/Setup/AlexaCompSetup/Debug/AlexaCompSetup.msi
+AlexaComp/GlobalSuppressions.cs
+AlexaComp/Setup/AlexaCompSetup/AlexaCompSetup.vdproj
+AlexaComp/Core/Config.cs
