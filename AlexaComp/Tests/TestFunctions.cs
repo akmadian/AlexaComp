@@ -25,6 +25,7 @@ namespace AlexaComp {
             LightingController.LightingEffects.ErrorEffect();
         }
 
+        /*
         public static void testColorConversions() {
             Clog("Testing Color Value Conversion Methods...");
             // RGB to Hex
@@ -58,7 +59,7 @@ namespace AlexaComp {
             }
 
             // TODO : Implement HSLToRGB test.
-        }
+        }*/
 
         /** testAudioFunctions
          * Tests all audio related functions.
