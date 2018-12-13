@@ -21,6 +21,7 @@ namespace AlexaComp{
         public AlexaCompGUI() {
             InitializeComponent();
             this.notifyIcon.DoubleClick += new EventHandler(this.notifyIcon_DoubleClick);
+            VersionLabel.Text = "Version: " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
             this.AcceptButton = this.addToListButton;
             dataListView.View = View.Details;
             dataListView.GridLines = true;

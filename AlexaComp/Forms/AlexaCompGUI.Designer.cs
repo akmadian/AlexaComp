@@ -49,6 +49,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.programNameTextBox = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.VersionLabel = new System.Windows.Forms.LinkLabel();
             this.tabControl.SuspendLayout();
             this.Overview.SuspendLayout();
             this.Settings.SuspendLayout();
@@ -137,6 +138,7 @@
             // 
             // Overview
             // 
+            this.Overview.Controls.Add(this.VersionLabel);
             this.Overview.Controls.Add(this.label1);
             this.Overview.Controls.Add(this.RepoLink);
             this.Overview.Location = new System.Drawing.Point(4, 22);
@@ -239,6 +241,20 @@
             this.programNameTextBox.Size = new System.Drawing.Size(493, 20);
             this.programNameTextBox.TabIndex = 6;
             // 
+            // VersionLabel
+            // 
+            this.VersionLabel.AutoSize = true;
+            this.VersionLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.VersionLabel.LinkArea = new System.Windows.Forms.LinkArea(41, 57);
+            this.VersionLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(230)))));
+            this.VersionLabel.Location = new System.Drawing.Point(550, 422);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(49, 17);
+            this.VersionLabel.TabIndex = 16;
+            this.VersionLabel.Text = "Version: ";
+            this.VersionLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.VersionLabel.UseCompatibleTextRendering = true;
+            // 
             // AlexaCompGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +299,7 @@
         private System.Windows.Forms.Button addToListButton;
         private System.Windows.Forms.Label errorLabel;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.LinkLabel VersionLabel;
     }
 }
 
