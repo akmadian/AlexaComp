@@ -42,7 +42,7 @@ namespace AlexaComp {
             AlexaComp.LightingControlThread.Start();
 
             UpdateProgress("Assigning Sensors");
-            HardwareController.InitSensors();
+            HardwareController.InitAllHardware();
 
             UpdateProgress("Getting Installed Programs");
             ProgramInventory.ScanDir();

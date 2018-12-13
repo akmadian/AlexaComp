@@ -65,7 +65,7 @@ namespace AlexaComp {
                 StopApplication();
             }
 
-            MDBController.makeInstance();
+            // MDBController.makeInstance();
 
             // Set Internal IP for port mapping and server
             try {

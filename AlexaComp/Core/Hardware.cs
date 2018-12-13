@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+using RGB.NET.Core;
+
 using AlexaComp.Core.Controllers;
 
 namespace AlexaComp.Core {
@@ -15,6 +17,7 @@ namespace AlexaComp.Core {
         public string GenericName;
 
         public Dictionary<string, Sensor_> Sensors = new Dictionary<string, Sensor_>();
+        public IRGBDevice RGBDevice = null;
         #endregion
 
         #region Constructors
@@ -29,11 +32,25 @@ namespace AlexaComp.Core {
             this.Name = Name;
             this.GenericName = GenericName;
         }
+
+        public Hardware(string Type, string GenericName, IRGBDevice origin) {
+            this.Type = Type;
+            this.GenericName = GenericName;
+            this.RGBDevice = origin;
+        }
+
+        public Hardware(string Type, string Manufacturer, string Name, string GenericName, IRGBDevice origin) {
+            this.Type = Type;
+            this.Manufacturer = Manufacturer;
+            this.Name = Name;
+            this.GenericName = GenericName;
+            this.RGBDevice = origin;
+        }
         #endregion
 
         #region Methods
         public void RefreshSensors() {
-            HardwareController.RefreshHardware(this);
+            SensorDiscovery.RefreshHardware(this);
         }
 
         public string GetSensorValue(string sensorName) {
@@ -56,7 +73,8 @@ namespace AlexaComp.Core {
         public int SensorsLength() => Sensors.Count;
 
         public override string ToString() {
-            return string.Format("Hardware Object -- Name: {0}, Type: {1}, Sensor Length: {2}", Name, Type, SensorsLength());
+            return string.Format("Hardware Object -- Name: {0}, Type: {1}, Sensor Length: {2}, RGB Device Present: {3}", 
+                Name, Type, SensorsLength(), RGBDevice != null ? true : false);
         }
         #endregion
     }
