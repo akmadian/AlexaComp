@@ -70,15 +70,15 @@ Hardware sensors are gathered by the [OpenHardwareMonitor SDK][0]. The OHM SDK i
 - Get Temperature/ Load/ Clock Speed of a Given Part
 
     <details><summary>Commands</summary>
-        <p>
-        <br>
-            to get my <code>Part</code> <code>Stat</code> <br>
-            what's the <code>Stat</code> of my <code>Part</code><br>
-            what's my <code>Part</code> <code>Stat</code> <br>
-            get the <code>Stat</code> of my <code>Part</code> <br>
-            get my <code>Part</code> <code>Stat</code> <br>
-            what is the <code>Stat</code> of my <code>Part</code>
-        </p>
+    <p>
+    <br>
+        to get my <code>Part</code> <code>Stat</code> <br>
+        what's the <code>Stat</code> of my <code>Part</code><br>
+        what's my <code>Part</code> <code>Stat</code> <br>
+        get the <code>Stat</code> of my <code>Part</code> <br>
+        get my <code>Part</code> <code>Stat</code> <br>
+        what is the <code>Stat</code> of my <code>Part</code>
+    </p>
     </details>
 
     <details><summary>Slots</summary>
@@ -219,7 +219,7 @@ Most of the effects will default to white, but some effects aren't working prope
 </pre>
 </details>
 <details><summary>&nbsp;&nbsp;&nbsp;&nbsp;Color</summary>
-    See the [Color Documentation][2] for all supported colors, their names, and a small swatch.
+    See the <a href="https://github.com/AlexaComp/AlexaComp/blob/docs/Docs/Colors.md">Color Documentation</a> for all supported colors, their names, and a small swatch.
 </details>
 </details>
 
