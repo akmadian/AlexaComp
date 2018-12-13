@@ -2,7 +2,7 @@
 
 This file contains a comprehensive list of all of the commands, in all of their forms, that you can give AlexaComp. These commands may or may not work depending on what development work is happening.
 
-Please preced all commands listed with your device's wake word (The default is `Alexa`), and AlexaComp's invocation phrase (`my computer`). This means that you should precede all commands with "Alexa, [tell, open] my computer [command]"
+Please precede all commands listed with your device's wake word (The default is `Alexa`), and AlexaComp's invocation phrase (`my computer`). This means that you should precede all commands with "Alexa, [tell, open] my computer [command]"
 
 Any parts in commands that look like `this` are what are called "slots". Slots can take any one value from a list of options. The list of possible values will be documented under the commands, along with any synonyms.
 
