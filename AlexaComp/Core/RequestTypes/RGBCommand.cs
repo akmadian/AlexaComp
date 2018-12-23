@@ -1,5 +1,7 @@
 using AlexaComp.Controllers;
 
+using AlexaComp.Core.Lighting;
+
 namespace AlexaComp.Core.Requests {
 
     public class RGBCommand : AlexaCompCore {
@@ -20,8 +22,8 @@ namespace AlexaComp.Core.Requests {
         
         public void process() {
             Clog("Processing...");
-            RGBColor priColor = new RGBColor(255, 255, 255);
-            RGBColor secColor = new RGBColor(0, 0, 255);
+            HexColor priColor = new HexColor();
+            HexColor secColor = new HexColor(0, 0, 255);
             // if (req.SECONDARY != null) { priColor = new RGBColor(req.SECONDARY); } else { priColor = null; };
             // if (req.TERTIARY != null) { secColor = new RGBColor(req.TERTIARY); } else { secColor = null; };
             LightingController.StartLightingThread();

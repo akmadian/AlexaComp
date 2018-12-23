@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using RGB.NET.Core;
+using RGB.NET.Groups;
 
 using AlexaComp.Core.Controllers;
 
@@ -18,6 +19,7 @@ namespace AlexaComp.Core {
 
         public Dictionary<string, Sensor_> Sensors = new Dictionary<string, Sensor_>();
         public IRGBDevice RGBDevice = null;
+        public ListLedGroup ledGroup = null;
         #endregion
 
         #region Constructors
@@ -37,6 +39,7 @@ namespace AlexaComp.Core {
             this.Type = Type;
             this.GenericName = GenericName;
             this.RGBDevice = origin;
+            this.ledGroup = new ListLedGroup(origin);
         }
 
         public Hardware(string Type, string Manufacturer, string Name, string GenericName, IRGBDevice origin) {
@@ -45,6 +48,7 @@ namespace AlexaComp.Core {
             this.Name = Name;
             this.GenericName = GenericName;
             this.RGBDevice = origin;
+            this.ledGroup = new ListLedGroup(origin);
         }
         #endregion
 
@@ -68,6 +72,14 @@ namespace AlexaComp.Core {
                 sb.Length--; // Remove last \n
             } catch (ArgumentOutOfRangeException) { }
             return sb.ToString();
+        }
+
+        public bool HasRGBDevice() {
+            return RGBDevice != null ? true : false;
+        }
+
+        public bool HasLEDGroup() {
+            return ledGroup != null ? true : false;
         }
 
         public int SensorsLength() => Sensors.Count;

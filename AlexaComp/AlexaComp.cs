@@ -8,6 +8,7 @@ using AlexaComp.Core;
 using AlexaComp.Forms;
 using AlexaComp.Core.Requests;
 using AlexaComp.Core.Controllers;
+using AlexaComp.Controllers;
 
 /** Documentation format
 * Description
@@ -64,6 +65,9 @@ namespace AlexaComp {
                     MessageBoxIcon.Warning);
                 StopApplication();
             }
+
+            HardwareController.InitAllHardware();
+            LightingController.ApplyEffect();
 
             // MDBController.makeInstance();
 

@@ -184,6 +184,7 @@ namespace AlexaComp.Core.Controllers {
     public class RGBDiscovery : HardwareController {
         private static RGBSurface surface = RGBSurface.Instance;
 
+
         public static void StartLightingThread() {
             LoadDevices();
             foreach (IRGBDevice device in surface.Devices) {

@@ -93,7 +93,7 @@ namespace AlexaComp.Core.Helpers {
             if (hexString.StartsWith("#")) { // Strip leading # if it exists
                 hexString = hexString.Substring(1);
             }
-            string[] splitHex = hex.splitEveryN(2);
+            string[] splitHex = hex.SplitEveryN(2);
             return new Color(Convert.ToInt32(splitHex[0], 16), Convert.ToInt32(splitHex[1], 16), Convert.ToInt32(splitHex[2], 16));
         }
 

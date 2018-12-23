@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 using RGB.NET.Core;
@@ -15,6 +16,7 @@ using RGB.NET.Devices.Novation;
 using RGB.NET.Devices.Razer;
 
 using AlexaComp.Core;
+using AlexaComp.Core.Lighting;
 using AlexaComp.Core.Helpers;
 
 namespace AlexaComp.Controllers {
@@ -40,6 +42,24 @@ namespace AlexaComp.Controllers {
             surface.UpdateMode = UpdateMode.Continuous;
         }
 
+        // Applies rainbow effect to all devices with an ledgroup
+        public static void ApplyEffect() {
+            int speed = 50;
+            double hueStep = 0.01;
+            while (true) {
+                foreach (KeyValuePair<string, Hardware> pair in Devices) {
+                    Hardware device = pair.Value;
+                    if (device.HasLEDGroup()) {
+                        for (double j = 0; j < 1; j += hueStep) {
+                            Color c = (Color)ColorConversions.HSLToRGB(j, 1.0, 0.5);
+                            device.ledGroup.Brush = new SolidColorBrush(c);
+                            Thread.Sleep(speed);
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Loads all devices into the surface object.
         /// </summary>
@@ -56,17 +76,20 @@ namespace AlexaComp.Controllers {
             surface.LoadDevices(RazerDeviceProvider.Instance);
         }
 
-        public static void LightingProcess(RGBColor color1, RGBColor color2, string effect = "", int speed_ = -20, double granularity_ = -0.1, int speed2 = -1) {
-            if (color1 == null) { color1 = new RGBColor(-1, -1, -1); }
-            if (color2 == null) { color2 = new RGBColor(-1, -1, -1); }
+        public static void LightingProcess(HexColor color1 = null, HexColor color2 = null, string effect = "", int speed_ = -20, double granularity_ = -0.1, int speed2 = -1) {
+            color1 = color1 ?? new HexColor("ffffff");
+            color2 = color2 ?? new HexColor("ffffff");
+
+            Clog(String.Format("Setting {0} effect - Color1: {1}, Color2: {2}, Speed: {3}, Speed2: {4}, Granularity: {5}", 
+                effect, color1.ToString(), color2.ToString(), speed_, speed2, granularity_));
 
             switch (effect) {
                 case "": break;
-                /* TO TEST */case "STATICCOLOR":       lightingThread = new Thread(unused => LightingEffects.StaticColor(R: color1.R, G: color1.G, B: color1.B)); break;
+                /* TO TEST */case "STATICCOLOR":       lightingThread = new Thread(unused => LightingEffects.StaticColor(color1)); break;
                 /* TO TEST */case "ERROREFFECT":       lightingThread = new Thread(unused => LightingEffects.ErrorEffect(speed: speed_)); break;
-                /* TO TEST */case "BREATHINGEFFECT":   lightingThread = new Thread(unused => LightingEffects.BreathingEffect(R: color1.R, G: color1.G, B: color1.B, speed: speed_, brightnessStep: granularity_)); break;
+                /* TO TEST */case "BREATHINGEFFECT":   lightingThread = new Thread(unused => LightingEffects.BreathingEffect(color1, speed: speed_, brightnessStep: granularity_)); break;
                 /* WORKING */case "RAINBOWFADEEFFECT": lightingThread = new Thread(unused => LightingEffects.FadingEffect()); break;
-                /* TO TEST */case "PULSEEFFECT":       lightingThread = new Thread(unused => LightingEffects.PulseEffect(R: color1.R, G: color1.G, B: color1.B, effectSpeed: speed_, fadeSpeed: speed2, brightnessStep: granularity_)); break;
+                /* TO TEST */case "PULSEEFFECT":       lightingThread = new Thread(unused => LightingEffects.PulseEffect(color1, effectSpeed: speed_, fadeSpeed: speed2, brightnessStep: granularity_)); break;
                 // case "ALTERNATINGEFFECT": lightingThread = new Thread(unused => LightingEffects.alternatingEffect()); break;
                 // case "BLINKINGEFFECT": lightingThread = new Thread(unused => LightingEffects.blinkingEffect(color: color1, speed: speed_)); break;
                 /* WORKING */case "ALLLEDOFF":         lightingThread = new Thread(unused => LightingEffects.AllLedOff()); break;
@@ -99,22 +122,24 @@ namespace AlexaComp.Controllers {
             /// <param name="brightnessStep"></param>
             // TODO : Implement color cieling. Only default color values work.
             // If values are 255, 255, 255, they are added to and subtracted from an equal ammount.
-            public static void BreathingEffect(int R = 1, int G = 1, int B = 1, int speed = 20, double brightnessStep = 0.01) {
-                if (R < 0) { R = 1; }
-                if (G < 0) { G = 1; }
-                if (B < 0) { B = 1; }
+            public static void BreathingEffect(HexColor color, int speed = 20, double brightnessStep = 0.01) {
+                HexColor col_ = new HexColor("#000000");
+                Clog(col_.ToString());
+                Color col = col_.ToRGB();
                 if (speed < 0) { speed = 20; }
                 if (brightnessStep < 0) { brightnessStep = 0.01; }
-                Clog(String.Format("RGB -- Breathing Animation Set -- Color: {0}, {1}, {2} - Speed: {3} - Brightness Step: {4}",
-                    R, G, B, speed, brightnessStep));
+
+                ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
-                    ILedGroup ledGroup = new ListLedGroup(surface.Leds);
+                    // Increase Brightness
                     for (double i = 0.01; i <= 1; i += brightnessStep) {
-                        ledGroup.Brush = new SolidColorBrush(new Color(R * i, G * i, B * i));
+                        ledGroup.Brush = new SolidColorBrush(new Color(col.R * i, col.G * i, col.B * i));
                         Thread.Sleep(speed);
                     }
+
+                    // Decrease Brightness
                     for (double i = 1.01; i >= 0; i -= brightnessStep) {
-                        ledGroup.Brush = new SolidColorBrush(new Color(R * i, G * i, B * i));
+                        ledGroup.Brush = new SolidColorBrush(new Color(col.R * i, col.G * i, col.B * i));
                         Thread.Sleep(speed);
                     }
                 }
@@ -127,10 +152,8 @@ namespace AlexaComp.Controllers {
             /// <param name="fadeSpeed">How quickly the color fades after the pulse</param>
             /// <param name="brightnessStep">The granularity of the brightness adjustments</param>
             // TODO : Fix. Has same color issue as breathingAnimation.
-            public static void PulseEffect(int R, int G, int B, int effectSpeed = 100, int fadeSpeed = 10, double brightnessStep = 0.01) {
-                if (R < 0) { B = 255; }
-                if (G < 0) { B = 255; }
-                if (B < 0) { B = 255; }
+            public static void PulseEffect(HexColor color, int effectSpeed = 100, int fadeSpeed = 10, double brightnessStep = 0.01) {
+                Color col = color.ToRGB();
                 if (effectSpeed < 0) { effectSpeed = 100; }
                 if (fadeSpeed < 0) { fadeSpeed = 10; }
                 if (brightnessStep < 0) { brightnessStep = 0.01; }
@@ -138,7 +161,7 @@ namespace AlexaComp.Controllers {
                 while (true) {
                     ledGroup.Brush = new SolidColorBrush(new Color(255, 255, 255));
                     for (double i = 1.0; i > 0; i -= brightnessStep) {
-                        ledGroup.Brush = new SolidColorBrush(new Color(R * i, G * i, B * i));
+                        ledGroup.Brush = new SolidColorBrush(new Color(col.R * i, col.G * i, col.B * i));
                         Thread.Sleep(fadeSpeed);
                     }
                     Thread.Sleep(effectSpeed);
@@ -171,8 +194,8 @@ namespace AlexaComp.Controllers {
             /// </summary>
             /// <param name="color"></param>
             /// <param name="speed"></param>
-            public static void BlinkingEffect(RGBColor color, int speed = 400) {
-                if (color == null) { color = new RGBColor(255, 255, 255); }
+            public static void BlinkingEffect(HexColor color, int speed = 400) {
+                Color col = color.ToRGB();
                 if (speed < 0) { speed = 400; }
                 // alternatingEffect(color, new RGBColor(0, 0, 0), speed);
             }
@@ -180,11 +203,11 @@ namespace AlexaComp.Controllers {
             /// <summary>
             /// Sets all leds to a static color
             /// </summary>
-            public static void StaticColor(int R = 255, int G = 255, int B = 255) {
-                Clog(String.Format("RGB -- Setting Static Color -- Color: {0}, {1}, {2}", R, G, B));
+            public static void StaticColor(HexColor color) {
+                Color col = color.ToRGB();
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
-                    ledGroup.Brush = new  SolidColorBrush(new Color(R, G, B));
+                    ledGroup.Brush = new  SolidColorBrush(new Color(col.R, col.G, col.B));
                 }
             }
 
@@ -202,7 +225,6 @@ namespace AlexaComp.Controllers {
             /// </summary>
             /// <param name="speed"></param>
             public static void FadingEffect(int speed = 50, double hueStep = 0.01) {
-                Clog(String.Format("Setting Rainbow Fade Effect -- Speed: {0} - Hue Step: {1}", speed, hueStep));
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 while (true) {
                     for (double j = 0; j < 1; j += hueStep) {
@@ -215,7 +237,6 @@ namespace AlexaComp.Controllers {
 
             public static void ErrorEffect(int speed = 1) {
                 if (speed < 0) { speed = 1; }
-                Clog("RGB Error Effect Started.");
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 for (int j = 0; j <= 2; j++) {
                     for (int i = 0; i <= 255; i++) {
@@ -233,7 +254,6 @@ namespace AlexaComp.Controllers {
             /// Turns all leds off
             /// </summary>
             public static void AllLedOff() {
-                Clog("Setting All LED Off Effect");
                 ILedGroup ledGroup = new ListLedGroup(surface.Leds);
                 ledGroup.Brush = new SolidColorBrush(new Color(0, 0, 0));
             }
@@ -253,8 +273,9 @@ namespace AlexaComp.Controllers {
             G = g;
             B = b;
         }
+
         public RGBColor (System.Drawing.Color color) => new RGBColor(color.R, color.B, color.G);
-        public RGBColor(string[] color) => new RGBColor(Convert.ToInt32(color[0]), Convert.ToInt32(color[1]), Convert.ToInt32(color[2]));
+        public RGBColor (string[] color) => new RGBColor(Convert.ToInt32(color[0]), Convert.ToInt32(color[1]), Convert.ToInt32(color[2]));
 
         public void SetColorByIndex(int index, int value) {
             switch (index) {
