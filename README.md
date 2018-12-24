@@ -49,7 +49,7 @@ and certain functionality may stop working at any time. If something stops worki
 
 ## Contributing
 A great way to contribute without spending much time or writing any code is to help hardware compatibility by running the [compatibility tool][1] on your computer.
-If you would like to help with ongoing testing of features, and/ or the skill model, please join [the AlexaComp discord server!][]
+<br>If you would like to help with ongoing testing of features, and/ or the skill model, please join [the AlexaComp discord server!][10]
 <br>Forks and pull requests are welcome! No real format guidelines, just fork, make changes, and submit a PR detailing changes made :)
 
 You can also help out by trying to fix [issues marked as `help wanted`.][7]
