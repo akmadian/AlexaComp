@@ -59,6 +59,12 @@ If you are going to submit an issue, please include any and all relevant log fil
 AlexaComp **_does_** collect some information about users. However, it only collects enough to make the skill work.
 The data that is gathered is anonymized, and never sold. See the [AlexaComp privacy policy][2] for more information.
 
+##### Unstable Client Builds
+If you want to see the latest builds, check [this Google Drive folder][9].
+<br>There are a couple suffixes after the version number you should be aware of.
+ - If there is a `WA`, that means that that installer should work with ASUS AuraSync devices.
+ - If there is a `T`, that means that that installer will not open the gui, and will close when a key is pressed after loading.
+ - If there is a `C`, that means that that installer will open with a console window, and the GUI. No `C` is just GUI.
 ___
 ###### Hardware monitoring package made by [openhardwaremonitor][3]
 ###### RGB Lighting package made by [RGB.NET][4]
@@ -74,3 +80,4 @@ ___
 [6]: https://github.com/akmadian/AlexaComp/issues/new
 [7]: https://github.com/akmadian/AlexaComp/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [8]: https://github.com/AlexaComp/AlexaComp/blob/docs/Docs/Commands.md
+[9]: https://drive.google.com/drive/folders/1QpTgOJzYC0yAiqVobTtKqjMkA0yW8cnL?usp=sharing
