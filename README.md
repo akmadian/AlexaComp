@@ -49,6 +49,7 @@ and certain functionality may stop working at any time. If something stops worki
 
 ## Contributing
 A great way to contribute without spending much time or writing any code is to help hardware compatibility by running the [compatibility tool][1] on your computer.
+If you would like to help with ongoing testing of features, and/ or the skill model, please join [the AlexaComp discord server!][]
 <br>Forks and pull requests are welcome! No real format guidelines, just fork, make changes, and submit a PR detailing changes made :)
 
 You can also help out by trying to fix [issues marked as `help wanted`.][7]
@@ -81,3 +82,4 @@ ___
 [7]: https://github.com/akmadian/AlexaComp/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [8]: https://github.com/AlexaComp/AlexaComp/blob/docs/Docs/Commands.md
 [9]: https://drive.google.com/drive/folders/1QpTgOJzYC0yAiqVobTtKqjMkA0yW8cnL?usp=sharing
+[10]: https://discord.gg/rRvgfbX
