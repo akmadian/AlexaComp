@@ -7,6 +7,7 @@ using RGB.NET.Devices;
 using RGB.NET.Groups;
 using RGB.NET.Brushes;
 using RGB.NET.Brushes.Gradients;
+using RGB.NET.Decorators;
 using RGB.NET.Devices.Asus;
 using RGB.NET.Devices.CoolerMaster;
 using RGB.NET.Devices.Corsair;
@@ -39,7 +40,6 @@ namespace AlexaComp.Controllers {
                         device.DeviceInfo.Model,
                         device.DeviceInfo.DeviceType));
             }
-            surface.UpdateMode = UpdateMode.Continuous;
         }
 
         // Applies rainbow effect to all devices with an ledgroup
@@ -60,6 +60,19 @@ namespace AlexaComp.Controllers {
             }
         }
 
+        public static void TestGradient() {
+            LoadDevices();
+            TimerUpdateTrigger updateTrigger = new TimerUpdateTrigger();
+            surface.RegisterUpdateTrigger(updateTrigger);
+
+            ILedGroup ledGroup = new ListLedGroup(surface.Leds);
+            IGradient gradient = new RainbowGradient();
+            gradient.AddDecorator(new RGB.NET.Decorators.Gradient.MoveGradientDecorator());
+
+            ledGroup.Brush = new RadialGradientBrush(gradient);
+            updateTrigger.Start();
+        }
+
         /// <summary>
         /// Loads all devices into the surface object.
         /// </summary>
@@ -68,6 +81,7 @@ namespace AlexaComp.Controllers {
             Clog("Loading RGB Devices");
 
             //surface.LoadDevices(AsusDeviceProvider.Instance);
+            
             surface.LoadDevices(LogitechDeviceProvider.Instance);
             surface.LoadDevices(CorsairDeviceProvider.Instance);
             surface.LoadDevices(CoolerMasterDeviceProvider.Instance);

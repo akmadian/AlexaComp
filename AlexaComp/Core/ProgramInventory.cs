@@ -20,18 +20,22 @@ namespace AlexaComp.Core {
             Stopwatch timer = new Stopwatch();
             timer.Start();
             Clog("Scanning for .exes in - " + dir);
-            string[] allfiles = Directory.GetDirectories(dir);
-            Console.WriteLine("Files Length - " + allfiles.Length.ToString());
-            foreach (string subdir in allfiles) {
-                // Console.WriteLine("Running Scan - Depth: 1");
-                CheckForMatches(subdir);
+            try {
+                string[] allfiles = Directory.GetDirectories(dir);
+                Console.WriteLine("Files Length - " + allfiles.Length.ToString());
+                foreach (string subdir in allfiles) {
+                    // Console.WriteLine("Running Scan - Depth: 1");
+                    CheckForMatches(subdir);
 
-                // Console.WriteLine("Running Scan - Depth: 2");
-                string[] files = Directory.GetDirectories(subdir);
-                foreach (string subsubdir in files) {
-                    // Console.WriteLine("Checking For Matches In - " + subsubdir);
-                    CheckForMatches(subsubdir);
+                    // Console.WriteLine("Running Scan - Depth: 2");
+                    string[] files = Directory.GetDirectories(subdir);
+                    foreach (string subsubdir in files) {
+                        // Console.WriteLine("Checking For Matches In - " + subsubdir);
+                        CheckForMatches(subsubdir);
+                    }
                 }
+            } catch (UnauthorizedAccessException e) {
+                Clog("UnauthorizedAccessException Caught When Scanning Dir" + e.Message, "ERROR");
             }
             timer.Stop();
             Clog(String.Format("Scanned dir in {0} ms. Found {1} matches.", timer.ElapsedMilliseconds, numMatches));
@@ -46,7 +50,7 @@ namespace AlexaComp.Core {
                 foreach (var file in exes) {
                     FileInfo info = new FileInfo(file);
                     string[] splitExePath = path.Split('\\').ToArray();
-                    Console.WriteLine("EXE MATCH FOUND: " + splitExePath[splitExePath.Length - 1] + " -- " + info.Name);
+                    Clog("EXE MATCH FOUND: " + splitExePath[splitExePath.Length - 1] + " -- " + info.Name);
                     numMatches++;
                 }
             }
@@ -56,7 +60,7 @@ namespace AlexaComp.Core {
                 FileInfo info = new FileInfo(file);
                 string[] splitExePath = path.Split('\\').ToArray();
                 if (splitExePath[splitExePath.Length - 1].Replace(" ", "").ToLower() == Path.GetFileNameWithoutExtension(info.Name).ToLower()) {
-                    Console.WriteLine("EXE MATCH FOUND: " + splitExePath[splitExePath.Length - 1] + " -- " + info.Name);
+                    Clog("EXE MATCH FOUND: " + splitExePath[splitExePath.Length - 1] + " -- " + info.Name);
                     numMatches++;
                 }
             }

@@ -12,17 +12,21 @@ namespace AlexaComp.Core {
     public class Hardware : AlexaCompCore {
 
         #region Properties
-        public string Manufacturer;
+        public string Manufacturer = null;
         public string Name;
         public string Type;
         public string GenericName;
+        public string DictName;
 
         public Dictionary<string, Sensor_> Sensors = new Dictionary<string, Sensor_>();
         public IRGBDevice RGBDevice = null;
         public ListLedGroup ledGroup = null;
+        public ILedGroup mainLedGroup = null;
         #endregion
 
         #region Constructors
+        public Hardware() {}
+
         public Hardware(string Type, string GenericName) {
             this.Type = Type;
             this.GenericName = GenericName;
@@ -74,6 +78,11 @@ namespace AlexaComp.Core {
             return sb.ToString();
         }
 
+        public void MergeRGB(Hardware other) {
+            this.ledGroup = other.ledGroup;
+            this.RGBDevice = other.RGBDevice;
+        }
+
         public bool HasRGBDevice() {
             return RGBDevice != null ? true : false;
         }
@@ -82,11 +91,18 @@ namespace AlexaComp.Core {
             return ledGroup != null ? true : false;
         }
 
+        public bool HasLEDGroupOrRGBDevice() {
+            return (ledGroup != null) || (RGBDevice != null) ? true : false;
+        }
+
         public int SensorsLength() => Sensors.Count;
 
         public override string ToString() {
-            return string.Format("Hardware Object -- Name: {0}, Type: {1}, Sensor Length: {2}, RGB Device Present: {3}", 
-                Name, Type, SensorsLength(), RGBDevice != null ? true : false);
+            return string.Format("Hardware Object -- DictKey: {0}, Name: {1}, Type: {2}, Sensor Length: {3}, RGB Device Present: {4}", 
+                DictName, Name, Type, SensorsLength(), RGBDevice != null ? true : false);
+        }
+
+        public void Dispose() {
         }
         #endregion
     }

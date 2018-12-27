@@ -39,7 +39,7 @@ namespace AlexaComp {
             ServerController.ForwardPort();
 
             UpdateProgress("Scanning for RGB Devices");
-            AlexaComp.LightingControlThread.Start();
+            //AlexaComp.LightingControlThread.Start();
 
             UpdateProgress("Assigning Sensors");
             HardwareController.InitAllHardware();
@@ -56,9 +56,15 @@ namespace AlexaComp {
             UpdateProgress("Starting AlexaComp", 400);
             CloseSplashScreen();
 
-            AlexaComp.AppWindowThread.Start();
+            // To enable testing mode, comment out the window thread start just below this.
+            //AlexaComp.AppWindowThread.Start();
             timer.Stop();
             AlexaCompCore.Clog(String.Format("Application Window started in {0} ms.", timer.ElapsedMilliseconds));
+            
+            //To enable testing mode, uncomment this block.
+            AlexaCompCore.Clog("Startup Complete, Press Any Key To Continue.");
+            Console.ReadLine();
+            AlexaCompCore.StopApplication();
         }
 
         private void UpdateProgress(string message, int wait = 300) {

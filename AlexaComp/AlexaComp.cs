@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Threading;
 
 using log4net.Config;
 
@@ -56,6 +57,7 @@ namespace AlexaComp {
             Clog("Executable Path - " + exePath.ToString());
             Clog("PathToDebug - " + pathToDebug);
             Clog("PathToProject - " + pathToProject);
+            Clog("Suffixes -- -WA -T -C");
             
             if (!IsConnectedToInternet()) {
                 Clog("No Internet Connection Detected... Quitting...", "FATAL");
@@ -66,10 +68,9 @@ namespace AlexaComp {
                 StopApplication();
             }
 
-            HardwareController.InitAllHardware();
-            LightingController.ApplyEffect();
+            //LightingController.TestGradient();
 
-            // MDBController.makeInstance();
+            // HardwareController.InitAllHardware();
 
             // Set Internal IP for port mapping and server
             try {
@@ -90,6 +91,10 @@ namespace AlexaComp {
             Clog("Initializing Hardware Sensors");
             
             loadingScreenThread.Start(timer);
+        }
+
+        public static void ConsoleStart() {
+
         }
     }
 }

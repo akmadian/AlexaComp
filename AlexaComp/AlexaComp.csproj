@@ -32,7 +32,7 @@
     <PublisherName>Ari Madian</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.5.0</ApplicationVersion>
+    <ApplicationVersion>1.0.11.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -97,29 +97,11 @@
     <Reference Include="AudioSwitcher.AudioApi.CoreAudio, Version=3.0.0.209, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
       <HintPath>packages\AudioSwitcher.AudioApi.CoreAudio.3.0.0.1\lib\net40\AudioSwitcher.AudioApi.CoreAudio.dll</HintPath>
     </Reference>
-    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
-      <HintPath>packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
-    </Reference>
-    <Reference Include="HidSharp, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
+    <Reference Include="HidSharp, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\HidSharp.2.0.1\lib\net35\HidSharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Toolkit.Uwp.Notifications, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Toolkit.Uwp.Notifications.5.0.0\lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MongoDB.Bson.2.7.2\lib\net45\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MongoDB.Driver.2.7.2\lib\net45\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MongoDB.Driver.Core.2.7.2\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Nat, Version=1.2.24.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Mono.Nat.1.2.24.0\lib\net40\Mono.Nat.dll</HintPath>
@@ -131,97 +113,49 @@
       <HintPath>..\packages\OpenHardwareMonitor.0.7.1\lib\net40\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Brushes, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Brushes.0.0.1.39\lib\net45\RGB.NET.Brushes.dll</HintPath>
+      <HintPath>packages\RGB.NET.Brushes.0.0.1.76\lib\net45\RGB.NET.Brushes.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Core, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Core.0.0.1.45\lib\net45\RGB.NET.Core.dll</HintPath>
+      <HintPath>packages\RGB.NET.Core.0.0.1.76\lib\net45\RGB.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Decorators, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Decorators.0.0.1.39\lib\net45\RGB.NET.Decorators.dll</HintPath>
+      <HintPath>packages\RGB.NET.Decorators.0.0.1.76\lib\net45\RGB.NET.Decorators.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.Asus, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.Asus.0.0.1.39\lib\net45\RGB.NET.Devices.Asus.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.Asus.0.0.1.76\lib\net45\RGB.NET.Devices.Asus.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.CoolerMaster, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\lib\net45\RGB.NET.Devices.CoolerMaster.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.CoolerMaster.0.0.1.76\lib\net45\RGB.NET.Devices.CoolerMaster.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.Corsair, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.Corsair.0.0.1.39\lib\net45\RGB.NET.Devices.Corsair.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.Corsair.0.0.1.76\lib\net45\RGB.NET.Devices.Corsair.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.DMX, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.DMX.0.0.1.39\lib\net45\RGB.NET.Devices.DMX.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.DMX.0.0.1.76\lib\net45\RGB.NET.Devices.DMX.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.Logitech, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.Logitech.0.0.1.45\lib\net45\RGB.NET.Devices.Logitech.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.Logitech.0.0.1.76\lib\net45\RGB.NET.Devices.Logitech.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.Novation, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.Novation.0.0.1.39\lib\net45\RGB.NET.Devices.Novation.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.Novation.0.0.1.76\lib\net45\RGB.NET.Devices.Novation.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Devices.Razer, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Devices.Razer.0.0.1.39\lib\net45\RGB.NET.Devices.Razer.dll</HintPath>
+      <HintPath>packages\RGB.NET.Devices.Razer.0.0.1.76\lib\net45\RGB.NET.Devices.Razer.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Groups, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\RGB.NET.Groups.0.0.1.45\lib\net45\RGB.NET.Groups.dll</HintPath>
+      <HintPath>packages\RGB.NET.Groups.0.0.1.76\lib\net45\RGB.NET.Groups.dll</HintPath>
     </Reference>
-    <Reference Include="Sanford.Multimedia.Midi, Version=6.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Sanford.Multimedia.Midi.6.4.1\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
+    <Reference Include="Sanford.Multimedia.Midi, Version=6.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Sanford.Multimedia.Midi.Standard.6.6.0\lib\net35\Sanford.Multimedia.Midi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-    </Reference>
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Management.Instrumentation" />
-    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -234,19 +168,20 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlexaCompCore.cs" />
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\Controllers\HardwareController.cs" />
-    <Compile Include="Core\Controllers\MDBController.cs" />
     <Compile Include="Core\Controllers\ServerController.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Hardware.cs" />
     <Compile Include="Core\Helpers\ColorConversions.cs" />
+    <Compile Include="Core\Lighting\Effect.cs" />
+    <Compile Include="Core\Lighting\Effects\Breathing.cs" />
+    <Compile Include="Core\Lighting\Effects\RainbowFade.cs" />
+    <Compile Include="Core\Lighting\Effects\RainbowWave.cs" />
+    <Compile Include="Core\Lighting\Effects\Static.cs" />
     <Compile Include="Core\Lighting\HexColor.cs" />
     <Compile Include="Core\Request.cs" />
     <Compile Include="Core\RequestTypes\AudioCommand.cs" />
@@ -257,7 +192,6 @@
     <Compile Include="Core\RequestTypes\SystemCommand.cs" />
     <Compile Include="Core\Response.cs" />
     <Compile Include="Core\Sensor_.cs" />
-    <Compile Include="Core\UI\Toast.cs" />
     <Compile Include="Forms\AdvancedSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -343,12 +277,12 @@
   <ItemGroup>
     <PublishFile Include="pathDir.xml">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
@@ -361,24 +295,16 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\RGB.NET.Resources.Asus.0.1.0\build\RGB.NET.Resources.Asus.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Asus.0.1.0\build\RGB.NET.Resources.Asus.targets'))" />
     <Error Condition="!Exists('packages\RGB.NET.Resources.CoolerMaster.0.1.0\build\RGB.NET.Resources.CoolerMaster.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.CoolerMaster.0.1.0\build\RGB.NET.Resources.CoolerMaster.targets'))" />
-    <Error Condition="!Exists('packages\RGB.NET.Resources.Corsair.0.1.0\build\RGB.NET.Resources.Corsair.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Corsair.0.1.0\build\RGB.NET.Resources.Corsair.targets'))" />
-    <Error Condition="!Exists('packages\RGB.NET.Resources.Logitech.0.1.0\build\RGB.NET.Resources.Logitech.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Logitech.0.1.0\build\RGB.NET.Resources.Logitech.targets'))" />
     <Error Condition="!Exists('packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets'))" />
     <Error Condition="!Exists('packages\RGB.NET.Resources.Razer.0.1.0\build\RGB.NET.Resources.Razer.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Razer.0.1.0\build\RGB.NET.Resources.Razer.targets'))" />
-    <Error Condition="!Exists('packages\RGB.NET.Devices.Asus.0.0.1.39\build\net45\RGB.NET.Devices.Asus.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.Asus.0.0.1.39\build\net45\RGB.NET.Devices.Asus.targets'))" />
-    <Error Condition="!Exists('packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets'))" />
-    <Error Condition="!Exists('packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets'))" />
-    <Error Condition="!Exists('packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets'))" />
     <Error Condition="!Exists('packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets'))" />
+    <Error Condition="!Exists('packages\RGB.NET.Resources.Corsair.0.2.0\build\RGB.NET.Resources.Corsair.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Corsair.0.2.0\build\RGB.NET.Resources.Corsair.targets'))" />
+    <Error Condition="!Exists('packages\RGB.NET.Resources.Logitech.0.2.0\build\RGB.NET.Resources.Logitech.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\RGB.NET.Resources.Logitech.0.2.0\build\RGB.NET.Resources.Logitech.targets'))" />
   </Target>
   <Import Project="packages\RGB.NET.Resources.CoolerMaster.0.1.0\build\RGB.NET.Resources.CoolerMaster.targets" Condition="Exists('packages\RGB.NET.Resources.CoolerMaster.0.1.0\build\RGB.NET.Resources.CoolerMaster.targets')" />
-  <Import Project="packages\RGB.NET.Resources.Corsair.0.1.0\build\RGB.NET.Resources.Corsair.targets" Condition="Exists('packages\RGB.NET.Resources.Corsair.0.1.0\build\RGB.NET.Resources.Corsair.targets')" />
-  <Import Project="packages\RGB.NET.Resources.Logitech.0.1.0\build\RGB.NET.Resources.Logitech.targets" Condition="Exists('packages\RGB.NET.Resources.Logitech.0.1.0\build\RGB.NET.Resources.Logitech.targets')" />
   <Import Project="packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets" Condition="Exists('packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets')" />
   <Import Project="packages\RGB.NET.Resources.Razer.0.1.0\build\RGB.NET.Resources.Razer.targets" Condition="Exists('packages\RGB.NET.Resources.Razer.0.1.0\build\RGB.NET.Resources.Razer.targets')" />
-  <Import Project="packages\RGB.NET.Devices.Asus.0.0.1.39\build\net45\RGB.NET.Devices.Asus.targets" Condition="Exists('packages\RGB.NET.Devices.Asus.0.0.1.39\build\net45\RGB.NET.Devices.Asus.targets')" />
-  <Import Project="packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets" Condition="Exists('packages\RGB.NET.Devices.CoolerMaster.0.0.1.39\build\net45\RGB.NET.Devices.CoolerMaster.targets')" />
-  <Import Project="packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets" Condition="Exists('packages\RGB.NET.Devices.Corsair.0.0.1.39\build\net45\RGB.NET.Devices.Corsair.targets')" />
-  <Import Project="packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets" Condition="Exists('packages\RGB.NET.Devices.Razer.0.0.1.39\build\net45\RGB.NET.Devices.Razer.targets')" />
   <Import Project="packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets" Condition="Exists('packages\RGB.NET.Resources.Msi.0.1.0\build\RGB.NET.Resources.Msi.targets')" />
+  <Import Project="packages\RGB.NET.Resources.Corsair.0.2.0\build\RGB.NET.Resources.Corsair.targets" Condition="Exists('packages\RGB.NET.Resources.Corsair.0.2.0\build\RGB.NET.Resources.Corsair.targets')" />
+  <Import Project="packages\RGB.NET.Resources.Logitech.0.2.0\build\RGB.NET.Resources.Logitech.targets" Condition="Exists('packages\RGB.NET.Resources.Logitech.0.2.0\build\RGB.NET.Resources.Logitech.targets')" />
 </Project>
